@@ -1,0 +1,13 @@
+# 病人資料不可進 repo / Never commit patient data
+*.dif
+*.xml
+*.DIF
+*.XML
+*.png
+*.jpg
+*.jpeg
+*.mov
+*.MOV
+*.stl
+*.ply
+*.vtk
