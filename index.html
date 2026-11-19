@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DIF 檢視轉檔器</title>
 <meta name="author" content="Ron Chen">
-<meta name="version" content="1.1.0">
+<meta name="version" content="1.2.0">
 <style>
 :root{
   /* 版面：左欄(檔案/Volume/匯出) + 右側(上方工具列、下方單或雙 3D 視窗) */
@@ -40,6 +40,9 @@ button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible
 #vols{display:flex;flex-direction:column;gap:4px}
 .vol{display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;padding:6px 8px;border:1px solid var(--line);border-radius:6px}
 .vol .sw{width:14px;height:14px;border-radius:3px;flex:none;border:1px solid #0006}
+.vol .sw.pick{position:relative;width:18px;height:18px;cursor:pointer;border:1px solid #fff5;transition:transform .1s}
+.vol .sw.pick:hover{transform:scale(1.2);border-color:#fff}
+.vol .sw.pick input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0;padding:0}
 .vol .nm{flex:1;min-width:0;overflow-wrap:anywhere}
 .vol .ct{color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums;text-align:right;white-space:pre}
 .vol .ctl{flex-basis:100%;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
@@ -107,7 +110,81 @@ body.loaded #drop{display:none}
 #txtin{position:absolute;display:none;width:200px;font:600 14px var(--font);color:#fff;background:#000c;
   border:2px solid var(--accent);border-radius:4px;padding:3px 6px;z-index:5}
 #hint{position:absolute;right:12px;bottom:10px;left:160px;text-align:right;font-size:12px;color:var(--muted);pointer-events:none}
+#tb .modeseg{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:2px;flex:none}
+#tb .modeseg button{border:0;background:transparent;padding:5px 11px;font-size:12px;font-weight:600;border-radius:8px;color:var(--muted)}
+#tb .modeseg button.on{background:var(--accent);color:#06222a}
+body.ctmode #tb .tbrow:first-child > :not(#modeseg){display:none}
+body.ctmode #tb .tbrow:nth-child(2){display:none}
+#ctpane{position:absolute;inset:0;z-index:6;background:var(--bg);display:grid;grid-template-columns:320px 1fr 1fr;grid-template-rows:1fr 1fr;gap:2px}
+#ctpane[hidden]{display:none}
+.ctside{grid-row:1 / span 2;background:var(--panel);overflow-y:auto;padding:12px 14px;font-size:13px;display:flex;flex-direction:column;gap:12px}
+.ctsec{display:flex;flex-direction:column;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.ctsec:last-child{border-bottom:0}
+.ctside h3{font-size:12px;margin:0;color:var(--muted);font-weight:600;letter-spacing:.03em}
+.ctside .pre{white-space:pre-wrap}
+.ctside select,.ctside input[type=number]{font:inherit;font-size:13px;color:var(--text);background:#263040;border:1px solid var(--line);border-radius:6px;padding:4px 6px}
+.ctside .wide{width:100%}
+.ctside .tip{font-size:11px}
+.ctv,.ct3dcell{position:relative;background:#000;min-height:0;overflow:hidden}
+.ctv canvas,.ct3dcell canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.ctv canvas{cursor:crosshair}
+.ct3dcell canvas{cursor:grab}
+.ring3d{position:absolute;transform:translate(-50%,-50%);border:1.5px dashed #fff;border-radius:50%;box-shadow:0 0 0 2px rgba(0,0,0,.6);pointer-events:none}
+.ring3d::after{content:attr(data-mm);position:absolute;left:100%;top:0;margin-left:6px;white-space:nowrap;font:600 11px sans-serif;color:#fff;text-shadow:0 0 3px #000}
+.ring3d.miss{opacity:.4}
+#ct3dviews{position:absolute;right:6px;bottom:6px}
+.ctslice{position:absolute;left:12%;right:12%;bottom:6px;z-index:2;accent-color:#ffd60a;opacity:.55;transition:opacity .15s}
+.ctv:hover .ctslice{opacity:1}
+.ctzoom{position:absolute;right:6px;top:4px;display:flex;gap:3px;z-index:2}
+.ctzoom button{padding:1px 7px;font-size:12px;background:#000a;min-width:26px;font-variant-numeric:tabular-nums}
+.axlab{position:absolute;inset:0;pointer-events:none}
+.axlab span{position:absolute;transform:translate(-50%,-50%);font:700 12px sans-serif;text-shadow:0 0 3px #000,0 0 3px #000}
+.axlab span.hot{color:#fff!important;font-size:15px}
+.axlab i{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px #000a}
+.axleg{position:absolute;left:8px;bottom:8px;font-size:11px;color:#ccc;pointer-events:none;text-shadow:0 0 3px #000}
+.axtog{position:absolute;right:8px;top:6px;font-size:12px;color:#ccc;display:flex;gap:4px;align-items:center}
+#ct3dviews button{padding:2px 7px;font-size:11px;background:#0008}
+.ctnum{position:absolute;left:8px;top:6px;font-size:12px;color:#ddd;font-variant-numeric:tabular-nums;pointer-events:none;text-shadow:0 0 3px #000}
+.tabs{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:2px}
+.tabs button{flex:1;border:0;background:transparent;padding:6px 0;font-size:13px;font-weight:600;border-radius:8px;color:var(--muted)}
+.tabs button.on{background:var(--accent);color:#06222a}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px}
+.steps li{padding-left:2px}
+.steps li > span{display:block;margin-bottom:5px}
+.steps li[hidden]{display:none}
+.ctside .warn{color:var(--warn);white-space:pre-wrap}
+.srow1{display:flex;align-items:center;gap:8px}
+.srow1 i{width:14px;height:14px;border-radius:3px;flex:none}
+.srow1 select{flex:1}
+.slab{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.slab input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}
+.slab input[type=number]{width:70px;font-variant-numeric:tabular-nums}
+.slab output{width:3em;text-align:right;font-variant-numeric:tabular-nums;color:var(--text)}
+#ctgen{width:100%}
+.tabs.sm{margin-top:6px}.tabs.sm button{padding:3px 0;font-size:12px}
+.prevml{font-size:12px;margin:6px 0 2px;font-variant-numeric:tabular-nums;color:var(--text)}
+.adv{margin:6px 0;font-size:12px}.adv summary{cursor:pointer;color:var(--muted)}
+.advbody{display:flex;flex-direction:column;gap:5px;margin-top:6px}
+.btnrow{display:flex;flex-wrap:wrap;gap:6px}
+.btnrow button{padding:5px 10px;font-size:12px}
+.btnrow button.on{background:var(--accent);color:#06222a;border-color:var(--accent);font-weight:600}
+#ctlist{display:flex;flex-direction:column;gap:4px}
+.srow{display:flex;align-items:center;gap:6px;padding:4px 6px;border:1px solid var(--line);border-radius:6px}
+.srow.cur{border-color:var(--accent)}
+.srow i,.srow .cpick{width:12px;height:12px;border-radius:3px;flex:none}
+.srow .cpick{position:relative;width:16px;height:16px;cursor:pointer;border:1px solid #fff5}.srow .cpick:hover{border-color:#fff}
+.srow .cpick input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0;padding:0}
+.srow .sname{flex:1;min-width:0;text-align:left;background:transparent;border:0;padding:2px 0;font-size:12px;overflow-wrap:anywhere}
+.srow .sml{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.srow .stog{padding:2px 6px;font-size:11px}
+.srow .stog.on{background:#33404f;border-color:var(--muted)}
+.srow .stog.lk.on{background:#5a4a1a;border-color:#e6b422;color:#ffe08a}
+.srow.locked{background:rgba(230,180,34,.06)}
+.lockbar{margin:6px 0;padding:6px 8px;border:1px solid #e6b422;border-radius:6px;background:rgba(230,180,34,.12);color:#ffe08a;font-size:12px}
+button:disabled{opacity:.45;cursor:not-allowed}
 @media (max-width:700px){
+  #ctpane{grid-template-columns:1fr;grid-template-rows:auto repeat(4,minmax(240px,1fr));overflow-y:auto}
+  .ctside{grid-row:auto}
   .ib{width:30px;height:32px;border-radius:9px}
   .ib svg{width:20px;height:20px}
   .sep{margin:0 3px}
@@ -121,12 +198,16 @@ body.loaded #drop{display:none}
 <body>
 <aside>
   <div>
-    <div class="hrow"><h1><span data-en="DIF Viewer &amp; Converter">DIF 檢視轉檔器</span> <span class="ver">v1.1.0</span></h1><button type="button" id="langbtn" class="langbtn">EN</button></div>
+    <div class="hrow"><h1><span data-en="DIF Viewer &amp; Converter">DIF 檢視轉檔器</span> <span class="ver">v1.2.0</span></h1><button type="button" id="langbtn" class="langbtn">EN</button></div>
     <p class="muted" data-en="View EnSite / ADAS 3D .dif models. Files are processed only in this browser and are never uploaded.">EnSite / ADAS 3D 的 .dif 模型。檔案只在這台電腦的瀏覽器裡處理，不會上傳。</p>
   </div>
   <div class="row">
     <label class="btn primary" for="file" style="text-align:center" data-en="Open .dif / .xml file">開啟 .dif / .xml 檔</label>
     <input id="file" type="file" accept=".dif,.xml,.txt" hidden>
+  </div>
+  <div class="row" style="margin-top:-6px">
+    <label class="btn" for="ctfile" style="text-align:center" data-en="Open CT (DICOM folder)">開啟 CT（DICOM 資料夾）</label>
+    <input id="ctfile" type="file" webkitdirectory multiple hidden>
   </div>
   <div id="msg"></div>
   <div>
@@ -157,11 +238,13 @@ body.loaded #drop{display:none}
     <pre id="diagtxt"></pre>
     <button id="diagcopy" type="button" data-en="Copy">複製</button>
   </details>
-  <footer>Designed by Ron Chen<br><span data-en="DIF Viewer &amp; Converter v1.1.0 · 2026-11-19">DIF 檢視轉檔器 v1.1.0 · 2026-11-19</span></footer>
+  <footer>Designed by Ron Chen<br><span data-en="DIF Viewer &amp; Converter v1.2.0 · 2026-11-19">DIF 檢視轉檔器 v1.2.0 · 2026-11-19</span></footer>
 </aside>
 <main>
   <div id="tb">
     <div class="tbrow">
+      <div class="modeseg" id="modeseg"><button type="button" id="m3d" class="on" title="3D 模型" data-en-title="3D model">3D</button><button type="button" id="mct" title="CT 影像與重組" data-en-title="CT images &amp; reconstruction">CT</button></div>
+      <span class="sep"></span>
       <button type="button" id="one" class="ib on" title="單視窗" data-en-title="Single view" aria-label="單視窗" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/></svg></button><button type="button" id="two" class="ib" title="雙視窗（左右分割）" data-en-title="Dual view (side by side)" aria-label="雙視窗（左右分割）" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M12 5v14"/></svg></button><button type="button" id="reset" class="ib" title="重設：回到預設角度並置中" data-en-title="Reset: default angle, re-center" aria-label="重設：回到預設角度並置中" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="1.6"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg></button>
       <span class="sep"></span>
       <div id="presets"><button type="button" data-v="AP" title="AP 正面" data-en-title="AP (front)" disabled>AP</button><button type="button" data-v="PA" title="PA 背面" data-en-title="PA (back)" disabled>PA</button><button type="button" data-v="LL" title="左側" data-en-title="Left lateral" disabled>LL</button><button type="button" data-v="RL" title="右側" data-en-title="Right lateral" disabled>RL</button><button type="button" data-v="LAO" title="LAO 45°" disabled>LAO</button><button type="button" data-v="RAO" title="RAO 30°" disabled>RAO</button><button type="button" data-v="SUP" title="從頭側往下看" data-en-title="Superior: looking down from the head" disabled>SUP</button><button type="button" data-v="INF" title="從腳側往上看" data-en-title="Inferior: looking up from the feet" disabled>INF</button></div>
@@ -189,6 +272,90 @@ body.loaded #drop{display:none}
       </div>
       <div class="end snaptext" id="barmin"></div>
       <button id="barreset" type="button" data-en="Reset to file thresholds">還原檔案門檻</button>
+    </div>
+    <div id="ctpane" hidden>
+      <div class="ctside">
+        <p id="ctempty" class="muted" data-en="No CT loaded. Use “Open CT (DICOM folder)” on the left, or drop a whole DICOM folder here.">尚未載入 CT。按左側「開啟 CT（DICOM 資料夾）」，或把整個 DICOM 資料夾拖進來。</p>
+        <div id="ctbody" hidden>
+          <div class="ctsec">
+            <b id="ctdesc"></b>
+            <div id="ctinfo" class="muted pre"></div>
+            <select id="ctseries" hidden aria-label="序列" data-en-aria="Series"></select>
+            <div class="btnrow" id="ctwin">
+              <button type="button" data-w="800,250" data-en="Cardiac CTA">心臟 CTA</button>
+              <button type="button" data-w="400,40" data-en="Soft tissue">軟組織</button>
+              <button type="button" data-w="1600,400" data-en="Wide">寬窗</button>
+            </div>
+          </div>
+          <div class="ctsec">
+            <ol class="steps">
+              <li><span data-en="Select the structure">選擇結構</span>
+                <div id="lockbar" class="lockbar" hidden data-en="🔒 Locked: read-only. Unlock it in “Defined structures” to edit.">🔒 已鎖定：只能檢視。要修改請在「已定義的結構」解除鎖定。</div>
+                <div class="srow1"><i id="structdot"></i><select id="ctstruct" aria-label="結構" data-en-aria="Structure"></select></div>
+</li>
+              <li id="step-seed"><span data-en="Click the middle of the structure on a slice: its region is outlined in colour automatically">在切面上點結構的正中間：系統自動用顏色圈出範圍</span>
+                <div id="seedtxt" class="muted"></div></li>
+              <li><span data-en="Fix the region: too much → Erase; too little → click another seed or paint with Add">修正範圍：多了 → 擦除；少了 → 再點一個種子點，或用加入筆刷塗</span>
+                <div class="tabs" id="ctmode">
+                  <button type="button" data-m="seed" data-en="Click to add" title="點一下＝多一個種子點；點在既有種子點上＝刪掉它" data-en-title="Click = add a seed; click an existing seed = remove it">點選加入</button>
+                  <button type="button" data-m="add" data-en="Add brush">加入筆刷</button>
+                  <button type="button" data-m="erase" data-en="Erase brush">擦除筆刷</button>
+                </div>
+<div id="brushrow" hidden>
+                <label class="slab"><span data-en="Brush">筆刷</span><input type="range" id="brushr" min="1" max="30" value="5"><output id="brushv">5 mm</output></label>
+                <label class="chk" id="smartrow"><input type="checkbox" id="brushsmart"><span data-en="Add only to contrast-filled blood">加入時只塗到顯影的血池</span></label>
+                <div id="erasehint" class="muted" data-en="Erase also works directly on the 3D model (top right): left-drag erases, right-drag rotates. The model regenerates when you release.">擦除也可以直接在右上的 3D 模型上做：左鍵拖曳擦除、右鍵拖曳旋轉，放開後自動重新生成。</div></div>
+                <div id="prevml" class="prevml"></div>
+                <details class="adv"><summary data-en="Fine-tune the automatic region">微調自動範圍</summary>
+                  <div class="advbody">
+                    <span class="muted" data-en="Method (normally chosen for you)">圈範圍的方法（通常不用改）</span>
+                    <div class="tabs sm" id="cttool">
+                      <button type="button" data-tool="auto" data-en="Auto">自動</button>
+                      <button type="button" data-tool="chamber" data-en="Chamber">心腔</button>
+                      <button type="button" data-tool="vessel" data-en="Vessel">血管</button>
+                    </div>
+                    <div id="toolnote" class="muted"></div>
+                    <span class="muted" data-en="Threshold (set from the first seed)">門檻（依第一個種子點自動設定）</span>
+                    <label class="slab"><span data-en="Min">下限</span><input type="range" id="thlo" min="-200" max="1500" step="5"><input type="number" id="thlov" step="5" aria-label="下限 HU" data-en-aria="Min HU"></label>
+                    <label class="slab"><span data-en="Max">上限</span><input type="range" id="thhi" min="0" max="3000" step="10"><input type="number" id="thhiv" step="10" aria-label="上限 HU" data-en-aria="Max HU"></label>
+                    <label class="chk"><input type="checkbox" id="thshow"><span data-en="Show threshold range (grey)">顯示門檻範圍（灰色）</span></label>
+                    <div id="step-emph"><span class="muted" data-en="Boundary emphasis: higher = stops earlier at narrow openings (use when it grabs too much)">邊界強調：越高越會在窄的開口停下（抓太多時調高）</span>
+                      <label class="slab"><input type="range" id="ctemph" min="0" max="10" value="3"><output id="ctemphv">3</output></label></div>
+                    <div id="step-vdir"><span class="muted" data-en="Growth direction">生長方向</span>
+                      <div class="btnrow" id="ctvdir">
+                        <button type="button" data-d="up" data-en="Superior">往上</button>
+                        <button type="button" data-d="both" data-en="Both">雙向</button>
+                        <button type="button" data-d="down" data-en="Inferior">往下</button>
+                      </div></div>
+                  </div></details>
+                <div class="btnrow">
+                  <button type="button" id="ctundo" disabled data-en="Undo">復原</button>
+                  <button type="button" id="ctredo" disabled data-en="Redo">重做</button>
+                  <button type="button" id="ctclear" data-en="Clear">清除</button>
+                </div></li>
+              <li><button type="button" id="ctgen" class="primary" disabled data-en="Generate 3D Geometry">生成 3D Geometry</button></li>
+            </ol>
+            <div id="ctstatus" class="muted pre"></div>
+          </div>
+          <div class="ctsec">
+            <h3 data-en="Defined structures">已定義的結構</h3>
+            <p id="ctlistempty" class="muted" data-en="None yet. Use an arterial-phase series (not Delay Phase). Click a name to keep editing it. When a structure is done, lock it: it becomes read-only and other structures cannot grow or be drawn into it.">還沒有。請用動脈期的序列（不要用 Delay Phase）。點名稱可以回去繼續修改；做好的結構請按「鎖定」：鎖定後不能再修改，其他結構也不能長進或畫入它。</p>
+            <div id="ctlist"></div>
+          </div>
+          <div class="ctsec">
+            <label class="muted"><span data-en="Model detail">模型精細度</span>
+              <select id="ctres"><option value="0.8" data-en="Fine">精細</option><option value="1.4" selected data-en="Standard">標準</option><option value="2.0" data-en="Light">輕量</option></select></label>
+            <label class="chk"><input type="checkbox" id="ctopen" checked><span data-en="Remove small vessels and specks">去除細小血管與雜訊</span></label>
+            <button type="button" id="ctfinish" class="primary wide" disabled data-en="Send to 3D view for export">送到 3D 檢視並匯出</button>
+            <p class="muted tip" data-en="Wheel: change slice · Right-drag: brightness/contrast">滾輪換切面　右鍵拖曳調亮度／對比</p>
+          </div>
+        </div>
+      </div>
+      <div class="ctv" data-ax="2"><canvas></canvas><div class="ctnum snaptext"></div></div>
+      <div class="ct3dcell"><canvas id="ct3d"></canvas><div class="ctnum" id="ct3dname"></div>
+        <label class="axtog"><input type="checkbox" id="axshow" checked><span data-en="Axes (drag)">軸線（可拖曳）</span></label><div class="btnrow" id="ct3dviews"><button type="button" data-v="AP">AP</button><button type="button" data-v="PA">PA</button><button type="button" data-v="LAO">LAO</button><button type="button" data-v="RAO">RAO</button><button type="button" data-v="SUP">SUP</button></div></div>
+      <div class="ctv" data-ax="1"><canvas></canvas><div class="ctnum snaptext"></div></div>
+      <div class="ctv" data-ax="0"><canvas></canvas><div class="ctnum snaptext"></div></div>
     </div>
     <input id="txtin" type="text" placeholder="輸入文字後按 Enter" aria-label="標註文字" data-en-ph="Type, then press Enter" data-en-aria="Annotation text">
     <div id="hint"></div>
@@ -498,6 +665,7 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
   const FOV = 35 * Math.PI / 180, TAN = Math.tan(FOV / 2);
   const BUILTIN = builtinLUT();
   const FONT = '600 15px "Segoe UI","Microsoft JhengHei","PingFang TC",sans-serif';
+  const APPVER = '1.2.0';
   const COLORS = ['#ff3b30', '#ffd60a', '#30d158', '#64d2ff', '#ffffff'];
   let volumes = [], doc = null, baseName = 'model', lastSize = null;
   let scales = {}, active = null, prog, loc = {}, dirty = true, torso = [];
@@ -1228,6 +1396,1273 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
   }
   $('snap').addEventListener('click', snapshot);
 
+  // ======================= CT 重組：選結構 → 點一下自動圈範圍 → 增減修正 → 生成 3D Geometry =======================
+  const STRUCTS = [
+    { key: 'LA', zh: '左心房 LA', en: 'Left atrium', color: '#e6b422', tool: 'chamber' },
+    { key: 'LV', zh: '左心室 LV', en: 'Left ventricle', color: '#e0453a', tool: 'chamber' },
+    { key: 'RA', zh: '右心房 RA', en: 'Right atrium', color: '#6cc04a', tool: 'chamber' },
+    { key: 'RV', zh: '右心室 RV', en: 'Right ventricle', color: '#3d7bf0', tool: 'chamber' },
+    { key: 'AO', zh: '主動脈 Aorta', en: 'Aorta', color: '#b066ff', tool: 'vessel', vdir: 'up' },
+    { key: 'PA', zh: '肺動脈 PA', en: 'Pulmonary artery', color: '#18c6d6', tool: 'vessel', vdir: 'up' },
+    { key: 'CS', zh: '冠狀竇 CS', en: 'Coronary sinus', color: '#ff8a50', tool: 'vessel' },
+    { key: 'ESO', zh: '食道', en: 'Esophagus', color: '#c8a27c', tool: 'vessel' },
+    { key: 'OT1', zh: '其他 1', en: 'Other 1', color: '#f06292', tool: 'auto' },
+    { key: 'OT2', zh: '其他 2', en: 'Other 2', color: '#aed581', tool: 'auto' },
+    { key: 'OT3', zh: '其他 3', en: 'Other 3', color: '#90a4ae', tool: 'auto' },
+    { key: 'OT4', zh: '其他 4', en: 'Other 4', color: '#ffd54f', tool: 'auto' }];
+  const hex2rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  function resetStruct(s){
+    Object.assign(s, { count: 0, visible: true, locked: false, mesh: null, seeds: [], add: new Set(), del: new Set(),
+      lo: null, hi: null, emph: 3, vdir: s.vdir0 || 'both', tool: s.tool0, eff: null });
+  }
+  STRUCTS.forEach((s, i) => { Object.assign(s, { id: i + 1, rgb: hex2rgb(s.color), vdir0: s.vdir, tool0: s.tool }); resetStruct(s); });
+  const SRGB = [[0, 0, 0]].concat(STRUCTS.map(s => s.rgb));
+  const sName = s => t(s.zh, s.en);
+  const CT = { vol: null, nx: 0, ny: 0, nz: 0, o: null, ex: null, ey: null, ez: null, pos: [0, 0, 0],
+    w: 800, l: 250, show: false, sel: 0, mode: 'seed', seedHU: null,
+    labels: null, auto: null, prev: null, job: 0, busy: false, hist: [], redo: [], groups: [], meta: null, name: 'CT' };
+  const curS = () => STRUCTS[CT.sel];
+  const tick = () => new Promise(r => setTimeout(r, 0));
+  const vlen = a => Math.hypot(a[0], a[1], a[2]);
+  function ctStatus(s){ $('ctstatus').textContent = s || ''; }
+
+  // ---------- DICOM 解析（未壓縮：Explicit / Implicit VR Little Endian） ----------
+  const LONGVR = new Set(['OB', 'OW', 'OF', 'SQ', 'UT', 'UN', 'OD', 'OL', 'OV', 'SV', 'UV', 'UC', 'UR']);
+  const WANT = { '00020010': 'ts', '00080060': 'modality', '0020000E': 'series', '0008103E': 'seriesDesc', '00081030': 'studyDesc',
+    '00200032': 'ipp', '00200037': 'iop', '00280030': 'ps', '00280010': 'rows', '00280011': 'cols', '00280100': 'bits',
+    '00280103': 'signed', '00281052': 'intercept', '00281053': 'slope', '00200013': 'inst', '00280002': 'spp',
+    '00100010': 'pname', '00100020': 'pid', '00100030': 'pbirth', '00100040': 'psex', '00200010': 'studyId', '00200011': 'seriesNum',
+    '00080020': 'studyDate', '00080030': 'studyTime', '00080021': 'seriesDate', '00080031': 'seriesTime', '00080090': 'refPhys' };
+  const USTAG = new Set(['rows', 'cols', 'bits', 'signed', 'spp']);
+  const UTF8 = new TextDecoder('utf-8');
+  function parseDicom(buf){
+    const dv = new DataView(buf), n = buf.byteLength, out = {};
+    let p = 0;
+    if (n > 132 && dv.getUint32(128) === 0x4449434D) p = 132;            // "DICM"
+    const isLetter = c => c >= 65 && c <= 90;
+    let EXPL = p ? true : (n > p + 6 && isLetter(dv.getUint8(p + 4)) && isLetter(dv.getUint8(p + 5)));
+    const rd = (o, l) => UTF8.decode(new Uint8Array(buf, o, l)).replace(/\0/g, '').trim();
+    function skipSeq(off){
+      while (off + 8 <= n) {
+        const g = dv.getUint16(off, true), e = dv.getUint16(off + 2, true), len = dv.getUint32(off + 4, true);
+        off += 8;
+        if (g === 0xFFFE && e === 0xE0DD) return off;
+        if (g === 0xFFFE && e === 0xE000) { off = len === 0xFFFFFFFF ? walk(off, true) : off + len; continue; }
+        return off;
+      }
+      return n;
+    }
+    function walk(off, inItem){
+      while (off + 8 <= n) {
+        const g = dv.getUint16(off, true), e = dv.getUint16(off + 2, true);
+        if (g === 0xFFFE) { off += 8; if (e === 0xE00D) return off; continue; }
+        const ex = g === 2 ? true : EXPL;
+        let len, hdr;
+        if (ex) {
+          const vr = String.fromCharCode(dv.getUint8(off + 4), dv.getUint8(off + 5));
+          if (LONGVR.has(vr)) { len = dv.getUint32(off + 8, true); hdr = 12; } else { len = dv.getUint16(off + 6, true); hdr = 8; }
+        } else { len = dv.getUint32(off + 4, true); hdr = 8; }
+        const vo = off + hdr, key = (g.toString(16).padStart(4, '0') + e.toString(16).padStart(4, '0')).toUpperCase();
+        if (!inItem && key === '7FE00010') { out.pixOff = vo; out.pixLen = len; out.encap = len === 0xFFFFFFFF; return n; }
+        if (len === 0xFFFFFFFF) { off = skipSeq(vo); continue; }
+        if (vo + len > n) { out.truncated = true; return n; }
+        const name = !inItem && WANT[key];
+        if (name) out[name] = USTAG.has(name) ? (len >= 2 ? dv.getUint16(vo, true) : 0) : rd(vo, len);
+        if (name === 'ts') EXPL = out.ts !== '1.2.840.10008.1.2';
+        off = vo + len;
+      }
+      return n;
+    }
+    walk(p, false);
+    return out;
+  }
+  const isCompressedTS = ts => /^1\.2\.840\.10008\.1\.2\.(4|5|1\.99|2)/.test(ts || '');
+
+  async function readHeaders(files){
+    const list = [];
+    for (let i = 0; i < files.length; i++) {
+      const f = files[i];
+      if (/DICOMDIR$/i.test(f.name) || f.size < 256) continue;
+      let h = null;
+      try {
+        h = parseDicom(await f.slice(0, Math.min(f.size, 65536)).arrayBuffer());
+        if (h.pixOff == null && f.size > 65536) h = parseDicom(await f.arrayBuffer());
+      } catch (e) { h = null; }
+      if (h && h.pixOff != null && h.rows && h.cols && h.ipp && h.iop) { h.file = f; list.push(h); }
+      if (i % 40 === 0) { ctStatus(t('讀取 DICOM 標頭…', 'Reading DICOM headers… ') + (i + 1) + ' / ' + files.length); await tick(); }
+    }
+    return list;
+  }
+  function groupSeries(list){
+    const m = new Map();
+    list.forEach(h => {
+      const k = (h.series || '?') + '|' + h.rows + 'x' + h.cols + '|' + (h.iop || '').split('\\').map(x => (+x).toFixed(3)).join(',');
+      if (!m.has(k)) m.set(k, []);
+      m.get(k).push(h);
+    });
+    // 優先選「不同切片位置最多」的序列；位置一樣多時選重複最少的（多時相序列排後面）
+    const groups = [...m.values()].map(g => {
+      const iop = nums(g[0].iop), Nn = norm(cross(iop.slice(0, 3), iop.slice(3, 6)));
+      g.uniq = new Set(g.map(h => dot(nums(h.ipp), Nn).toFixed(2))).size;
+      return g;
+    });
+    const bad = g => /delay|pre.?contrast|non.?contrast|plain|calcium|score|scout|localizer|smart ?prep/i.test((g[0].seriesDesc || '') + ' ' + (g[0].studyDesc || '')) ? 1 : 0;
+    return groups.filter(g => g.uniq >= 8).sort((a, b) => bad(a) - bad(b) || b.uniq - a.uniq || a.length - b.length || (+a[0].seriesNum || 0) - (+b[0].seriesNum || 0));
+  }
+  const nums = s => String(s || '').split('\\').map(Number);
+
+  async function buildVolume(g){
+    const h0 = g[0], iop = nums(h0.iop), X = norm(iop.slice(0, 3)), Y = norm(iop.slice(3, 6)), N = norm(cross(X, Y));
+    const ps = nums(h0.ps), psRow = ps[0] || 1, psCol = ps[1] || ps[0] || 1;
+    if (g.some(h => h.encap || isCompressedTS(h.ts)))
+      throw new Error(t('這組 CT 是壓縮格式（JPEG / JPEG 2000 / RLE），這個版本還不支援。請從 PACS 匯出時選「未壓縮」（Uncompressed，Explicit VR Little Endian）。',
+        'This CT series is compressed (JPEG / JPEG 2000 / RLE), which this version cannot read yet. Please export it from PACS as uncompressed (Explicit VR Little Endian).'));
+    if ((h0.bits || 16) !== 16 || (h0.spp || 1) !== 1)
+      throw new Error(t('只支援 16 位元灰階 CT。', 'Only 16-bit grayscale CT is supported.'));
+    const items = g.map(h => ({ h, d: dot(nums(h.ipp), N), inst: +h.inst || 0 })).sort((a, b) => a.d - b.d || a.inst - b.inst);
+    const sl = []; let dup = 0;
+    items.forEach(it => { if (sl.length && Math.abs(it.d - sl[sl.length - 1].d) < 1e-3) dup++; else sl.push(it); });
+    if (sl.length < 8) throw new Error(t('切片數太少。', 'Too few slices.'));
+    const diffs = sl.slice(1).map((s, i) => s.d - sl[i].d).sort((a, b) => a - b), dz = diffs[diffs.length >> 1] || 1;
+    const rows = h0.rows, cols = h0.cols;
+    let f = 1, fz = 1;
+    while ((cols / f) * (rows / f) * sl.length > 48e6 || (psCol * f < 0.45 && cols / f > 256)) f++;
+    if (dz < 0.55 && (cols / f) * (rows / f) * sl.length > 24e6) fz = 2;
+    const nx = Math.floor(cols / f), ny = Math.floor(rows / f), nz = Math.floor(sl.length / fz), sxy = nx * ny;
+    const vol = new Int16Array(sxy * nz), acc = new Float32Array(sxy), norm2 = 1 / (f * f * fz);
+    for (let kz = 0; kz < nz; kz++) {
+      acc.fill(0);
+      for (let tz = 0; tz < fz; tz++) {
+        const h = sl[kz * fz + tz].h, slope = h.slope !== undefined && h.slope !== '' ? +h.slope : 1, ic = h.intercept !== undefined && h.intercept !== '' ? +h.intercept : 0;
+        const ab = await h.file.slice(h.pixOff, h.pixOff + rows * cols * 2).arrayBuffer();
+        const px = h.signed ? new Int16Array(ab) : new Uint16Array(ab);
+        for (let y = 0; y < ny * f; y++) {
+          const ro = (y / f | 0) * nx, so = y * cols;
+          for (let x = 0; x < nx * f; x++) acc[ro + (x / f | 0)] += px[so + x] * slope + ic;
+        }
+      }
+      const base = kz * sxy;
+      for (let i = 0; i < sxy; i++) { const v = Math.round(acc[i] * norm2); vol[base + i] = v < -32768 ? -32768 : v > 32767 ? 32767 : v; }
+      if (kz % 16 === 0) { ctStatus(t('建立 CT 體積…', 'Building CT volume… ') + Math.round(100 * kz / nz) + '%'); await tick(); }
+    }
+    const ipp0 = nums(sl[0].h.ipp);
+    Object.assign(CT, { vol, nx, ny, nz, f, fz, dup,
+      ex: scl(X, psCol * f), ey: scl(Y, psRow * f), ez: scl(N, dz * fz),
+      o: add(ipp0, add(scl(X, psCol * (f - 1) / 2), add(scl(Y, psRow * (f - 1) / 2), scl(N, dz * (fz - 1) / 2)))),
+      pos: [nx >> 1, ny >> 1, nz >> 1], barrier: new Uint8Array(sxy * nz), labels: null, meta: h0 });
+  }
+
+
+  // 平滑過的 CT（3×3×3 平均）：門檻、生長都用它，避免雜訊在血池裡打出小洞
+  function smoothVolume(){
+    const { nx, ny, nz, vol } = CT, sxy = nx * ny, N = vol.length, a = new Float32Array(N), b = new Float32Array(N);
+    for (let i = 0; i < N; i++) { const x = i % nx; a[i] = (vol[x > 0 ? i - 1 : i] + vol[i] + vol[x < nx - 1 ? i + 1 : i]) / 3; }
+    for (let i = 0; i < N; i++) { const y = ((i / nx) | 0) % ny; b[i] = (a[y > 0 ? i - nx : i] + a[i] + a[y < ny - 1 ? i + nx : i]) / 3; }
+    const out = new Int16Array(N);
+    for (let i = 0; i < N; i++) { const z = (i / sxy) | 0; out[i] = Math.round((b[z > 0 ? i - sxy : i] + b[i] + b[z < nz - 1 ? i + sxy : i]) / 3); }
+    CT.svol = out;
+  }
+
+  // ---------- 三平面顯示 ----------
+  const ctViews = [...document.querySelectorAll('.ctv')].map(el => ({ el, ax: +el.dataset.ax, cv: el.querySelector('canvas'),
+    num: el.querySelector('.ctnum'), off: document.createElement('canvas'), tf: null }));
+  function sliceDims(ax){
+    const mx = vlen(CT.ex), my = vlen(CT.ey), mz = vlen(CT.ez);
+    if (ax === 2) return [CT.nx, CT.ny, mx, my];
+    if (ax === 1) return [CT.nx, CT.nz, mx, mz];
+    return [CT.ny, CT.nz, my, mz];
+  }
+  function uv2ijk(ax, u, v){
+    const p = CT.pos;
+    if (ax === 2) return [u, v, p[2]];
+    if (ax === 1) return [u, p[1], CT.nz - 1 - v];
+    return [p[0], u, CT.nz - 1 - v];
+  }
+  function ijk2uv(ax, i, j, k){ return ax === 2 ? [i, j] : ax === 1 ? [i, CT.nz - 1 - k] : [j, CT.nz - 1 - k]; }
+  const AXC = ['#ff5c5c', '#4cd964', '#4ea8ff'];
+  // 每個切面自己的放大／平移：Ctrl（Mac 觸控板雙指捏合）+滾輪縮放，Shift+拖曳或中鍵拖曳平移
+  ctViews.forEach(V => {
+    V.zoom = 1; V.px = 0; V.py = 0;
+    const bar = document.createElement('div'); bar.className = 'ctzoom';
+    const mk = (txt, title, fn) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = txt; b.title = title; b.addEventListener('click', fn); bar.append(b); return b; };
+    mk('−', t('縮小', 'Zoom out'), () => zoomAt(V, 1 / 1.25));
+    V.zb = mk('100%', t('回到原始大小與位置', 'Reset zoom and pan'), () => { V.zoom = 1; V.px = V.py = 0; renderCT(); });
+    mk('＋', t('放大', 'Zoom in'), () => zoomAt(V, 1.25));
+    V.el.append(bar);
+    // 每個切面下方的換層滑桿：可以直接拖到要的那一層
+    const sl = document.createElement('input'); sl.type = 'range'; sl.className = 'ctslice'; sl.min = 1; sl.step = 1;
+    sl.title = t('拖曳換層（也可以把滑鼠移到切面上按 ↑ ↓）', 'Drag to change slice (or hover a view and press ↑ ↓)');
+    sl.addEventListener('input', () => { CT.pos[V.ax] = +sl.value - 1; renderCT(); });
+    sl.addEventListener('pointerdown', e => e.stopPropagation());
+    V.el.append(sl); V.sl = sl;
+  });
+  function stepSlice(V, d){
+    const n = [CT.nx, CT.ny, CT.nz][V.ax];
+    CT.pos[V.ax] = Math.max(0, Math.min(n - 1, CT.pos[V.ax] + d)); renderCT();
+  }
+  // 方向鍵／PageUp／PageDown：滑鼠所在的切面一次換一層（Shift 一次 5 層）
+  window.addEventListener('keydown', e => {
+    if (!document.body.classList.contains('ctmode') || !CT.vol || /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) return;
+    const V = CT.hoverView || ctViews.find(v => v.ax === 2), k = e.key;
+    const d = k === 'ArrowUp' || k === 'ArrowRight' || k === 'PageUp' ? 1 : k === 'ArrowDown' || k === 'ArrowLeft' || k === 'PageDown' ? -1 : 0;
+    if (!d) return;
+    e.preventDefault(); stepSlice(V, d * (e.shiftKey || k.startsWith('Page') ? 5 : 1));
+  });
+  function zoomAt(V, f, mx, my){
+    const b = V.cv.getBoundingClientRect(), z0 = V.zoom, z1 = Math.max(1, Math.min(12, z0 * f));
+    if (mx == null) { mx = b.width / 2; my = b.height / 2; }
+    if (z1 === 1) { V.zoom = 1; V.px = V.py = 0; renderCT(); return; }
+    // 游標下的那個點放大後仍在游標下
+    V.px = mx - b.width / 2 - (mx - b.width / 2 - V.px) * z1 / z0;
+    V.py = my - b.height / 2 - (my - b.height / 2 - V.py) * z1 / z0;
+    V.zoom = z1; renderCT();
+  }
+  let ctRaf = 0;
+  function renderCT(){ if (!ctRaf) ctRaf = requestAnimationFrame(() => { ctRaf = 0; ctViews.forEach(drawCTView); mini.redraw(); }); }
+  function drawCTView(V){
+    const box = V.el.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    const cw = Math.max(1, Math.round(box.width * dpr)), ch = Math.max(1, Math.round(box.height * dpr));
+    if (V.cv.width !== cw || V.cv.height !== ch) { V.cv.width = cw; V.cv.height = ch; }
+    const c = V.cv.getContext('2d');
+    c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = '#000'; c.fillRect(0, 0, cw, ch);
+    if (!CT.vol) { V.num.textContent = ''; return; }
+    const [W, H, mu, mv] = sliceDims(V.ax);
+    if (V.off.width !== W || V.off.height !== H) { V.off.width = W; V.off.height = H; }
+    const oc = V.off.getContext('2d'), img = oc.createImageData(W, H), d = img.data;
+    const { nx, nz, vol, labels, prev } = CT, sxy = nx * CT.ny, S = curS(), lo = S.lo, hi = S.hi, ww = CT.w, l0 = CT.l - CT.w / 2;
+    const show = CT.show && lo != null, p = CT.pos, vis = STRUCTS.map(s => s.visible), cid = S.id, crgb = S.rgb;
+    for (let v = 0; v < H; v++) for (let u = 0; u < W; u++) {
+      const idx = V.ax === 2 ? p[2] * sxy + v * nx + u : V.ax === 1 ? (nz - 1 - v) * sxy + p[1] * nx + u : (nz - 1 - v) * sxy + u * nx + p[0];
+      let g = (vol[idx] - l0) / ww * 255; g = g < 0 ? 0 : g > 255 ? 255 : g;
+      let r = g, gg = g, b = g;
+      const lab = labels[idx];
+      if (prev && prev[idx]) { r = r * 0.4 + crgb[0] * 0.6; gg = gg * 0.4 + crgb[1] * 0.6; b = b * 0.4 + crgb[2] * 0.6; }   // 正在編輯的範圍
+      else if (lab && vis[lab - 1] && !(prev && lab === cid)) { const cc = SRGB[lab]; r = r * 0.62 + cc[0] * 0.38; gg = gg * 0.62 + cc[1] * 0.38; b = b * 0.62 + cc[2] * 0.38; }
+      else if (show) { const hs = CT.svol[idx]; if (hs >= lo && hs <= hi) { r = r * 0.75 + 64; gg = gg * 0.75 + 64; b = b * 0.75 + 64; } }
+      const o = (v * W + u) * 4; d[o] = r; d[o + 1] = gg; d[o + 2] = b; d[o + 3] = 255;
+    }
+    oc.putImageData(img, 0, 0);
+    const zm = V.zoom || 1, sw = W * mu, sh = H * mv, sc = Math.min(cw / sw, ch / sh) * zm, dw = sw * sc, dh = sh * sc;
+    const ox = (cw - dw) / 2 + (V.px || 0) * dpr, oy = (ch - dh) / 2 + (V.py || 0) * dpr;
+    V.zb.textContent = Math.round(zm * 100) + '%';
+    c.imageSmoothingEnabled = true; c.drawImage(V.off, ox, oy, dw, dh);
+    V.tf = { ox: ox / dpr, oy: oy / dpr, su: dw / W / dpr, sv: dh / H / dpr };
+    const [cu, cv2] = V.ax === 2 ? [p[0], p[1]] : V.ax === 1 ? [p[0], nz - 1 - p[2]] : [p[1], nz - 1 - p[2]];
+    // 十字線顏色＝3D 的軸線顏色：X 左右（紅）、Y 前後（綠）、Z 上下（藍）
+    const [vcol, hcol] = V.ax === 2 ? [AXC[1], AXC[0]] : V.ax === 1 ? [AXC[2], AXC[0]] : [AXC[2], AXC[1]];
+    c.lineWidth = 1.2 * dpr; c.setLineDash([5 * dpr, 4 * dpr]); c.globalAlpha = 0.75;
+    c.strokeStyle = vcol; c.beginPath(); c.moveTo(ox + (cu + 0.5) * dw / W, oy); c.lineTo(ox + (cu + 0.5) * dw / W, oy + dh); c.stroke();
+    c.strokeStyle = hcol; c.beginPath(); c.moveTo(ox, oy + (cv2 + 0.5) * dh / H); c.lineTo(ox + dw, oy + (cv2 + 0.5) * dh / H); c.stroke();
+    c.setLineDash([]); c.globalAlpha = 1;
+    STRUCTS.forEach(st => st.seeds.forEach(sd => {
+      if (Math.abs(sd[V.ax] - p[V.ax]) > 2) return;
+      const [su, sv] = ijk2uv(V.ax, sd[0], sd[1], sd[2]), x = ox + (su + 0.5) * dw / W, y = oy + (sv + 0.5) * dh / H, me = st === S;
+      c.beginPath(); c.arc(x, y, (me ? 6 : 4.5) * dpr, 0, 2 * Math.PI);
+      c.fillStyle = st.color; c.fill(); c.lineWidth = (me ? 2.5 : 1.5) * dpr; c.strokeStyle = '#fff'; c.stroke();
+      if (me) { c.fillStyle = '#fff'; c.font = '600 ' + 11 * dpr + 'px sans-serif'; c.fillText(st.key, x + 8 * dpr, y - 7 * dpr); }
+    }));
+    // 筆刷大小：游標位置畫一個圓（半徑＝筆刷 mm）
+    const hv = CT.hover;
+    if (hv && hv.ax === V.ax && CT.mode !== 'seed') {
+      const rpx = +$('brushr').value / mu * (dw / W), add = CT.mode === 'add';
+      c.beginPath(); c.arc(hv.x * dpr, hv.y * dpr, rpx, 0, 2 * Math.PI);
+      if (add) { c.fillStyle = S.color + '40'; c.fill(); }
+      c.lineWidth = 3.5 * dpr; c.strokeStyle = 'rgba(0,0,0,.7)'; c.stroke();
+      c.lineWidth = 1.5 * dpr; c.strokeStyle = add ? S.color : '#fff';
+      if (!add) c.setLineDash([5 * dpr, 4 * dpr]);
+      c.stroke(); c.setLineDash([]);
+      c.fillStyle = '#fff'; c.font = '600 ' + 11 * dpr + 'px sans-serif';
+      c.fillText((add ? t('加入 ', 'Add ') : t('擦除 ', 'Erase ')) + $('brushr').value + ' mm', hv.x * dpr + rpx + 4 * dpr, hv.y * dpr - 4 * dpr);
+    }
+    const names = [t('矢狀切', 'Sagittal'), t('冠狀切', 'Coronal'), t('軸切', 'Axial')];
+    V.num.textContent = names[V.ax] + '  ' + (p[V.ax] + 1) + ' / ' + [CT.nx, CT.ny, CT.nz][V.ax];
+    V.sl.max = [CT.nx, CT.ny, CT.nz][V.ax]; if (+V.sl.value !== p[V.ax] + 1) V.sl.value = p[V.ax] + 1;
+  }
+
+  // ---------- 切面上的滑鼠 ----------
+  // 點選加入範圍：點一下＝多一個種子點（點在既有種子點上＝刪掉它）；加入／擦除筆刷：拖曳；Ctrl+點：只移動十字線；右鍵拖曳：亮度對比
+  let spaceDown = false;
+  window.addEventListener('keydown', e => { if (e.code === 'Space' && document.body.classList.contains('ctmode') && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) { spaceDown = true; e.preventDefault(); } });
+  window.addEventListener('keyup', e => { if (e.code === 'Space') spaceDown = false; });
+  function evVox(V, e){
+    if (!V.tf) return null;
+    const b = V.cv.getBoundingClientRect(), [W, H] = sliceDims(V.ax);
+    const u = Math.floor((e.clientX - b.left - V.tf.ox) / V.tf.su), v = Math.floor((e.clientY - b.top - V.tf.oy) / V.tf.sv);
+    if (u < 0 || v < 0 || u >= W || v >= H) return null;
+    return uv2ijk(V.ax, u, v);
+  }
+  function localHU(p){
+    const vals = [], sxy = CT.nx * CT.ny;
+    for (let dz = -2; dz <= 2; dz++) for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) {
+      const i = p[0] + dx, j = p[1] + dy, k = p[2] + dz;
+      if (i < 0 || j < 0 || k < 0 || i >= CT.nx || j >= CT.ny || k >= CT.nz) continue;
+      vals.push(CT.svol[k * sxy + j * CT.nx + i]);
+    }
+    vals.sort((a, b) => a - b);
+    const med = vals[vals.length >> 1], sd = Math.sqrt(vals.reduce((n, v) => n + (v - med) * (v - med), 0) / vals.length);
+    return { med, sd };
+  }
+  function autoThreshold(S, p){
+    const { med, sd } = localHU(p);
+    if (med >= 180) { S.lo = Math.round(Math.max(med - 3 * sd, (med + 100) / 2)); S.hi = Math.max(2000, Math.round(med * 3)); }
+    else { S.lo = Math.round(med - 2.5 * sd - 30); S.hi = Math.round(med + 2.5 * sd + 30); }
+  }
+  let stroke = null;
+  function brushAt(p, adding){
+    p = p.map(Math.round);
+    const S = curS(), r = +$('brushr').value, mx = vlen(CT.ex), my = vlen(CT.ey), mz = vlen(CT.ez);
+    const ri = Math.ceil(r / mx), rj = Math.ceil(r / my), rk = Math.ceil(r / mz), sxy = CT.nx * CT.ny;
+    if (!CT.prev) CT.prev = new Uint8Array(CT.vol.length);
+    for (let k = Math.max(0, p[2] - rk); k <= Math.min(CT.nz - 1, p[2] + rk); k++)
+      for (let j = Math.max(0, p[1] - rj); j <= Math.min(CT.ny - 1, p[1] + rj); j++)
+        for (let i = Math.max(0, p[0] - ri); i <= Math.min(CT.nx - 1, p[0] + ri); i++) {
+          const dx = (i - p[0]) * mx, dy = (j - p[1]) * my, dzz = (k - p[2]) * mz;
+          if (dx * dx + dy * dy + dzz * dzz > r * r) continue;
+          const q = k * sxy + j * CT.nx + i;
+          if (adding) {
+            // 加入筆刷只塗「門檻範圍內」的體素，不會塗到心肌或脂肪上；也不會塗進其他已鎖定的結構
+            const hs = CT.svol[q], lb = CT.labels[q];
+            if ($('brushsmart').checked && S.lo != null && (hs < S.lo || hs > S.hi)) continue;
+            if (lb && lb !== S.id && STRUCTS[lb - 1].locked) continue;
+            S.del.delete(q); S.add.add(q); CT.prev[q] = 1;
+          } else { S.add.delete(q); S.del.add(q); CT.prev[q] = 0; }
+        }
+  }
+  ctViews.forEach(V => {
+    let drag = null;
+    V.cv.addEventListener('contextmenu', e => e.preventDefault());
+    V.cv.addEventListener('mousedown', e => { if (e.button === 1) e.preventDefault(); });
+    V.cv.addEventListener('wheel', e => {
+      e.preventDefault(); if (!CT.vol) return;
+      if (e.ctrlKey || e.metaKey) { const b = V.cv.getBoundingClientRect(); zoomAt(V, Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0025)), e.clientX - b.left, e.clientY - b.top); return; }
+      // 觸控板一次滑動會送出很多小事件：累積到一定距離才換一層；滑鼠滾輪一格＝一層
+      const dy = e.deltaMode === 1 ? e.deltaY * 33 : e.deltaMode === 2 ? e.deltaY * 400 : e.deltaY;
+      let steps;
+      if (e.deltaMode !== 0 || Math.abs(dy) >= 90) { steps = Math.sign(dy); V.acc = 0; }
+      else { V.acc = (V.acc || 0) + dy; steps = Math.trunc(V.acc / 60); V.acc -= steps * 60; }
+      if (steps) stepSlice(V, -steps * (e.shiftKey ? 5 : 1));
+    }, { passive: false });
+    V.cv.addEventListener('pointerenter', () => { CT.hoverView = V; });
+    V.cv.addEventListener('pointerdown', e => {
+      if (!CT.vol) return;
+      V.cv.setPointerCapture(e.pointerId);
+      if (e.button === 2) { drag = { wl: true, x: e.clientX, y: e.clientY }; return; }
+      if (e.button === 1 || e.shiftKey || spaceDown) { e.preventDefault(); drag = { pan: true, x: e.clientX, y: e.clientY }; V.cv.style.cursor = 'grabbing'; return; }
+      const p = evVox(V, e); if (!p) return;
+      if (e.ctrlKey || e.metaKey) { CT.pos = p.slice(); renderCT(); return; }
+      const S = curS();
+      if (S.locked) { lockedMsg(); return; }
+      if (CT.mode === 'add' || CT.mode === 'erase') {
+        if (!S.seeds.length && CT.mode === 'add' && S.lo == null) autoThreshold(S, p);
+        snapshot(); stroke = true; drag = { paint: true }; brushAt(p, CT.mode === 'add'); updatePrevInfo(); renderCT(); return;
+      }
+      // 種子點模式
+      const [u, v] = ijk2uv(V.ax, p[0], p[1], p[2]);
+      const near = S.seeds.findIndex(sd => {
+        if (Math.abs(sd[V.ax] - p[V.ax]) > 1) return false;
+        const [su, sv] = ijk2uv(V.ax, sd[0], sd[1], sd[2]);
+        return Math.hypot((su - u) * V.tf.su, (sv - v) * V.tf.sv) < 9;
+      });
+      snapshot();
+      if (near >= 0) S.seeds.splice(near, 1);
+      else {
+        CT.seedHU = localHU(p).med;
+        if (!S.seeds.length) autoThreshold(S, p);
+        S.seeds.push(p.slice());
+      }
+      CT.pos = p.slice(); syncSteps(); renderCT(); recompute();
+    });
+    V.cv.addEventListener('pointermove', e => {
+      if (CT.mode !== 'seed') { const b = V.cv.getBoundingClientRect(); CT.hover = { ax: V.ax, x: e.clientX - b.left, y: e.clientY - b.top }; if (!drag) renderCT(); }
+      if (!drag) return;
+      if (drag.pan) { V.px += e.clientX - drag.x; V.py += e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY; renderCT(); return; }
+      if (drag.wl) {
+        CT.w = Math.max(1, CT.w + (e.clientX - drag.x) * 4); CT.l -= (e.clientY - drag.y) * 2;
+        drag.x = e.clientX; drag.y = e.clientY; renderCT(); return;
+      }
+      if (drag.paint) { const p = evVox(V, e); if (p) { brushAt(p, CT.mode === 'add'); renderCT(); } }
+    });
+    V.cv.addEventListener('pointerleave', () => { if (CT.hover && CT.hover.ax === V.ax && !drag) { CT.hover = null; renderCT(); } });
+    const up = () => { if (drag && drag.pan) V.cv.style.cursor = CT.mode === 'seed' ? '' : 'none'; if (drag && drag.paint) { updatePrevInfo(); syncHistBtns(); } stroke = null; drag = null; };
+    ['pointerup', 'pointercancel'].forEach(n => V.cv.addEventListener(n, up));
+  });
+
+  // ---------- 左側步驟面板 ----------
+  function lockedMsg(){
+    ctStatus(t('「' + sName(curS()) + '」已鎖定，不能修改。要修改請先在「已定義的結構」按「已鎖定」解除。', '“' + sName(curS()) + '” is locked and cannot be edited. Unlock it in “Defined structures” first.'));
+  }
+  function syncSteps(){
+    const S = curS(), lk = S.locked;
+    $('lockbar').hidden = !lk;
+    document.querySelectorAll('#cttool button, #ctmode button, #ctvdir button').forEach(b => { b.disabled = lk; });
+    ['thlo', 'thhi', 'thlov', 'thhiv', 'ctemph', 'ctclear', 'brushr'].forEach(id => { $(id).disabled = lk; });
+    $('ctstruct').value = String(CT.sel);
+    $('structdot').style.background = S.color;
+    document.querySelectorAll('#cttool button').forEach(b => b.classList.toggle('on', b.dataset.tool === S.tool));
+    document.querySelectorAll('#ctmode button').forEach(b => b.classList.toggle('on', b.dataset.m === CT.mode));
+    document.querySelectorAll('#ctvdir button').forEach(b => b.classList.toggle('on', b.dataset.d === S.vdir));
+    const eff = S.tool === 'auto' ? S.eff : S.tool;
+    $('step-emph').hidden = eff === 'vessel';
+    $('step-vdir').hidden = eff !== 'vessel';
+    $('toolnote').textContent = S.tool === 'auto' ? (S.eff ? t('自動判斷為：' + (S.eff === 'vessel' ? '管狀（血管方法）' : '一團（心腔方法）'), 'Detected: ' + (S.eff === 'vessel' ? 'tube (vessel method)' : 'blob (chamber method)')) : t('點下種子點後自動判斷', 'Decided automatically after the first seed'))
+      : (S.tool === 'vessel' ? t('一層一層追蹤管子的截面', 'Tracks the tube slice by slice') : t('從種子點往外長，和相鄰心腔競爭', 'Grows from the seed and competes with neighbouring chambers'));
+    $('brushrow').hidden = CT.mode === 'seed'; $('smartrow').hidden = CT.mode !== 'add'; $('erasehint').hidden = CT.mode !== 'erase';
+    $('thlo').value = $('thlov').value = S.lo == null ? '' : S.lo;
+    $('thhi').value = $('thhiv').value = S.hi == null ? '' : S.hi;
+    $('ctemph').value = S.emph; $('ctemphv').textContent = String(S.emph);
+    const blood = !/^(ESO|OT)/.test(S.key), low = S.seeds.length && blood && CT.seedHU != null && CT.seedHU < 150;
+    $('seedtxt').textContent = S.seeds.length
+      ? t('種子點 ' + S.seeds.length + ' 個', S.seeds.length + ' seed(s)') + (CT.seedHU != null ? t('（最後一點 HU ' + CT.seedHU + '）', ' (last one HU ' + CT.seedHU + ')') : '') +
+        (low ? t('\n⚠ 這裡不像顯影的血池：可能點在心肌上，或這組是延遲期、沒打顯影劑的序列。', '\n⚠ Not contrast-filled blood here: the seed may be on muscle, or this is a delayed / non-contrast series.') : '')
+      : t('還沒有種子點：在切面上點一下結構的正中間', 'No seed yet: click the middle of the structure on a slice');
+    $('seedtxt').classList.toggle('warn', !!low);
+    $('ctgen').disabled = lk || CT.busy || !(CT.prev && CT.prev.some(Boolean));
+  }
+  function fillStructSelect(){
+    const sel = $('ctstruct'), v = sel.value; sel.textContent = '';
+    STRUCTS.forEach((s, i) => sel.add(new Option(sName(s) + (s.locked ? '  🔒' : s.count ? '  ✓' : ''), String(i))));
+    sel.value = v || String(CT.sel);
+  }
+  function selectStruct(i){
+    CT.sel = i; CT.hist = []; CT.redo = []; CT.auto = null; CT.taken = []; CT.prev = null; CT.job++;
+    const S = curS();
+    if (S.locked) { if (S.seeds.length) CT.pos = S.seeds[S.seeds.length - 1].slice(); lockedMsg(); }
+    else if (S.seeds.length) { CT.pos = S.seeds[S.seeds.length - 1].slice(); recompute(); }
+    else if (S.count) {                                    // 只有手動塗的結構：從已生成的範圍開始編輯
+      CT.prev = new Uint8Array(CT.vol.length); for (let q = 0; q < CT.prev.length; q++) if (CT.labels[q] === S.id) CT.prev[q] = 1;
+    }
+    CT.seedHU = null;
+    syncSteps(); syncHistBtns(); updatePrevInfo(); renderStructList(); renderCT();
+  }
+  $('ctstruct').addEventListener('change', () => selectStruct(+$('ctstruct').value));
+  $('cttool').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; snapshot(); curS().tool = b.dataset.tool; syncSteps(); recompute(); });
+  $('ctmode').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; CT.mode = b.dataset.m; CT.hover = null; syncSteps(); renderCT();
+    document.querySelectorAll('.ctv canvas').forEach(cv => { cv.style.cursor = CT.mode === 'seed' ? '' : 'none'; }); });
+  $('ctvdir').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; snapshot(); curS().vdir = b.dataset.d; syncSteps(); recompute(); });
+  let thrTimer = 0;
+  const later = () => { clearTimeout(thrTimer); thrTimer = setTimeout(recompute, 450); };
+  [['thlo', 'lo'], ['thhi', 'hi'], ['thlov', 'lo'], ['thhiv', 'hi']].forEach(([id, k]) => $(id).addEventListener('input', () => {
+    const S = curS(), v = +$(id).value; if (!isFinite(v) || $(id).value === '') return;
+    S[k] = v; if (id.endsWith('v')) $(id.slice(0, -1)).value = v; else $(id + 'v').value = v;
+    renderCT(); later();
+  }));
+  $('ctemph').addEventListener('input', () => { curS().emph = +$('ctemph').value; $('ctemphv').textContent = $('ctemph').value; later(); });
+  $('thshow').addEventListener('change', () => { CT.show = $('thshow').checked; renderCT(); });
+  $('brushr').addEventListener('input', () => {
+    $('brushv').textContent = $('brushr').value + ' mm';
+    if (!CT.vol) return;
+    if (!CT.hover || CT.hover.auto) { const V = ctViews.find(v => v.ax === 2), b = V.cv.getBoundingClientRect(); CT.hover = { ax: 2, x: b.width / 2, y: b.height / 2, auto: true }; }
+    renderCT();
+  });
+  document.querySelectorAll('#ctwin button').forEach(b => b.addEventListener('click', () => {
+    const [w, l] = b.dataset.w.split(',').map(Number); CT.w = w; CT.l = l; renderCT();
+  }));
+  $('ctseries').addEventListener('change', () => openSeries(+$('ctseries').value));
+  function updatePrevInfo(){
+    const vox = CT.vol ? Math.abs(dot(CT.ex, cross(CT.ey, CT.ez))) / 1000 : 0;
+    let n = 0; if (CT.prev) for (let q = 0; q < CT.prev.length; q++) n += CT.prev[q];
+    $('prevml').textContent = n ? t('目前範圍：', 'Current region: ') + (n * vox).toFixed(0) + ' ml' : '';
+    syncSteps();
+  }
+
+  // ---------- 距離圖（3-4-5 chamfer） ----------
+  async function chamfer(M){
+    const { nx, ny, nz } = CT, sxy = nx * ny, N = M.length, dist = new Uint16Array(N);
+    for (let i = 0; i < N; i++) if (M[i]) dist[i] = 65000;
+    const nb = [];
+    for (let dz = -1; dz <= 0; dz++) for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+      if (dz === 0 && (dy > 0 || (dy === 0 && dx >= 0))) continue;
+      nb.push([dx, dy, dz, [0, 3, 4, 5][Math.abs(dx) + Math.abs(dy) + Math.abs(dz)]]);
+    }
+    for (const dir of [1, -1]) {
+      for (let z = dir > 0 ? 0 : nz - 1; z !== (dir > 0 ? nz : -1); z += dir) {
+        for (let y = dir > 0 ? 0 : ny - 1; y !== (dir > 0 ? ny : -1); y += dir)
+          for (let x = dir > 0 ? 0 : nx - 1; x !== (dir > 0 ? nx : -1); x += dir) {
+            const i = z * sxy + y * nx + x; let m = dist[i]; if (!m) continue;
+            for (let q = 0; q < nb.length; q++) {
+              const xx = x + nb[q][0] * dir, yy = y + nb[q][1] * dir, zz = z + nb[q][2] * dir, w = nb[q][3];
+              if (xx < 0 || yy < 0 || zz < 0 || xx >= nx || yy >= ny || zz >= nz) { if (w < m) m = w; continue; }
+              const v = dist[zz * sxy + yy * nx + xx] + w; if (v < m) m = v;
+            }
+            dist[i] = m;
+          }
+        if (z % 32 === 0) await tick();
+      }
+    }
+    return dist;
+  }
+  // 6 鄰接的廣度優先生長；ok(i) 決定能不能長進去；maxSteps 限制步數（膨脹用）
+  function grow(starts, ok, out, maxSteps){
+    const { nx, ny, nz } = CT, sxy = nx * ny;
+    let cur = starts, steps = 0;
+    for (const s of cur) out[s] = 1;
+    while (cur.length && (maxSteps === undefined || steps < maxSteps)) {
+      const next = [];
+      for (let n = 0; n < cur.length; n++) {
+        const v = cur[n], x = v % nx, y = ((v / nx) | 0) % ny, z = (v / sxy) | 0;
+        if (x < nx - 1 && !out[v + 1] && ok(v + 1)) { out[v + 1] = 1; next.push(v + 1); }
+        if (x > 0 && !out[v - 1] && ok(v - 1)) { out[v - 1] = 1; next.push(v - 1); }
+        if (y < ny - 1 && !out[v + nx] && ok(v + nx)) { out[v + nx] = 1; next.push(v + nx); }
+        if (y > 0 && !out[v - nx] && ok(v - nx)) { out[v - nx] = 1; next.push(v - nx); }
+        if (z < nz - 1 && !out[v + sxy] && ok(v + sxy)) { out[v + sxy] = 1; next.push(v + sxy); }
+        if (z > 0 && !out[v - sxy] && ok(v - sxy)) { out[v - sxy] = 1; next.push(v - sxy); }
+      }
+      cur = next; steps++;
+    }
+    return out;
+  }
+
+  // ---------- 血管追蹤：一層一層往上／往下，只接受和上一層重疊的區域；截面積突然暴增就收斂，連續暴增就停 ----------
+  function trackVessel(M, seed, dir){
+    const { nx, ny, nz } = CT, sxy = nx * ny, R = new Uint8Array(M.length), mark = new Int32Array(sxy), near = new Int32Array(sxy);
+    const pxA = vlen(CT.ex) * vlen(CT.ey);
+    let stamp = 0;
+    const region2D = (k, starts) => {
+      stamp++; const base = k * sxy, out = [];
+      for (const p of starts) if (M[base + p] && mark[p] !== stamp) { mark[p] = stamp; out.push(p); }
+      for (let h = 0; h < out.length; h++) {
+        const p = out[h], x = p % nx, y = (p / nx) | 0;
+        const nb = [x < nx - 1 ? p + 1 : -1, x > 0 ? p - 1 : -1, y < ny - 1 ? p + nx : -1, y > 0 ? p - nx : -1];
+        for (const q of nb) if (q >= 0 && mark[q] !== stamp && M[base + q]) { mark[q] = stamp; out.push(q); }
+      }
+      return out;
+    };
+    let nearStamp = 0;
+    const footprint = (pix, r) => {                       // 上一層的範圍往外擴 r 格
+      nearStamp++; let cur = pix.slice();
+      for (const p of cur) near[p] = nearStamp;
+      for (let it = 0; it < r; it++) {
+        const nx2 = [];
+        for (const p of cur) {
+          const x = p % nx, y = (p / nx) | 0;
+          for (const q of [x < nx - 1 ? p + 1 : -1, x > 0 ? p - 1 : -1, y < ny - 1 ? p + nx : -1, y > 0 ? p - nx : -1])
+            if (q >= 0 && near[q] !== nearStamp) { near[q] = nearStamp; nx2.push(q); }
+        }
+        cur = nx2;
+      }
+      return nearStamp;
+    };
+    const first = region2D(seed[2], [seed[1] * nx + seed[0]]);
+    first.forEach(p => { R[seed[2] * sxy + p] = 1; });
+    const dirs = dir === 'up' ? [1] : dir === 'down' ? [-1] : [1, -1];
+    const maxRun = Math.max(3, Math.round(6 / vlen(CT.ez)));
+    for (const d of dirs) {
+      let prev = first, good = first, run = 0;
+      for (let k = seed[2] + d; k >= 0 && k < nz; k += d) {
+        let cand = region2D(k, prev);
+        if (!cand.length) break;
+        const limit = Math.max(good.length * 1.5, good.length + 40 / pxA);
+        if (cand.length > limit) {
+          // 截面突然變大：可能碰到旁邊的血管或進入心腔。沿用最後一段正常截面的範圍繼續追，超過約 6 mm 就停
+          if (++run > maxRun) break;
+          const st = footprint(good, 2);
+          cand = cand.filter(p => near[p] === st);
+        } else { run = 0; good = cand; }
+        if (!cand.length) break;
+        cand.forEach(p => { R[k * sxy + p] = 1; });
+        prev = cand;
+      }
+    }
+    return { R, big: first.length * pxA > 2500 };
+  }
+
+  // ---------- 自動圈範圍：依種子點算出「目前結構」的範圍（只是預覽，還沒生成 3D） ----------
+  async function computeAuto(S, job){
+    const { nx, ny, nz, labels } = CT, sxy = nx * ny, N = sxy * nz, lo = S.lo, hi = S.hi, sv = CT.svol;
+    const toI = sd => sd[2] * sxy + sd[1] * nx + sd[0], xyz = q => [q % nx, ((q / nx) | 0) % ny, (q / sxy) | 0];
+    // 種子點點在別的已生成結構裡 → 表示那個結構多抓了：這次讓它一起參與競爭，把這部分拿回來
+    const open = new Uint8Array(STRUCTS.length + 1); open[S.id] = 1;
+    STRUCTS.forEach(o => { if (!o.locked) open[o.id] = 1; });
+
+    const M = new Uint8Array(N);
+    for (let i = 0; i < N; i++) {
+      const h = sv[i];
+      if (h >= lo && h <= hi && (!labels[i] || open[labels[i]])) M[i] = 1;
+    }
+    const taken = STRUCTS.filter(o => o !== S && o.count && !o.locked && S.seeds.some(sd => labels[toI(sd)] === o.id));
+    const inLocked = STRUCTS.filter(o => o !== S && o.locked && S.seeds.some(sd => labels[toI(sd)] === o.id));
+    const seeds = S.seeds.filter(sd => M[toI(sd)]);
+    const bad = S.seeds.length - seeds.length;
+    let R = new Uint8Array(N);
+    if (!seeds.length && inLocked.length) return { R, bad, msg: t('種子點在已鎖定的「' + inLocked.map(sName).join('、') + '」裡，鎖定的結構不能被畫入。換個位置，或先把它解除鎖定。',
+      'The seed is inside the locked “' + inLocked.map(sName).join(', ') + '”, which cannot be drawn into. Move the seed or unlock it first.') };
+    if (!seeds.length) return { R, bad, msg: t('種子點不在門檻範圍內，或在已鎖定的結構裡。請換位置或調整門檻。', 'The seed is outside the threshold range or inside a locked structure. Move it or adjust the threshold.') };
+    S.eff = S.tool === 'auto' ? guessShape(M, seeds[0]) : S.tool;
+    if (S.eff === 'vessel') {
+      for (const sd of seeds) { const tr = trackVessel(M, sd, S.vdir); for (let i = 0; i < N; i++) if (tr.R[i]) R[i] = 1; }
+      return { R, bad, taken };
+    }
+    // 心腔：競爭生長。自己的種子點 vs 其他結構的種子點 + 自動找到的相鄰心腔／血管中心
+    const dist = await chamfer(M); if (job !== CT.job) return null;
+    const cap = 2.5 + S.emph, vox0 = (vlen(CT.ex) + vlen(CT.ey) + vlen(CT.ez)) / 3;
+    const climb = q => {
+      for (let it = 0; it < 400; it++) {
+        const [x, y, z] = xyz(q); let best = q;
+        for (let dz = -1; dz <= 1; dz++) for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+          const X = x + dx, Y = y + dy, Z = z + dz;
+          if (X < 0 || Y < 0 || Z < 0 || X >= nx || Y >= ny || Z >= nz) continue;
+          const w = Z * sxy + Y * nx + X; if (dist[w] > dist[best]) best = w;
+        }
+        if (best === q) return q; q = best;
+      }
+      return q;
+    };
+    const sameBlob = (a, b) => {
+      const A = xyz(a), B = xyz(b), L = Math.hypot(A[0] - B[0], A[1] - B[1], A[2] - B[2]), n = Math.max(2, Math.ceil(L * 2));
+      const need = 0.75 * Math.min(dist[a], dist[b]);
+      for (let k = 0; k <= n; k++) {
+        const f = k / n, q = Math.round(A[2] + (B[2] - A[2]) * f) * sxy + Math.round(A[1] + (B[1] - A[1]) * f) * nx + Math.round(A[0] + (B[0] - A[0]) * f);
+        if (dist[q] < need) return false;
+      }
+      return true;
+    };
+    const minD = 3 * 11 / vox0, blk = Math.max(4, Math.round(10 / vox0)), peaks = [];
+    for (let z0 = 0; z0 < nz; z0 += blk) for (let y0 = 0; y0 < ny; y0 += blk) for (let x0 = 0; x0 < nx; x0 += blk) {
+      let best = -1, bd = minD;
+      for (let z = z0; z < Math.min(nz, z0 + blk); z++) for (let y = y0; y < Math.min(ny, y0 + blk); y++) {
+        const r0 = z * sxy + y * nx;
+        for (let x = x0; x < Math.min(nx, x0 + blk); x++) if (dist[r0 + x] >= bd) { bd = dist[r0 + x]; best = r0 + x; }
+      }
+      if (best >= 0) peaks.push(best);
+    }
+    peaks.sort((a, b) => dist[b] - dist[a]);
+    const mine = seeds.map(sd => climb(toI(sd)));
+    const rivalSeeds = [];
+    STRUCTS.forEach(o => { if (o !== S) o.seeds.forEach(sd => { if (M[toI(sd)]) rivalSeeds.push(toI(sd)); }); });
+    const kept = mine.concat(rivalSeeds.map(climb)), auto = [];
+    for (const pk of peaks) if (!kept.some(k => sameBlob(pk, k)) && !auto.some(k => sameBlob(pk, k))) auto.push(pk);
+    await tick(); if (job !== CT.job) return null;
+    const own = new Uint8Array(N), cost = new Float32Array(N).fill(Infinity), done = new Uint8Array(N);
+    let hk = new Float32Array(1 << 20), hv = new Int32Array(1 << 20), hn = 0;
+    const hpush = (k, v) => {
+      if (hn >= hk.length) { const k2 = new Float32Array(hk.length * 2), v2 = new Int32Array(hk.length * 2); k2.set(hk); v2.set(hv); hk = k2; hv = v2; }
+      let i = hn++;
+      while (i > 0) { const pi = (i - 1) >> 1; if (hk[pi] <= k) break; hk[i] = hk[pi]; hv[i] = hv[pi]; i = pi; }
+      hk[i] = k; hv[i] = v;
+    };
+    const hpop = () => {
+      const top = hv[0], k = hk[--hn], v = hv[hn]; let i = 0;
+      for (;;) { let c = 2 * i + 1; if (c >= hn) break; if (c + 1 < hn && hk[c + 1] < hk[c]) c++; if (hk[c] >= k) break; hk[i] = hk[c]; hv[i] = hv[c]; i = c; }
+      hk[i] = k; hv[i] = v; return top;
+    };
+    const plant = (q, who) => { if (M[q] && cost[q] > 0) { cost[q] = 0; own[q] = who; hpush(0, q); } };
+    seeds.forEach(sd => plant(toI(sd), 1)); mine.forEach(q => plant(q, 1));
+    rivalSeeds.forEach(q => plant(q, 2)); auto.forEach(q => plant(q, 2));
+    const off6 = [1, -1, nx, -nx, sxy, -sxy], stepMM = [vlen(CT.ex), vlen(CT.ex), vlen(CT.ey), vlen(CT.ey), vlen(CT.ez), vlen(CT.ez)];
+    let steps = 0;
+    while (hn) {
+      const kmin = hk[0], v = hpop();
+      if (done[v] || kmin > cost[v]) continue;
+      done[v] = 1;
+      const x = v % nx, y = ((v / nx) | 0) % ny, z = (v / sxy) | 0, who = own[v];
+      for (let q = 0; q < 6; q++) {
+        if ((q === 0 && x === nx - 1) || (q === 1 && x === 0) || (q === 2 && y === ny - 1) || (q === 3 && y === 0) || (q === 4 && z === nz - 1) || (q === 5 && z === 0)) continue;
+        const w = v + off6[q];
+        if (!M[w] || done[w]) continue;
+        const r = Math.min(dist[w] / 3 * vox0, cap), c = cost[v] + stepMM[q] / (r * r + 0.25);
+        if (c < cost[w]) { cost[w] = c; own[w] = who; hpush(c, w); }
+      }
+      if (++steps % 300000 === 0) { await tick(); if (job !== CT.job) return null; }
+    }
+    for (let i = 0; i < N; i++) if (own[i] === 1) R[i] = 1;
+    return { R: closeHoles(R), bad, taken };
+  }
+  // 自動判斷形狀：從種子點往 13 個方向量血池的寬度；第二窄的方向不到 25 mm → 管狀（血管方法），否則 → 一團（心腔方法）
+  function guessShape(M, sd){
+    const { nx, ny, nz } = CT, sxy = nx * ny, chords = [];
+    const dirs = [[1,0,0],[0,1,0],[0,0,1],[1,1,0],[1,-1,0],[1,0,1],[1,0,-1],[0,1,1],[0,1,-1],[1,1,1],[1,1,-1],[1,-1,1],[-1,1,1]];
+    for (const d of dirs) {
+      const step = Math.hypot(d[0] * vlen(CT.ex), d[1] * vlen(CT.ey), d[2] * vlen(CT.ez));
+      let len = 0;
+      for (const sgn of [1, -1]) for (let k = 1; k < 400; k++) {
+        const x = sd[0] + sgn * d[0] * k, y = sd[1] + sgn * d[1] * k, z = sd[2] + sgn * d[2] * k;
+        if (x < 0 || y < 0 || z < 0 || x >= nx || y >= ny || z >= nz || !M[z * sxy + y * nx + x]) break;
+        len += step;
+      }
+      chords.push(len);
+    }
+    chords.sort((a, b) => a - b);
+    return chords[1] < 25 ? 'vessel' : 'chamber';
+  }
+  // 填掉範圍裡雜訊造成的小洞（只補被範圍包住的體素，不往外長）
+  function closeHoles(R){
+    const { nx, ny, nz } = CT, sxy = nx * ny, N = R.length, D = new Uint8Array(N), out = R.slice();
+    for (let i = 0; i < N; i++) if (R[i]) {
+      const x = i % nx, y = ((i / nx) | 0) % ny, z = (i / sxy) | 0;
+      for (let dz = -1; dz <= 1; dz++) for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+        const X = x + dx, Y = y + dy, Z = z + dz;
+        if (X >= 0 && Y >= 0 && Z >= 0 && X < nx && Y < ny && Z < nz) D[i + dz * sxy + dy * nx + dx] = 1;
+      }
+    }
+    for (let i = 0; i < N; i++) if (D[i] && !R[i]) {
+      const x = i % nx, y = ((i / nx) | 0) % ny, z = (i / sxy) | 0; let ok = 1;
+      for (let dz = -1; dz <= 1 && ok; dz++) for (let dy = -1; dy <= 1 && ok; dy++) for (let dx = -1; dx <= 1; dx++) {
+        const X = x + dx, Y = y + dy, Z = z + dz;
+        if (X < 0 || Y < 0 || Z < 0 || X >= nx || Y >= ny || Z >= nz || !D[i + dz * sxy + dy * nx + dx]) { ok = 0; break; }
+      }
+      if (ok) out[i] = 1;
+    }
+    return out;
+  }
+  function buildPrev(){
+    const S = curS();
+    if (CT.auto) CT.prev = CT.auto.slice();
+    else { CT.prev = new Uint8Array(CT.vol.length); if (S.count) for (let q = 0; q < CT.prev.length; q++) if (CT.labels[q] === S.id) CT.prev[q] = 1; }
+    S.add.forEach(q => { CT.prev[q] = 1; });
+    S.del.forEach(q => { CT.prev[q] = 0; });
+  }
+  async function recompute(){
+    const S = curS(), job = ++CT.job;
+    if (!CT.vol) return;
+    if (S.locked) { CT.auto = null; CT.prev = null; CT.busy = false; updatePrevInfo(); renderCT(); return; }
+    if (!S.seeds.length) { CT.auto = null; buildPrev(); CT.busy = false; updatePrevInfo(); renderCT(); ctStatus(''); return; }
+    CT.busy = true; syncSteps();
+    ctStatus(t('自動圈選範圍中…', 'Finding the region…')); await tick();
+    const res = await computeAuto(S, job);
+    if (!res || job !== CT.job) return;
+    CT.auto = res.R; CT.taken = res.taken || []; buildPrev(); CT.busy = false;
+    updatePrevInfo(); renderCT();
+    ctStatus(res.msg || (t('範圍以顏色顯示在切面上。多了就用「擦除筆刷」，少了就「點選加入範圍」或「加入筆刷」，滿意後按「生成 3D Geometry」。',
+      'The region is shown in colour on the slices. Erase what is extra, click or paint to add what is missing, then press “Generate 3D Geometry”.') +
+      (CT.taken.length ? t('\n種子點在「' + CT.taken.map(sName).join('、') + '」（未鎖定）裡：那邊多抓的部分會被拿回來，生成時一起更新。', '\nThe seed is inside “' + CT.taken.map(sName).join(', ') + '”: its extra part is taken back and updated when you generate.') : '') +
+      (res.bad ? t('\n有 ' + res.bad + ' 個種子點不在門檻範圍內，已略過。', '\n' + res.bad + ' seed(s) outside the threshold were skipped.') : '')));
+  }
+
+  // ---------- 生成 3D Geometry：把目前範圍寫進結構，產生模型 ----------
+  async function generate(){
+    const S = curS(), id = S.id, L = CT.labels, P = CT.prev;
+    if (!P) return;
+    if (S.locked) return;
+    const touched = new Set([id]);
+    for (let i = 0; i < L.length; i++) {
+      const lb = L[i];
+      if (P[i]) { if (lb === id) continue; if (lb && STRUCTS[lb - 1].locked) continue; if (lb) touched.add(lb); L[i] = id; }
+      else if (lb === id) L[i] = 0;
+    }
+    CT.busy = true; syncSteps();
+    await refreshStructs([...touched]);
+    CT.busy = false;
+    const ml = S.count * Math.abs(dot(CT.ex, cross(CT.ey, CT.ez))) / 1000;
+    ctStatus(sName(S) + t('：已生成 3D（' + ml.toFixed(0) + ' ml）。可以繼續修正後再生成一次，或換下一個結構。',
+      ': 3D generated (' + ml.toFixed(0) + ' ml). Keep refining and generate again, or move on to the next structure.'));
+    syncSteps(); fillStructSelect();
+  }
+  $('ctgen').addEventListener('click', generate);
+
+  // ---------- 復原／重做（目前結構的種子點、筆刷、參數） ----------
+  function snapState(){ const S = curS(); return { seeds: S.seeds.map(s => s.slice()), add: new Set(S.add), del: new Set(S.del), lo: S.lo, hi: S.hi, emph: S.emph, vdir: S.vdir, tool: S.tool }; }
+  function snapshot(g3d){ const st = snapState(); st.g3d = !!g3d; CT.hist.push(st); if (CT.hist.length > 40) CT.hist.shift(); CT.redo = []; syncHistBtns(); }
+  function restore(st){
+    const S = curS(), needAuto = JSON.stringify(st.seeds) !== JSON.stringify(S.seeds) || st.lo !== S.lo || st.hi !== S.hi || st.emph !== S.emph || st.vdir !== S.vdir || st.tool !== S.tool;
+    Object.assign(S, { seeds: st.seeds, add: st.add, del: st.del, lo: st.lo, hi: st.hi, emph: st.emph, vdir: st.vdir, tool: st.tool });
+    syncSteps();
+    if (needAuto) recompute(); else { buildPrev(); updatePrevInfo(); renderCT(); }
+  }
+  $('ctundo').addEventListener('click', () => { const st = CT.hist.pop(); if (st) { const c = snapState(); c.g3d = st.g3d; CT.redo.push(c); restore(st); syncHistBtns(); if (st.g3d) generate(); } });
+  $('ctredo').addEventListener('click', () => { const st = CT.redo.pop(); if (st) { const c = snapState(); c.g3d = st.g3d; CT.hist.push(c); restore(st); syncHistBtns(); if (st.g3d) generate(); } });
+  function syncHistBtns(){ $('ctundo').disabled = !CT.hist.length; $('ctredo').disabled = !CT.redo.length; }
+  $('ctclear').addEventListener('click', () => { snapshot(); const S = curS(); S.seeds = []; S.add = new Set(); S.del = new Set(); syncSteps(); recompute(); });
+
+  // ---------- 已生成的結構清單 ----------
+  async function refreshStructs(ids){
+    const cnt = new Array(STRUCTS.length + 1).fill(0), L = CT.labels;
+    for (let i = 0; i < L.length; i++) cnt[L[i]]++;
+    STRUCTS.forEach(s => { s.count = cnt[s.id]; });
+    for (const id of ids || []) {
+      const s = STRUCTS[id - 1];
+      ctStatus(t('生成 3D：', 'Generating 3D: ') + sName(s) + '…'); await tick();
+      s.mesh = s.count ? meshStruct(s, 1.6, true) : null;
+      mini.set(s.key, s.mesh && s.visible ? s.mesh : null);
+    }
+    renderStructList(); fillStructSelect(); renderCT();
+  }
+  function renderStructList(){
+    const box = $('ctlist'); box.textContent = '';
+    const vox = CT.vol ? Math.abs(dot(CT.ex, cross(CT.ey, CT.ez))) / 1000 : 0;
+    const done = STRUCTS.filter(s => s.count);
+    $('ctlistempty').hidden = done.length > 0;
+    $('ctfinish').disabled = !done.length;
+    done.forEach(s => {
+      const row = document.createElement('div'); row.className = 'srow' + (curS() === s ? ' cur' : '');
+      const dotEl = document.createElement('label'); dotEl.className = 'cpick'; dotEl.style.background = s.color; dotEl.title = t('點一下改顏色', 'Click to change colour');
+      const ci = document.createElement('input'); ci.type = 'color'; ci.value = s.color;
+      ci.addEventListener('input', () => {
+        s.color = ci.value; s.rgb = hexToRgb(ci.value); SRGB[s.id] = s.rgb; dotEl.style.background = s.color;
+        if (s.mesh) { s.mesh.rgb = s.rgb.slice(); s.mesh.rawColor = s.color.slice(1).toUpperCase(); mini.set(s.key, s.visible ? s.mesh : null); }
+        if (curS() === s) $('structdot').style.background = s.color;
+        renderCT();
+      });
+      dotEl.append(ci);
+      const nm = document.createElement('button'); nm.type = 'button'; nm.className = 'sname'; nm.textContent = sName(s);
+      nm.title = t('點一下繼續編輯這個結構', 'Click to keep editing this structure');
+      nm.addEventListener('click', () => selectStruct(s.id - 1));
+      const ml = document.createElement('span'); ml.className = 'sml'; ml.textContent = (s.count * vox).toFixed(0) + ' ml';
+      const mk = (label, on, fn, title) => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'stog' + (on ? ' on' : ''); b.textContent = label; b.title = title;
+        b.addEventListener('click', fn); return b;
+      };
+      const eye = mk(t('顯示', 'Show'), s.visible, () => { s.visible = !s.visible; mini.set(s.key, s.visible ? s.mesh : null); renderStructList(); renderCT(); },
+        t('在切面和 3D 中顯示／隱藏', 'Show or hide in slices and 3D'));
+      const lock = mk(s.locked ? t('🔒 已鎖定', '🔒 Locked') : t('鎖定', 'Lock'), s.locked, () => {
+        s.locked = !s.locked;
+        if (curS() === s) selectStruct(s.id - 1); else renderStructList();
+        fillStructSelect();
+        ctStatus(s.locked ? sName(s) + t('：已鎖定。不能再修改，其他結構也不能長進或畫入它。', ': locked. It can no longer be edited, and other structures cannot grow or be drawn into it.')
+                          : sName(s) + t('：已解除鎖定，可以修改。', ': unlocked and editable again.'));
+      }, t('鎖定後不能再修改，其他結構也不能長進或畫入這個區域', 'Locked: cannot be edited, and other structures cannot grow or be drawn into it'));
+      lock.classList.add('lk'); if (s.locked) row.classList.add('locked');
+      let armed = 0;
+      const del = mk(t('刪除', 'Delete'), false, () => {
+        if (Date.now() > armed) { armed = Date.now() + 3000; del.textContent = t('確定？', 'Sure?'); setTimeout(() => { del.textContent = t('刪除', 'Delete'); }, 3000); return; }
+        for (let i = 0; i < CT.labels.length; i++) if (CT.labels[i] === s.id) CT.labels[i] = 0;
+        resetStruct(s);
+        if (curS() === s) { CT.prev = null; CT.auto = null; CT.hist = []; CT.redo = []; syncHistBtns(); updatePrevInfo(); }
+        refreshStructs([s.id]);
+      }, t('刪除這個結構（再按一次確認）', 'Delete this structure (press again to confirm)'));
+      del.disabled = s.locked;
+      row.append(dotEl, nm, ml, eye, lock, del); box.append(row);
+    });
+  }
+
+  // ---------- 產生網格：開運算去細支 → 保留含種子點的區塊 → 模糊 → Surface Nets → Taubin 平滑 ----------
+  function surfaceNets(G, gx, gy, gz, iso){
+    const pos = [], tri = [], buf = new Int32Array(gx * gy * gz).fill(-1), sY = gx, sZ = gx * gy;
+    const co = [[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [1, 0, 1], [0, 1, 1], [1, 1, 1]];
+    const E = [[0, 1], [2, 3], [4, 5], [6, 7], [0, 2], [1, 3], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]];
+    const coff = co.map(c => c[0] + c[1] * sY + c[2] * sZ), v = new Float32Array(8), axS = [1, sY, sZ];
+    for (let z = 0; z < gz - 1; z++) for (let y = 0; y < gy - 1; y++) for (let x = 0; x < gx - 1; x++) {
+      const ci = x + y * sY + z * sZ; let mask = 0;
+      for (let c = 0; c < 8; c++) { v[c] = G[ci + coff[c]]; if (v[c] > iso) mask |= 1 << c; }
+      if (mask === 0 || mask === 255) continue;
+      let px = 0, py = 0, pz = 0, n = 0;
+      for (let e = 0; e < 12; e++) {
+        const a = E[e][0], b = E[e][1];
+        if (((mask >> a) & 1) === ((mask >> b) & 1)) continue;
+        const tt = (iso - v[a]) / (v[b] - v[a]);
+        px += co[a][0] + tt * (co[b][0] - co[a][0]); py += co[a][1] + tt * (co[b][1] - co[a][1]); pz += co[a][2] + tt * (co[b][2] - co[a][2]); n++;
+      }
+      buf[ci] = pos.length / 3; pos.push(x + px / n, y + py / n, z + pz / n);
+      const xs = [x, y, z];
+      for (let i = 0; i < 3; i++) {
+        if ((mask & 1) === ((mask >> (1 << i)) & 1)) continue;
+        const iu = (i + 1) % 3, iv = (i + 2) % 3;
+        if (!xs[iu] || !xs[iv]) continue;
+        const du = axS[iu], dvv = axS[iv];
+        const A = buf[ci], B = buf[ci - du], C = buf[ci - du - dvv], D = buf[ci - dvv];
+        if (B < 0 || C < 0 || D < 0) continue;
+        if (mask & 1) tri.push(A, B, C, A, C, D); else tri.push(A, C, B, A, D, C);
+      }
+    }
+    return { pos: new Float32Array(pos), tri: new Uint32Array(tri) };
+  }
+  function taubin(P, T, iters){
+    const n = P.length / 3, S = new Float32Array(P.length), C = new Float32Array(n);
+    for (let i = 0; i < T.length; i += 3) { C[T[i]] += 2; C[T[i + 1]] += 2; C[T[i + 2]] += 2; }
+    for (let it = 0; it < iters; it++) for (const f of [0.5, -0.53]) {
+      S.fill(0);
+      for (let i = 0; i < T.length; i += 3) {
+        const a = T[i] * 3, b = T[i + 1] * 3, c = T[i + 2] * 3;
+        for (let k = 0; k < 3; k++) { S[a+k] += P[b+k] + P[c+k]; S[b+k] += P[a+k] + P[c+k]; S[c+k] += P[a+k] + P[b+k]; }
+      }
+      for (let v = 0; v < n; v++) if (C[v]) for (let k = 0; k < 3; k++) P[v*3+k] += f * (S[v*3+k] / C[v] - P[v*3+k]);
+    }
+  }
+  function morph(B, bx, by, bz, erode){
+    const out = new Uint8Array(B.length), sY = bx, sZ = bx * by;
+    for (let z = 0; z < bz; z++) for (let y = 0; y < by; y++) for (let x = 0; x < bx; x++) {
+      const i = x + y * sY + z * sZ;
+      const n6 = [x > 0 ? B[i - 1] : 0, x < bx - 1 ? B[i + 1] : 0, y > 0 ? B[i - sY] : 0, y < by - 1 ? B[i + sY] : 0, z > 0 ? B[i - sZ] : 0, z < bz - 1 ? B[i + sZ] : 0];
+      out[i] = erode ? (B[i] && n6.every(Boolean) ? 1 : 0) : (B[i] || n6.some(Boolean) ? 1 : 0);
+    }
+    return out;
+  }
+  function keepComponents(B, bx, by, bz, seeds){
+    const lab = new Int32Array(B.length), q = new Int32Array(B.length), sY = bx, sZ = bx * by, sizes = [0];
+    let best = 0, bestSize = 0, id = 0;
+    for (let s = 0; s < B.length; s++) {
+      if (!B[s] || lab[s]) continue;
+      id++; let h = 0, tl = 0; q[tl++] = s; lab[s] = id;
+      while (h < tl) {
+        const i = q[h++], x = i % bx, y = ((i / bx) | 0) % by, z = (i / sZ) | 0;
+        const nbr = [x > 0 ? i - 1 : -1, x < bx - 1 ? i + 1 : -1, y > 0 ? i - sY : -1, y < by - 1 ? i + sY : -1, z > 0 ? i - sZ : -1, z < bz - 1 ? i + sZ : -1];
+        for (const j of nbr) if (j >= 0 && B[j] && !lab[j]) { lab[j] = id; q[tl++] = j; }
+      }
+      sizes.push(tl);
+      if (tl > bestSize) { bestSize = tl; best = id; }
+    }
+    // 保留含有這個心腔種子點的連通區；種子點附近被侵蝕掉時往外找 3 格
+    const keep = new Set();
+    (seeds || []).forEach(([x, y, z]) => {
+      for (let r = 0; r <= 3; r++) {
+        let hit = 0;
+        for (let dz = -r; dz <= r && !hit; dz++) for (let dy = -r; dy <= r && !hit; dy++) for (let dx = -r; dx <= r && !hit; dx++) {
+          const X = x + dx, Y = y + dy, Z = z + dz;
+          if (X < 0 || Y < 0 || Z < 0 || X >= bx || Y >= by || Z >= bz) continue;
+          hit = lab[X + Y * sY + Z * sZ];
+        }
+        if (hit) { keep.add(hit); break; }
+      }
+    });
+    if (!keep.size) keep.add(best);
+    for (let i = 0; i < B.length; i++) B[i] = keep.has(lab[i]) ? 1 : 0;
+  }
+  function blur(F, bx, by, bz){
+    const tmp = new Float32Array(F.length), st = [1, bx, bx * by], dims = [bx, by, bz];
+    for (let a = 0; a < 3; a++) {
+      const s = st[a];
+      for (let i = 0; i < F.length; i++) {
+        const c = a === 0 ? i % bx : a === 1 ? ((i / bx) | 0) % by : (i / (bx * by)) | 0;
+        tmp[i] = 0.5 * F[i] + 0.25 * (c > 0 ? F[i - s] : F[i]) + 0.25 * (c < dims[a] - 1 ? F[i + s] : F[i]);
+      }
+      F.set(tmp);
+    }
+  }
+  function meshStruct(st, targetMM, open){
+    const { nx, ny, nz, labels } = CT, sxy = nx * ny;
+    let x0 = nx, y0 = ny, z0 = nz, x1 = -1, y1 = -1, z1 = -1;
+    for (let z = 0; z < nz; z++) for (let y = 0; y < ny; y++) { const r = z * sxy + y * nx; for (let x = 0; x < nx; x++) if (labels[r + x] === st.id) {
+      if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; if (z < z0) z0 = z; if (z > z1) z1 = z; } }
+    if (x1 < 0) return null;
+    const pad = 3; x0 -= pad; y0 -= pad; z0 -= pad; x1 += pad; y1 += pad; z1 += pad;
+    const bx = x1 - x0 + 1, by = y1 - y0 + 1, bz = z1 - z0 + 1;
+    let B = new Uint8Array(bx * by * bz);
+    for (let z = 0; z < bz; z++) for (let y = 0; y < by; y++) for (let x = 0; x < bx; x++) {
+      const X = x + x0, Y = y + y0, Z = z + z0;
+      if (X < 0 || Y < 0 || Z < 0 || X >= nx || Y >= ny || Z >= nz) continue;
+      if (labels[Z * sxy + Y * nx + X] === st.id) B[x + y * bx + z * bx * by] = 1;
+    }
+    const vmm = (vlen(CT.ex) + vlen(CT.ey) + vlen(CT.ez)) / 3, B0 = B.slice();
+    const seedsIn = (st.seeds || []).map(sd => [sd[0] - x0, sd[1] - y0, sd[2] - z0]);
+    if (open) {
+      const r = Math.max(1, Math.round(1.5 / vmm));
+      for (let k = 0; k < r; k++) B = morph(B, bx, by, bz, true);
+      keepComponents(B, bx, by, bz, seedsIn);
+      for (let k = 0; k < r; k++) B = morph(B, bx, by, bz, false);
+      for (let i = 0; i < B.length; i++) if (!B0[i]) B[i] = 0;          // 不超出原本的範圍
+    } else keepComponents(B, bx, by, bz, seedsIn);
+    const F = new Float32Array(B.length);
+    for (let i = 0; i < B.length; i++) F[i] = B[i];
+    blur(F, bx, by, bz); blur(F, bx, by, bz);
+    const s = Math.max(1, Math.round(targetMM / vmm));
+    const gx = Math.floor((bx - 1) / s) + 1, gy = Math.floor((by - 1) / s) + 1, gz = Math.floor((bz - 1) / s) + 1;
+    const G = new Float32Array(gx * gy * gz);
+    for (let z = 0; z < gz; z++) for (let y = 0; y < gy; y++) for (let x = 0; x < gx; x++) G[x + y * gx + z * gx * gy] = F[x * s + y * s * bx + z * s * bx * by];
+    const m = surfaceNets(G, gx, gy, gz, 0.5);
+    if (!m.tri.length) return null;
+    const P = m.pos;
+    for (let i = 0; i < P.length; i += 3) {
+      const vx = x0 + P[i] * s, vy = y0 + P[i + 1] * s, vz = z0 + P[i + 2] * s;
+      for (let k = 0; k < 3; k++) P[i + k] = CT.o[k] + CT.ex[k] * vx + CT.ey[k] * vy + CT.ez[k] * vz;
+    }
+    taubin(P, m.tri, 10);
+    let vol6 = 0;
+    for (let i = 0; i < m.tri.length; i += 3) {
+      const a = m.tri[i] * 3, b = m.tri[i + 1] * 3, c = m.tri[i + 2] * 3;
+      vol6 += P[a] * (P[b + 1] * P[c + 2] - P[b + 2] * P[c + 1]) - P[a + 1] * (P[b] * P[c + 2] - P[b + 2] * P[c]) + P[a + 2] * (P[b] * P[c + 1] - P[b + 1] * P[c]);
+    }
+    if (vol6 < 0) for (let i = 0; i < m.tri.length; i += 3) { const tmp = m.tri[i + 1]; m.tri[i + 1] = m.tri[i + 2]; m.tri[i + 2] = tmp; }
+    const name = st.key + '_CT';
+    return { name, rawName: name, rawColor: st.color.slice(1), rgb: st.rgb.slice(), pos: P, tri: m.tri, base: 1,
+             rawVerts: null, rawNormals: null, rawPolys: null, maps: [], mapIdx: -1 };
+  }
+  const xmlEsc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const dDate = s => /^\d{8}/.test(s || '') ? s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8) : '';
+  const dTime = s => { const m = /^(\d{2})(\d{2})(\d{2})?/.exec(s || ''); return m ? m[1] + ':' + m[2] + ':' + (m[3] || '00') : ''; };
+  function ctHeader(){
+    const h = CT.meta || {}, d = new Date(), p2 = n => String(n).padStart(2, '0');
+    const sd = d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()), st = p2(d.getHours()) + ':' + p2(d.getMinutes()) + ':' + p2(d.getSeconds());
+    const I = '        ';
+    return '<DIFHeader>\r\n' + [
+      ['Version', 'SJM_DIF_5.0'], ['VendorVersion', 'DIF-Viewer ' + APPVER], ['PatientName', h.pname], ['PatientID', h.pid],
+      ['PatientBirthDate', dDate(h.pbirth)], ['PatientGender', h.psex], ['StudyID', h.studyId], ['SeriesNumber', h.seriesNum],
+      ['StudyDate', dDate(h.studyDate)], ['StudyTime', dTime(h.studyTime)], ['SeriesDate', dDate(h.seriesDate)], ['SeriesTime', dTime(h.seriesTime)],
+      ['Modality', h.modality || 'CT'], ['RefPhysName', h.refPhys], ['StudyDesc', h.studyDesc], ['SeriesDesc', h.seriesDesc],
+      ['OperatorName', ''], ['OperatorComments', 'DIF Viewer CT reconstruction'], ['SegmentationDate', sd], ['SegmentationTime', st]
+    ].map(([k, v]) => I + '<' + k + '>' + xmlEsc(v) + '</' + k + '>').join('\r\n') + '\r\n    </DIFHeader>';
+  }
+  async function finishCT(){
+    const target = +$('ctres').value, open = $('ctopen').checked, out = [];
+    for (const s of STRUCTS) {
+      if (!s.count || !s.visible) continue;
+      ctStatus(t('產生 3D 模型：', 'Building 3D model: ') + sName(s) + '…'); await tick();
+      const v = meshStruct(s, target, open); if (v) out.push(v);
+    }
+    if (!out.length) { ctStatus(t('還沒有任何結構。', 'No structures defined yet.')); return; }
+    const newDoc = { header: ctHeader(), version: 'SJM_DIF_5.0', vendor: 'DIF-Viewer ' + APPVER, luts: {},
+                     colorMapsRaw: null, labelsRaw: null, objectMapRaw: null };
+    installScene(out, newDoc, CT.name + '_CTmodel', []);
+    setAppMode('3d');
+    const tv = out.reduce((n, v) => n + v.pos.length / 3, 0);
+    $('msg').textContent = t('已從 CT 產生 ' + out.length + ' 個結構（共 ' + tv.toLocaleString() + ' 點）。按「EnSite DIF 5.0」匯出。',
+      'Built ' + out.length + ' structures from CT (' + tv.toLocaleString() + ' points). Use “EnSite DIF 5.0” to export.');
+    ctStatus('');
+  }
+  $('ctfinish').addEventListener('click', finishCT);
+
+  // ---------- CT 頁的小 3D 視窗（獨立的 WebGL） ----------
+  const mini = (() => {
+    const cv = $('ct3d'), g = cv.getContext('webgl', { antialias: true, alpha: false }), meshes = new Map();
+    let R = AP.slice(), dist = 300, center = [0, 0, 0], radius = 100, prog, L = {}, need = true;
+    if (g) {
+      const sh = (ty, src) => { const s = g.createShader(ty); g.shaderSource(s, src); g.compileShader(s); return s; };
+      prog = g.createProgram();
+      g.attachShader(prog, sh(g.VERTEX_SHADER, 'attribute vec3 aP;attribute vec3 aN;uniform mat4 uM;uniform mat4 uR;varying vec3 vN;void main(){vN=mat3(uR)*aN;gl_Position=uM*vec4(aP,1.0);}'));
+      g.attachShader(prog, sh(g.FRAGMENT_SHADER, 'precision mediump float;uniform vec3 uC;uniform float uF;varying vec3 vN;void main(){float d=abs(normalize(vN).z);gl_FragColor=vec4(mix(uC*(0.35+0.65*d),uC,uF),1.0);}'));
+      g.linkProgram(prog); g.useProgram(prog);
+      ['uM', 'uR', 'uC', 'uF'].forEach(n => { L[n] = g.getUniformLocation(prog, n); });
+      L.aP = g.getAttribLocation(prog, 'aP'); L.aN = g.getAttribLocation(prog, 'aN');
+      g.enable(g.DEPTH_TEST);
+    }
+    // ---- XYZ 軸線：通過 CT 十字線交點，方向＝CT 的三個軸（和切面上的十字線一一對應）----
+    const axBuf = g ? g.createBuffer() : null, axNrm = g ? g.createBuffer() : null;
+    const axLab = document.createElement('div'); axLab.className = 'axlab'; cv.parentNode.append(axLab);
+    const legend = document.createElement('div'); legend.className = 'axleg'; cv.parentNode.append(legend);
+    let axEnds = [], lastM = null, hoverAx = -1;
+    const scr = (M, w, h, x, y, z) => { const cw = M[3] * x + M[7] * y + M[11] * z + M[15]; if (cw <= 0) return null;
+      return [((M[0] * x + M[4] * y + M[8] * z + M[12]) / cw * 0.5 + 0.5) * w, (0.5 - (M[1] * x + M[5] * y + M[9] * z + M[13]) / cw * 0.5) * h]; };
+    // 游標附近的軸線（畫面上 8 px 內）
+    function hitAxis(cx, cy){
+      if (!lastM || !CT.vol || !$('axshow').checked) return null;
+      const b = cv.getBoundingClientRect(), mx = cx - b.left, my = cy - b.top, { M, w, h } = lastM;
+      let best = null, bd = 9;
+      for (let a = 0; a < 3; a++) {
+        const A = scr(M, w, h, ...axEnds[a * 2].p), B = scr(M, w, h, ...axEnds[a * 2 + 1].p); if (!A || !B) continue;
+        const dx = B[0] - A[0], dy = B[1] - A[1], L2 = dx * dx + dy * dy; if (L2 < 4) continue;
+        const tt = Math.max(0, Math.min(1, ((mx - A[0]) * dx + (my - A[1]) * dy) / L2));
+        const d = Math.hypot(A[0] + dx * tt - mx, A[1] + dy * tt - my);
+        if (d < bd) { bd = d; best = { a, A, B, L2, dx, dy }; }
+      }
+      return best;
+    }
+    function dragAxis(H, cx, cy){
+      const b = cv.getBoundingClientRect(), mx = cx - b.left, my = cy - b.top;
+      const tt = Math.max(0, Math.min(1, ((mx - H.A[0]) * H.dx + (my - H.A[1]) * H.dy) / H.L2)), n = [CT.nx, CT.ny, CT.nz][H.a];
+      const v = Math.round(tt * (n - 1)); if (v !== CT.pos[H.a]) { CT.pos[H.a] = v; renderCT(); }
+    }
+    const vox = (i, j, k) => [0, 1, 2].map(a => CT.o[a] + CT.ex[a] * i + CT.ey[a] * j + CT.ez[a] * k);
+    const dirName = d => { const a = [0, 1, 2].reduce((b, q) => Math.abs(d[q]) > Math.abs(d[b]) ? q : b, 0); return [['R', 'L'], ['A', 'P'], ['I', 'S']][a][d[a] > 0 ? 1 : 0]; };
+    function axisGeom(){
+      if (!CT.vol) return null;
+      const p = CT.pos, n = [CT.nx - 1, CT.ny - 1, CT.nz - 1], P = [];
+      axEnds = [];
+      for (let a = 0; a < 3; a++) {
+        const s = p.slice(), e = p.slice(); s[a] = 0; e[a] = n[a];
+        const A = vox(...s), B = vox(...e); P.push(...A, ...B);
+        const d = sub(B, A); axEnds.push({ a, p: A, name: dirName(scl(d, -1)) }, { a, p: B, name: dirName(d) });
+      }
+      return new Float32Array(P);
+    }
+    function drawAxes(M, w, h){
+      const P = axisGeom(); if (!P) { axLab.textContent = ''; return; }
+      g.uniform1f(L.uF, 1);
+      g.bindBuffer(g.ARRAY_BUFFER, axBuf); g.bufferData(g.ARRAY_BUFFER, P, g.DYNAMIC_DRAW); g.enableVertexAttribArray(L.aP); g.vertexAttribPointer(L.aP, 3, g.FLOAT, false, 0, 0);
+      g.bindBuffer(g.ARRAY_BUFFER, axNrm); g.bufferData(g.ARRAY_BUFFER, new Float32Array(18).fill(1), g.DYNAMIC_DRAW); g.enableVertexAttribArray(L.aN); g.vertexAttribPointer(L.aN, 3, g.FLOAT, false, 0, 0);
+      // 先畫被模型擋住的部分（淡），再畫看得到的部分（亮）
+      lastM = { M, w, h };
+      for (const pass of [0, 1]) {
+        if (pass === 0) g.disable(g.DEPTH_TEST); else g.enable(g.DEPTH_TEST);
+        for (let a = 0; a < 3; a++) {
+          const c = a === hoverAx ? [1, 1, 1] : hex2rgb(AXC[a]).map(v => v / 255 * (pass ? 1 : 0.45));
+          g.uniform3f(L.uC, c[0], c[1], c[2]); g.drawArrays(g.LINES, a * 2, 2);
+        }
+      }
+      g.uniform1f(L.uF, 0);
+      axLab.textContent = '';
+      axEnds.forEach(E => {
+        const q = scr(M, w, h, ...E.p); if (!q) return;
+        const s = document.createElement('span'); s.textContent = E.name; s.style.left = q[0] + 'px'; s.style.top = q[1] + 'px'; s.style.color = AXC[E.a];
+        if (E.a === hoverAx) s.className = 'hot'; axLab.append(s);
+      });
+      const c0 = scr(M, w, h, ...vox(...CT.pos));                      // 十字線交點
+      if (c0) { const d = document.createElement('i'); d.style.left = c0[0] + 'px'; d.style.top = c0[1] + 'px'; axLab.append(d); }
+    }
+    function fitAll(){
+      const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
+      meshes.forEach(m => { for (let i = 0; i < m.src.pos.length; i += 3) for (let a = 0; a < 3; a++) { lo[a] = Math.min(lo[a], m.src.pos[i + a]); hi[a] = Math.max(hi[a], m.src.pos[i + a]); } });
+      if (!meshes.size && CT.vol) for (const c of [[0, 0, 0], [CT.nx - 1, CT.ny - 1, CT.nz - 1]]) { const q = vox(...c); for (let a = 0; a < 3; a++) { lo[a] = Math.min(lo[a], q[a]); hi[a] = Math.max(hi[a], q[a]); } }
+      if (!isFinite(lo[0])) return;
+      center = [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2];
+      radius = Math.max(Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]) / 2, 10); dist = radius * 3.2;
+    }
+    function set(key, src){
+      const old = meshes.get(key);
+      if (old && g) { g.deleteBuffer(old.bp); g.deleteBuffer(old.bn); }
+      meshes.delete(key);
+      if (src && g) {
+        const nrm = vertexNormals(src), T = src.tri, P = new Float32Array(T.length * 3), Nn = new Float32Array(T.length * 3);
+        for (let k = 0; k < T.length; k++) { const s = T[k] * 3; P.set([src.pos[s], src.pos[s + 1], src.pos[s + 2]], k * 3); Nn.set([nrm[s], nrm[s + 1], nrm[s + 2]], k * 3); }
+        const bp = g.createBuffer(); g.bindBuffer(g.ARRAY_BUFFER, bp); g.bufferData(g.ARRAY_BUFFER, P, g.STATIC_DRAW);
+        const bn = g.createBuffer(); g.bindBuffer(g.ARRAY_BUFFER, bn); g.bufferData(g.ARRAY_BUFFER, Nn, g.STATIC_DRAW);
+        meshes.set(key, { bp, bn, n: T.length, rgb: src.rgb, src });
+      }
+      if (!old || !meshes.size) fitAll();               // 同一個結構重新生成時不移動鏡頭
+      need = true;
+    }
+    function draw(){
+      requestAnimationFrame(draw);
+      if (!g || $('ctpane').hidden) return;
+      const dpr = window.devicePixelRatio || 1, w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr);
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; need = true; }
+      if (!need || !w || !h) return; need = false;
+      g.viewport(0, 0, w, h); g.clearColor(0, 0, 0, 1); g.clear(g.COLOR_BUFFER_BIT | g.DEPTH_BUFFER_BIT);
+      const V = mul(trans(0, 0, -dist), mul(R, trans(-center[0], -center[1], -center[2])));
+      const MVP = mul(persp(w / h, Math.max(dist - radius * 3, 1), dist + radius * 3), V);
+      g.uniformMatrix4fv(L.uM, false, new Float32Array(MVP)); g.uniform1f(L.uF, 0);
+      g.uniformMatrix4fv(L.uR, false, new Float32Array(R));
+      meshes.forEach(m => {
+        g.uniform3f(L.uC, m.rgb[0] / 255, m.rgb[1] / 255, m.rgb[2] / 255);
+        g.bindBuffer(g.ARRAY_BUFFER, m.bp); g.enableVertexAttribArray(L.aP); g.vertexAttribPointer(L.aP, 3, g.FLOAT, false, 0, 0);
+        g.bindBuffer(g.ARRAY_BUFFER, m.bn); g.enableVertexAttribArray(L.aN); g.vertexAttribPointer(L.aN, 3, g.FLOAT, false, 0, 0);
+        g.drawArrays(g.TRIANGLES, 0, m.n);
+      });
+      if ($('axshow').checked) drawAxes(MVP, cv.clientWidth, cv.clientHeight); else axLab.textContent = '';
+      legend.hidden = !$('axshow').checked || !CT.vol;
+      legend.innerHTML = '<b style="color:' + AXC[0] + '">X</b> ' + t('左右', 'R–L') + '　<b style="color:' + AXC[1] + '">Y</b> ' + t('前後', 'A–P') + '　<b style="color:' + AXC[2] + '">Z</b> ' + t('上下', 'S–I') + '<br>' + t('拖曳軸線＝移動切面　雙擊模型＝CT 跳到該點', 'Drag an axis = move the slice · Double-click the model = jump there');
+      $('ct3dname').textContent = meshes.size ? viewName(R) : t('按「生成 3D Geometry」後會在這裡顯示', 'Generated structures appear here in 3D');
+    }
+    requestAnimationFrame(draw);
+    // ---- 在 3D 模型上擦除：把頂點投影到畫面，找游標附近最前面的那個點 ----
+    function viewMats(){
+      const w = cv.clientWidth, h = cv.clientHeight;
+      const V = mul(trans(0, 0, -dist), mul(R, trans(-center[0], -center[1], -center[2])));
+      return { w, h, V, M: mul(persp(w / h, Math.max(dist - radius * 3, 1), dist + radius * 3), V) };
+    }
+    function pick(key, cx, cy){
+      const m = meshes.get(key); if (!m) return null;
+      const { w, h, V, M } = viewMats(), P = m.src.pos, b = cv.getBoundingClientRect(), mx = cx - b.left, my = cy - b.top;
+      let best = -1, bz = Infinity, near = Infinity, nearI = -1;
+      for (let i = 0; i < P.length; i += 3) {
+        if (m.dead && m.dead[i / 3]) continue;
+        const x = P[i], y = P[i + 1], z = P[i + 2];
+        const cw = M[3] * x + M[7] * y + M[11] * z + M[15]; if (cw <= 0) continue;
+        const sx = ((M[0] * x + M[4] * y + M[8] * z + M[12]) / cw * 0.5 + 0.5) * w, sy = (0.5 - (M[1] * x + M[5] * y + M[9] * z + M[13]) / cw * 0.5) * h;
+        const d = Math.hypot(sx - mx, sy - my), zz = (M[2] * x + M[6] * y + M[10] * z + M[14]) / cw;
+        if (d < 5 && zz < bz) { bz = zz; best = i; }
+        if (d < near) { near = d; nearI = i; }
+      }
+      if (best < 0 && near < 14) best = nearI;
+      if (best < 0) return null;
+      const p = [P[best], P[best + 1], P[best + 2]], zv = -(V[2] * p[0] + V[6] * p[1] + V[10] * p[2] + V[14]);
+      return { p, z: zv, pxPerMM: h / 2 / (TAN * zv) };
+    }
+    function killNear(key, p, r){                              // 立即把擦掉的那塊從畫面拿掉（放開滑鼠後會重新生成）
+      const m = meshes.get(key); if (!m) return;
+      const P = m.src.pos, T = m.src.tri; if (!m.dead) m.dead = new Uint8Array(P.length / 3);
+      for (let i = 0; i < P.length; i += 3) if (Math.hypot(P[i] - p[0], P[i + 1] - p[1], P[i + 2] - p[2]) < r) m.dead[i / 3] = 1;
+      const keep = []; for (let k = 0; k < T.length; k += 3) if (!m.dead[T[k]] && !m.dead[T[k + 1]] && !m.dead[T[k + 2]]) keep.push(T[k], T[k + 1], T[k + 2]);
+      const nrm = vertexNormals(m.src), Pp = new Float32Array(keep.length * 3), Nn = new Float32Array(keep.length * 3);
+      for (let k = 0; k < keep.length; k++) { const s = keep[k] * 3; Pp[k * 3] = P[s]; Pp[k * 3 + 1] = P[s + 1]; Pp[k * 3 + 2] = P[s + 2]; Nn[k * 3] = nrm[s]; Nn[k * 3 + 1] = nrm[s + 1]; Nn[k * 3 + 2] = nrm[s + 2]; }
+      g.bindBuffer(g.ARRAY_BUFFER, m.bp); g.bufferData(g.ARRAY_BUFFER, Pp, g.STATIC_DRAW);
+      g.bindBuffer(g.ARRAY_BUFFER, m.bn); g.bufferData(g.ARRAY_BUFFER, Nn, g.STATIC_DRAW);
+      m.n = keep.length; need = true;
+    }
+    const ring = document.createElement('div'); ring.className = 'ring3d'; ring.hidden = true; cv.parentNode.append(ring);
+    function showRing(e, hit){
+      const b = cv.getBoundingClientRect(), r = +$('brushr').value * (hit ? hit.pxPerMM : radius ? cv.clientHeight / 2 / (TAN * dist) : 1);
+      ring.hidden = false; ring.style.left = (e.clientX - b.left) + 'px'; ring.style.top = (e.clientY - b.top) + 'px';
+      ring.style.width = ring.style.height = 2 * r + 'px';
+      ring.dataset.mm = t('擦除 ', 'Erase ') + $('brushr').value + ' mm';
+      ring.classList.toggle('miss', !hit);
+    }
+    let drag = null, lastKill = 0;
+    const eraseOn = () => CT.mode === 'erase' && !curS().locked && meshes.has(curS().key);
+    function dab(e){
+      const S = curS(), hit = pick(S.key, e.clientX, e.clientY); showRing(e, hit);
+      if (!hit || !drag || !drag.erase) return;
+      const d = sub(hit.p, CT.o), ijk = [CT.ex, CT.ey, CT.ez].map(a => dot(d, a) / dot(a, a));
+      brushAt(ijk, false); drag.n++;
+      const now = performance.now(); if (now - lastKill > 40) { lastKill = now; killNear(S.key, hit.p, +$('brushr').value); }
+    }
+    cv.addEventListener('contextmenu', e => e.preventDefault());
+    cv.addEventListener('dblclick', e => {                       // 雙擊模型：CT 三個切面跳到那一點
+      let hit = null; for (const k of meshes.keys()) { const hh = pick(k, e.clientX, e.clientY); if (hh && (!hit || hh.z < hit.z)) hit = hh; }
+      if (!hit) return;
+      const d = sub(hit.p, CT.o), n = [CT.nx, CT.ny, CT.nz];
+      CT.pos = [CT.ex, CT.ey, CT.ez].map((a, q) => Math.max(0, Math.min(n[q] - 1, Math.round(dot(d, a) / dot(a, a)))));
+      renderCT();
+    });
+    cv.addEventListener('pointerdown', e => {
+      cv.setPointerCapture(e.pointerId);
+      const H = e.button === 0 && hitAxis(e.clientX, e.clientY);
+      if (H) { drag = { axis: H }; hoverAx = H.a; dragAxis(H, e.clientX, e.clientY); need = true; return; }
+      if (e.button === 0 && eraseOn() && !CT.busy) { snapshot(true); drag = { erase: true, n: 0 }; dab(e); return; }
+      drag = { x: e.clientX, y: e.clientY };
+    });
+    cv.addEventListener('pointermove', e => {
+      if (drag && drag.axis) { dragAxis(drag.axis, e.clientX, e.clientY); return; }
+      if (!drag) {
+        const H = hitAxis(e.clientX, e.clientY), ha = H ? H.a : -1;
+        if (ha !== hoverAx) { hoverAx = ha; need = true; }
+        if (H) { cv.style.cursor = 'grab'; ring.hidden = true; cv.title = t('拖曳軸線：CT 切面跟著移動', 'Drag the axis: the CT slices follow'); return; }
+        cv.title = t('拖曳：旋轉　雙擊模型：CT 跳到該點', 'Drag: rotate · Double-click the model: jump the CT there');
+      }
+      if (eraseOn()) { cv.style.cursor = 'none'; if (!drag || drag.erase) dab(e); } else { ring.hidden = true; cv.style.cursor = drag ? 'grabbing' : ''; }
+      if (!drag || drag.erase) return;
+      R = mul(mul(rotX((e.clientY - drag.y) * 0.008), rotY((e.clientX - drag.x) * 0.008)), R);
+      drag = { x: e.clientX, y: e.clientY }; need = true;
+    });
+    cv.addEventListener('pointerleave', () => { if (!drag) { ring.hidden = true; if (hoverAx >= 0) { hoverAx = -1; need = true; } } });
+    ['pointerup', 'pointercancel'].forEach(n => cv.addEventListener(n, () => {
+      const d = drag; drag = null;
+      if (d && d.axis) { hoverAx = -1; need = true; return; }
+      if (d && d.erase) { if (d.n) { updatePrevInfo(); renderCT(); generate(); } else { CT.hist.pop(); syncHistBtns(); } }
+    }));
+    cv.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(Math.max(dist * Math.exp(e.deltaY * 0.0012), radius * 0.3), radius * 20); need = true; }, { passive: false });
+    document.querySelectorAll('#ct3dviews button').forEach(b => b.addEventListener('click', () => { R = mul(VIEWS[b.dataset.v], AP); need = true; }));
+    $('axshow').addEventListener('change', () => { need = true; });
+    return { set, clear(){ [...meshes.keys()].forEach(k => set(k, null)); fitAll(); }, redraw(){ need = true; } };
+  })();
+
+  // ---------- 開啟 CT ----------
+  async function openSeries(gi){
+    try { await buildVolume(CT.groups[gi]); }
+    catch (err) { ctStatus(err instanceof RangeError ? t('記憶體不足，CT 太大。', 'Not enough memory; the CT is too large.') : err.message); return; }
+    smoothVolume();
+    CT.labels = new Uint8Array(CT.vol.length); CT.hist = []; CT.redo = []; CT.sel = 0; CT.prev = null; CT.auto = null; CT.job++; CT.mode = 'seed'; CT.seedHU = null;
+    STRUCTS.forEach(resetStruct);
+    mini.clear();
+    $('ctempty').hidden = true; $('ctbody').hidden = false; $('ctseries').value = String(gi);
+    const mx = vlen(CT.ex), my = vlen(CT.ey), mz = vlen(CT.ez), g = CT.groups[gi];
+    $('ctdesc').textContent = CT.meta.seriesDesc || CT.meta.studyDesc || 'CT';
+    $('ctinfo').textContent = CT.nx + ' × ' + CT.ny + ' × ' + CT.nz + t('　體素 ', ' · voxel ') + mx.toFixed(2) + ' × ' + my.toFixed(2) + ' × ' + mz.toFixed(2) + ' mm' +
+      (CT.f > 1 || CT.fz > 1 ? t('（已降採樣）', ' (downsampled)') : '') +
+      (CT.dup ? '\n' + t('這個序列含多個時相，只取第一組。', 'This series has several phases; only the first is used.') : '');
+    fillStructSelect(); syncSteps(); syncHistBtns(); updatePrevInfo(); renderStructList();
+    ctStatus(t('讀取完成：' + g.uniq + ' 層。先選結構，再在切面上點它的正中間，範圍會自動用顏色圈出來。', 'Loaded ' + g.uniq + ' slices. Pick a structure and click the middle of it on a slice; its region is outlined in colour.'));
+    renderCT(); mini.redraw();
+  }
+  async function loadCTFiles(files){
+    setAppMode('ct');
+    $('ctempty').hidden = true;
+    ctStatus(t('讀取 DICOM 標頭…', 'Reading DICOM headers…')); await tick();
+    const heads = await readHeaders(files);
+    const groups = groupSeries(heads);
+    if (!groups.length) {
+      $('ctempty').hidden = !!CT.vol;
+      ctStatus(t('找不到可用的 CT 序列（同一序列至少要 8 張切片）。', 'No usable CT series found (at least 8 slices of one series are needed).'));
+      return;
+    }
+    CT.groups = groups;
+    const base0 = (files[0] && (files[0].webkitRelativePath || files[0].name) || 'CT').split('/')[0];
+    CT.name = base0.replace(/\.[^.]+$/, '') || 'CT';
+    const sel = $('ctseries'); sel.textContent = '';
+    groups.forEach((g, i) => sel.add(new Option((g[0].seriesNum ? '#' + g[0].seriesNum + ' ' : '') + (g[0].seriesDesc || g[0].modality || 'Series') + ' · ' + g.uniq + t(' 層', ' slices') + (g.length > g.uniq ? t('（' + Math.round(g.length / g.uniq) + ' 個時相）', ' (' + Math.round(g.length / g.uniq) + ' phases)') : ''), String(i))));
+    sel.hidden = groups.length < 2;
+    await openSeries(0);
+  }
+  $('ctfile').addEventListener('change', e => { const f = [...e.target.files]; e.target.value = ''; if (f.length) loadCTFiles(f); });
+
+  function setAppMode(m){
+    const ct = m === 'ct';
+    document.body.classList.toggle('ctmode', ct);
+    $('ctpane').hidden = !ct;
+    $('m3d').classList.toggle('on', !ct); $('mct').classList.toggle('on', ct);
+    if (ct) { renderCT(); mini.redraw(); } else dirty = true;
+  }
+  $('m3d').addEventListener('click', () => setAppMode('3d'));
+  $('mct').addEventListener('click', () => setAppMode('ct'));
+  if (window.ResizeObserver) new ResizeObserver(() => { if (!$('ctpane').hidden) { renderCT(); mini.redraw(); } }).observe($('ctpane'));
+
   // ---------- 載入 ----------
   function fit(){
     const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
@@ -1239,6 +2674,20 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
     dirty = true;
     return [hi[0]-lo[0], hi[1]-lo[1], hi[2]-lo[2]];
   }
+  function installScene(vols, newDoc, name, warnings){
+    volumes = vols; doc = newDoc; scales = {}; active = null; annots = []; draft = null; undoStack = []; redoStack = [];
+    baseName = name;
+    volumes.forEach(buildBuffers);
+    views.forEach(v => { v.vis = volumes.map(() => true); v.alpha = volumes.map(() => 1); });
+    volumes.forEach(v => { if (v.maps.length) setMap(v, 0); });       // 有 map 的 Volume 先套第一個 map
+    const first = volumes.filter(v => v.mapIdx >= 0)[0];
+    if (first) active = { v: first, mp: first.maps[first.mapIdx] };
+    lastSize = fit();
+    document.body.classList.add('loaded');
+    document.querySelectorAll('#tb button').forEach(b => { b.disabled = false; });
+    $('msg').textContent = (warnings || []).join('\n');
+    syncAnnBtns(); renderList(); refreshBar();
+  }
   function loadFile(f){
     if (!f) return;
     f.text().then(text => {
@@ -1247,17 +2696,8 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
       $('diag').hidden = false;
       $('diagtxt').textContent = 'Version: ' + (r.doc.version || t('(無)', '(none)')) + '\nVendorVersion: ' + (r.doc.vendor || t('(無)', '(none)')) + '\n' + tagSummary(text);
       if (!r.volumes.length) return;
-      volumes = r.volumes; doc = r.doc; scales = {}; active = null; annots = []; draft = null; undoStack = []; redoStack = [];
-      baseName = f.name.replace(/\.[^.]+$/, '');
-      volumes.forEach(buildBuffers);
-      views.forEach(v => { v.vis = volumes.map(() => true); v.alpha = volumes.map(() => 1); });
-      volumes.forEach(v => { if (v.maps.length) setMap(v, 0); });       // 有 map 的 Volume 先套第一個 map
-      const first = volumes.filter(v => v.mapIdx >= 0)[0];
-      if (first) active = { v: first, mp: first.maps[first.mapIdx] };
-      lastSize = fit();
-      document.body.classList.add('loaded');
-      document.querySelectorAll('#tb button').forEach(b => { b.disabled = false; });
-      syncAnnBtns(); renderList(); refreshBar();
+      installScene(r.volumes, r.doc, f.name.replace(/\.[^.]+$/, ''), r.warnings);
+      setAppMode('3d');
     }).catch(err => { $('msg').textContent = t('讀檔失敗：', 'Could not read the file: ') + err.message; });
   }
 
@@ -1271,7 +2711,17 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
       const row = document.createElement('div'); row.className = 'vol';
       const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = cv.vis[i]; cb.id = 'vol' + i;
       cb.addEventListener('change', () => { targets().forEach(w => { w.vis[i] = cb.checked; }); dirty = true; syncButtons(); });
-      const sw = document.createElement('span'); sw.className = 'sw'; sw.style.background = 'rgb(' + v.rgb.join(',') + ')';
+      // 點色塊改顏色（3D 顯示與匯出都會用新顏色）
+      const sw = document.createElement('label'); sw.className = 'sw pick'; sw.style.background = 'rgb(' + v.rgb.join(',') + ')';
+      sw.title = t('點一下改顏色', 'Click to change colour');
+      const hex = '#' + v.rgb.map(c => c.toString(16).padStart(2, '0')).join('');
+      const ci = document.createElement('input'); ci.type = 'color'; ci.value = hex; ci.setAttribute('aria-label', t('模型顏色', 'Model colour'));
+      ci.addEventListener('input', () => {
+        const rgb = hexToRgb(ci.value); if (!rgb) return;
+        v.rgb = rgb; v.rawColor = (/^#/.test(v.rawColor || '') ? '#' : '') + ci.value.slice(1).toUpperCase();
+        sw.style.background = ci.value; dirty = true;
+      });
+      sw.append(ci);
       const name = document.createElement('label'); name.className = 'nm'; name.htmlFor = cb.id; name.textContent = v.name;
       const ct = document.createElement('span'); ct.className = 'ct';
       ct.textContent = (v.pos.length / 3).toLocaleString() + t(' 點\n', ' pts\n') + (v.tri.length / 3).toLocaleString() + t(' 面', ' faces');
@@ -1375,6 +2825,7 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
     $('langbtn').setAttribute('aria-label', lang === 'en' ? '切換成中文' : 'Switch to English');
     setTool(tool); updateTarget();
     if (volumes.length) renderList();
+    if (CT.vol) { fillStructSelect(); syncSteps(); renderStructList(); renderCT(); }
     dirty = true;
   }
   $('langbtn').addEventListener('click', () => {
@@ -1387,7 +2838,24 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
   $('file').addEventListener('change', e => { loadFile(e.target.files[0]); e.target.value = ''; });
   ['dragenter', 'dragover'].forEach(n => window.addEventListener(n, e => { e.preventDefault(); document.body.classList.add('over'); }));
   ['dragleave', 'drop'].forEach(n => window.addEventListener(n, e => { e.preventDefault(); document.body.classList.remove('over'); }));
-  window.addEventListener('drop', e => { if (e.dataTransfer) loadFile(e.dataTransfer.files[0]); });
+  window.addEventListener('drop', e => {
+    const dt = e.dataTransfer; if (!dt) return;
+    const entries = [...(dt.items || [])].map(i => i.webkitGetAsEntry && i.webkitGetAsEntry()).filter(Boolean);
+    const plain = [...dt.files];
+    const isDif = f => /\.(dif|xml|txt)$/i.test(f.name);
+    if (!entries.some(en => en.isDirectory) && plain.length === 1 && isDif(plain[0])) { loadFile(plain[0]); return; }
+    (async () => {
+      const out = [];
+      const walk = async en => {
+        if (en.isFile) { try { out.push(await new Promise((res, rej) => en.file(res, rej))); } catch (err) {} return; }
+        if (!en.isDirectory) return;
+        const rd = en.createReader(); let batch;
+        do { batch = await new Promise((res, rej) => rd.readEntries(res, rej)); for (const b of batch) await walk(b); } while (batch.length);
+      };
+      if (entries.length) for (const en of entries) await walk(en); else out.push(...plain);
+      if (out.length === 1 && isDif(out[0])) loadFile(out[0]); else if (out.length) loadCTFiles(out);
+    })();
+  });
 })();
 
 </script>
