@@ -1,6 +1,6 @@
 # DIF Viewer & Converter · DIF 檢視轉檔器
 
-**v1.2.0** · Designed by Ron Chen
+**v1.3.0** · Designed by Ron Chen
 
 **Open the tool / 開啟工具：** https://ron55663-bot.github.io/dif-viewer/
 
@@ -28,7 +28,7 @@ Files are processed only in your own browser and are never uploaded.
 | Click a volume's color square to change its color (kept on export) | 點 Volume 的色塊可改顏色，匯出也用新顏色 |
 | 中文 / English switch | 中英切換 |
 
-## CT reconstruction · CT 重組（v1.2.0）
+## CT reconstruction · CT 重組（v1.2.0, v1.3.0）
 
 | English | 中文 |
 |---|---|
@@ -40,12 +40,15 @@ Files are processed only in your own browser and are never uploaded.
 | “Generate 3D Geometry” builds the model; lock a finished structure to keep others out | 按「生成 3D Geometry」產生模型；做好的結構可鎖定，其他結構進不去 |
 | 3D view with draggable XYZ axes linked to the CT crosshair; double-click jumps the CT there | 3D 有可拖曳的 XYZ 軸線，對應 CT 十字線；雙擊模型 CT 跳到該點 |
 | Send to the 3D viewer and export DIF 5.0 for EnSite X | 送到 3D 檢視並匯出 EnSite X 用的 DIF 5.0 |
+| **v1.3.0** Auto-detect LA, AO, RA, LV, RV and esophagus: review the seeds, then segment all at once, with gap filling | **v1.3.0** 自動辨識 LA、AO、RA、LV、RV、食道：先確認種子點，再一次切好，並自動填滿空隙 |
+| **v1.3.0** New layout: vertical tool rail (Pan, Click add, Add / Erase brush), shortcuts, 2×2 or one-big-three-small views, collapsible left column | **v1.3.0** 新版面：左側直排工具（平移、點選加入、加入／擦除筆刷）、快捷鍵、2×2 或一大三小、左欄可收合 |
+| **v1.3.0** Edit several structures, then generate all their 3D models at once | **v1.3.0** 可以連續修好幾個結構，最後一次生成 3D |
 
 ## Use · 使用方式
 
 1. Open the link above in Chrome or Edge. / 用 Chrome 或 Edge 開上面的網址。
-2. Drag a `.dif` file onto the page. / 把 `.dif` 檔拖進頁面。
-3. For CT, press “Open CT (DICOM folder)” and choose the folder; use an arterial-phase series. / CT 請按「開啟 CT（DICOM 資料夾）」選資料夾，請用動脈期序列。
+2. Press “Open file” / “Open folder”, or drag a `.dif` / `.xml` file or a DICOM CT folder onto the page. The type is detected automatically: `.dif` / `.xml` → 3D model, DICOM CT → CT reconstruction. / 按「開啟檔案」「開啟資料夾」，或把 `.dif`／`.xml` 檔、DICOM CT 資料夾拖進頁面；系統自動判斷：`.dif`／`.xml` → 3D 模型，DICOM CT → CT 重組。
+3. For CT, use an arterial-phase series with the whole heart opacified. / CT 請用整顆心臟都有顯影的動脈期序列。
 4. To use offline, download `index.html` and open it directly; no install needed. / 要離線使用，下載 `index.html` 直接開啟即可，不需安裝。
 
 ## Notes · 注意事項
