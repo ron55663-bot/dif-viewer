@@ -2,7 +2,7 @@
 
 # 心模 SeeMo
 
-**v1.5.1** · Designed by Ron Chen
+**v1.5.2** · Designed by Ron Chen
 
 SeeMo (心模, “heart model”; sounds like *see more*) — formerly *DIF Viewer & Converter / DIF 檢視轉檔器*.
 
@@ -30,6 +30,7 @@ Files are processed only in your own browser and are never uploaded.
 | Export: EnSite DIF 5.0, PLY (with colors), STL, VTK | 匯出：EnSite DIF 5.0、PLY（含顏色）、STL、VTK |
 | Optional removal of patient name, ID and birth date on DIF export | 匯出 DIF 時可清空病人姓名、ID、生日 |
 | Click a volume's color square to change its color (kept on export) | 點 Volume 的色塊可改顏色，匯出也用新顏色 |
+| **v1.5.2** Auto-detect: the RA keeps its lower part (tricuspid / coronary sinus side) and the SVC; the aorta no longer takes dense contrast; the side panel opens in 3D mode and hides in CT mode | **v1.5.2** 自動辨識：RA 下半部（三尖瓣、冠狀竇那一側）和 SVC 不再被分給 RV／主動脈；主動脈不收很濃的顯影劑；左欄在 3D 模式自動展開、CT 模式自動收起 |
 | **v1.5.1** Volume list shows each model's volume (ml); fixed the eraser error on measurements | **v1.5.1** 結構清單顯示每個模型的體積（ml）；修正橡皮擦刪除測量線時的錯誤 |
 | **v1.4.0** Measure tool: drag on the model or click two points to show the straight-line distance (mm) | **v1.4.0** 測量工具：在模型上拖曳或點兩點，顯示直線距離（mm） |
 | 中文 / English switch | 中英切換 |
