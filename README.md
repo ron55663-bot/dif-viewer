@@ -1,6 +1,10 @@
-# DIF Viewer & Converter · DIF 檢視轉檔器
+<img src="icons/icon-192.png" width="96" alt="SeeMo icon">
 
-**v1.4.0** · Designed by Ron Chen
+# 心模 SeeMo
+
+**v1.4.1** · Designed by Ron Chen
+
+SeeMo (心模, “heart model”; sounds like *see more*) — formerly *DIF Viewer & Converter / DIF 檢視轉檔器*.
 
 **Open the tool / 開啟工具：** https://ron55663-bot.github.io/dif-viewer/
 
