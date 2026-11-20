@@ -1,6 +1,6 @@
 # DIF Viewer & Converter · DIF 檢視轉檔器
 
-**v1.3.0** · Designed by Ron Chen
+**v1.4.0** · Designed by Ron Chen
 
 **Open the tool / 開啟工具：** https://ron55663-bot.github.io/dif-viewer/
 
@@ -26,6 +26,7 @@ Files are processed only in your own browser and are never uploaded.
 | Export: EnSite DIF 5.0, PLY (with colors), STL, VTK | 匯出：EnSite DIF 5.0、PLY（含顏色）、STL、VTK |
 | Optional removal of patient name, ID and birth date on DIF export | 匯出 DIF 時可清空病人姓名、ID、生日 |
 | Click a volume's color square to change its color (kept on export) | 點 Volume 的色塊可改顏色，匯出也用新顏色 |
+| **v1.4.0** Measure tool: drag on the model or click two points to show the straight-line distance (mm) | **v1.4.0** 測量工具：在模型上拖曳或點兩點，顯示直線距離（mm） |
 | 中文 / English switch | 中英切換 |
 
 ## CT reconstruction · CT 重組（v1.2.0, v1.3.0）
@@ -43,6 +44,7 @@ Files are processed only in your own browser and are never uploaded.
 | **v1.3.0** Auto-detect LA, AO, RA, LV, RV and esophagus: review the seeds, then segment all at once, with gap filling | **v1.3.0** 自動辨識 LA、AO、RA、LV、RV、食道：先確認種子點，再一次切好，並自動填滿空隙 |
 | **v1.3.0** New layout: vertical tool rail (Pan, Click add, Add / Erase brush), shortcuts, 2×2 or one-big-three-small views, collapsible left column | **v1.3.0** 新版面：左側直排工具（平移、點選加入、加入／擦除筆刷）、快捷鍵、2×2 或一大三小、左欄可收合 |
 | **v1.3.0** Edit several structures, then generate all their 3D models at once | **v1.3.0** 可以連續修好幾個結構，最後一次生成 3D |
+| **v1.4.0** Measure on CT slices (drag) and on the 3D view (two points); rename “Other” structures (e.g. SVC, IVC, LAA) | **v1.4.0** 在 CT 切面（拖曳）和 3D（點兩點）上測量；「其他」結構可改名（例如 SVC、IVC、LAA） |
 
 ## Use · 使用方式
 
