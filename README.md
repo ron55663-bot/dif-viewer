@@ -2,7 +2,7 @@
 
 # 心模 SeeMo
 
-**v1.4.1** · Designed by Ron Chen
+**v1.5.0** · Designed by Ron Chen
 
 SeeMo (心模, “heart model”; sounds like *see more*) — formerly *DIF Viewer & Converter / DIF 檢視轉檔器*.
 
@@ -33,7 +33,7 @@ Files are processed only in your own browser and are never uploaded.
 | **v1.4.0** Measure tool: drag on the model or click two points to show the straight-line distance (mm) | **v1.4.0** 測量工具：在模型上拖曳或點兩點，顯示直線距離（mm） |
 | 中文 / English switch | 中英切換 |
 
-## CT reconstruction · CT 重組（v1.2.0, v1.3.0）
+## CT reconstruction · CT 重組（v1.2.0 – v1.5.0）
 
 | English | 中文 |
 |---|---|
@@ -48,6 +48,8 @@ Files are processed only in your own browser and are never uploaded.
 | **v1.3.0** Auto-detect LA, AO, RA, LV, RV and esophagus: review the seeds, then segment all at once, with gap filling | **v1.3.0** 自動辨識 LA、AO、RA、LV、RV、食道：先確認種子點，再一次切好，並自動填滿空隙 |
 | **v1.3.0** New layout: vertical tool rail (Pan, Click add, Add / Erase brush), shortcuts, 2×2 or one-big-three-small views, collapsible left column | **v1.3.0** 新版面：左側直排工具（平移、點選加入、加入／擦除筆刷）、快捷鍵、2×2 或一大三小、左欄可收合 |
 | **v1.3.0** Edit several structures, then generate all their 3D models at once | **v1.3.0** 可以連續修好幾個結構，最後一次生成 3D |
+| **v1.5.0** More accurate auto-detect: the aorta is traced up from the descending aorta (PA and SVC stay out), chambers are searched only at heart level, uncertain LV/RV points are left for the competition, and esophagus tracking stops at the liver | **v1.5.0** 自動辨識更準：主動脈從降主動脈往上長（不會長進肺動脈、SVC），心腔只在心臟高度範圍內找，分不清的 LV／RV 點不硬分，食道追蹤碰到肝臟就停 |
+| **v1.5.0** Fix: the structure list shows ml again after auto segmentation | **v1.5.0** 修正：自動切完後，結構清單恢復顯示 ml 數 |
 | **v1.4.0** Measure on CT slices (drag) and on the 3D view (two points); rename “Other” structures (e.g. SVC, IVC, LAA) | **v1.4.0** 在 CT 切面（拖曳）和 3D（點兩點）上測量；「其他」結構可改名（例如 SVC、IVC、LAA） |
 
 ## Use · 使用方式
