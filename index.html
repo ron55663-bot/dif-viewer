@@ -122,6 +122,85 @@ body.loaded #drop{display:none}
 #tb .modeseg button.on{background:var(--accent);color:#06222a}
 body.ctmode #tb .tbrow:first-child > :not(#modeseg):not(#asidetog){display:none}
 body.ctmode #tb .tbrow:nth-child(2){display:none}
+body.icemode aside > :not(:first-child):not(.openbox){display:none}
+body.icemode #tb .tbrow:first-child > :not(#modeseg):not(#asidetog){display:none}
+body.icemode #tb .tbrow:nth-child(2){display:none}
+#icepane{position:absolute;inset:0;z-index:6;background:var(--bg);display:flex;flex-direction:column}
+#icepane[hidden]{display:none}
+#iceempty{margin:auto;max-width:520px;text-align:center;padding:24px;line-height:1.8}
+#icebody{flex:1;min-height:0;display:grid;grid-template-columns:200px 78px minmax(0,1.25fr) minmax(320px,1fr);grid-template-rows:minmax(0,1fr) auto}
+#icebody[hidden]{display:none}
+.icecol{min-height:0;display:flex;flex-direction:column;border-right:1px solid var(--line)}
+.icecol h3{margin:0;padding:8px 10px;font-size:12px;color:var(--muted);font-weight:600;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+#icelist{flex:1;overflow-y:auto;padding:6px;display:flex;flex-direction:column;gap:6px}
+.iceclip{display:flex;flex-direction:column;gap:3px;padding:4px;border:1px solid var(--line);border-radius:8px;background:#161b22;text-align:left;cursor:pointer}
+.iceclip canvas{width:100%;height:auto;border-radius:5px;display:block;background:#000}
+.iceclip.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.icemeta{display:flex;gap:6px;align-items:baseline;font-size:11px;color:var(--muted);flex-wrap:wrap}
+.icemeta b{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+.icemeta .kv,.icemeta .kp{display:inline-flex;align-items:center;gap:3px}.icemeta svg.kind{flex:none}.icemeta .kv svg{color:#7fd3e6}.icemeta .kp svg{color:#f3c37a}
+.icemeta em{font-style:normal;color:var(--accent);font-weight:600;margin-left:auto}
+.iceplayer{min-height:0;display:flex;flex-direction:column}
+#icecv{position:absolute;inset:0;width:100%;height:100%;background:#000;touch-action:none}
+.icecvbox{position:relative;flex:1;min-height:0}
+#icetxt{position:absolute;z-index:3;width:180px;padding:3px 6px;font-size:13px;background:#111;color:#fff;border:1px solid var(--accent);border-radius:5px}
+.icerail{background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;overflow-y:auto}
+.icecolors{display:grid;grid-template-columns:repeat(2,20px);gap:6px}
+.icerail .icecol-sw{width:20px;height:20px;padding:0;border-radius:50%;border:2px solid transparent;display:block}
+.icerail .icecol-sw.on{border-color:#fff;box-shadow:0 0 0 1px #000 inset}
+.icectl{display:flex;align-items:center;gap:6px;padding:6px 8px;border-top:1px solid var(--line);flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.icectl button{padding:4px 10px;font-size:13px}
+.icectl button.on{background:var(--accent);color:#06222a;border-color:var(--accent)}
+#iceslider{flex:1;min-width:120px;accent-color:var(--accent)}
+#iceframe{font-variant-numeric:tabular-nums;min-width:64px;text-align:right}
+.iceaddwrap{position:relative;display:inline-flex}#iceaddmenu{position:absolute;bottom:110%;left:0;z-index:5;display:flex;flex-direction:column;gap:4px;padding:6px;background:var(--panel);border:1px solid var(--line);border-radius:8px;white-space:nowrap}#iceaddmenu[hidden]{display:none}
+#icebody.icereader{grid-template-columns:200px 78px minmax(0,1fr) 0}#icebody.icereader .ice3dwrap,#icebody.icereader .icesegbar,#icebody.icereader #ice3dopen,#icebody.icereader label:has(#iceover),#icebody.icereader label:has(#iceflip),#icebody.icereader #icerail [data-t^=seg]{display:none}
+#icebody:not(.icereader) .iceaddwrap{display:none}
+#icegrid{position:absolute;inset:0;z-index:4;background:var(--bg);overflow-y:auto;padding:10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;align-content:start}#icegrid[hidden]{display:none}
+.icetile{display:flex;flex-direction:column;gap:4px;padding:5px;border:1px solid var(--line);border-radius:9px;background:#161b22;cursor:pointer;text-align:left}.icetile canvas{width:100%;height:auto;border-radius:6px;background:#000}.icetile.on{border-color:var(--accent)}.icetile:hover{border-color:#7fc8d8}
+.icecol h3 button{padding:1px 8px;font-size:11px}.icecol h3 button.on{background:var(--accent);color:#06222a;border-color:var(--accent)}
+.icesegbar{display:flex;align-items:center;gap:6px;padding:5px 8px;border-top:1px solid var(--line);flex-wrap:wrap;font-size:12px;color:var(--muted)}.icesegbar label{display:flex;gap:4px;align-items:center}#icesegchips{display:flex;gap:4px;flex-wrap:wrap}
+.segchip{display:flex;align-items:center;gap:4px;padding:2px 7px;font-size:12px;border-radius:999px}.segchip i{width:10px;height:10px;border-radius:50%}.segchip small{color:var(--muted);font-size:10.5px}.segchip.on{border-color:var(--accent);background:#4fb3c826}
+#icesegk{width:70px;accent-color:var(--accent)}#icesegbr{width:80px;accent-color:var(--accent)}#icesegbrv{min-width:38px;font-variant-numeric:tabular-nums;color:var(--text)}
+.icectl label{display:flex;gap:4px;align-items:center;white-space:nowrap}
+#iceviews{grid-column:2 / 5;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:5px;padding:7px 8px;border-top:1px solid var(--line);background:var(--panel)}
+#iceviews button{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:5px 7px;border-radius:8px;text-align:left;position:relative;min-width:0}
+#iceviews button b{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#iceviews button small{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#iceviews button kbd{position:absolute;top:3px;right:5px;font-size:9px;color:var(--muted);font-family:inherit}
+#iceviews button.on{background:var(--accent);border-color:var(--accent)}#iceviews button.on b,#iceviews button.on small,#iceviews button.on kbd{color:#06222a}
+.ice3dwrap{min-height:0;display:flex;flex-direction:column;border-right:0}
+.ice3dbox{position:relative;flex:1;min-height:0}
+.ice3dclose{position:absolute;right:8px;top:8px;z-index:2;width:28px;height:28px;padding:0;border-radius:50%;font-size:14px;background:#000a}
+#icebody.no3d{grid-template-columns:200px 78px minmax(0,1fr) 0}#icebody.no3d .ice3dwrap{display:none}
+#ice3dopen.on{background:var(--accent);color:#06222a;border-color:var(--accent)}
+#ice3d{width:100%;height:100%;display:block;touch-action:none}
+#ice3dempty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;color:var(--muted);background:rgba(18,22,28,.92)}
+#ice3dempty[hidden]{display:none}
+#ice3dviews{position:absolute;right:8px;bottom:8px;display:flex;gap:4px}
+#ice3dviews button{padding:2px 7px;font-size:11px}
+.ice3dctl{padding:6px 10px;border-top:1px solid var(--line);display:grid;grid-template-columns:auto 1fr auto;gap:4px 8px;align-items:center;font-size:12px;color:var(--muted)}
+.ice3dctl input[type=range]{width:100%;accent-color:var(--accent)}
+.ice3dctl output{font-variant-numeric:tabular-nums;color:var(--text);min-width:52px;text-align:right}
+#icepose{grid-column:1 / 4;color:var(--text);font-weight:600}
+#icecut{grid-column:1 / 4;font-size:11.5px}
+.icestbox{grid-column:1 / 4}
+.iceheartbadge{grid-column:1 / 4;padding:5px 9px;border-radius:7px;font-size:12px;font-weight:600;line-height:1.4}.iceheartbadge.template{background:#e6a23c26;color:#f3c37a;border:1px solid #e6a23c80}.iceheartbadge.ct{background:#30d15822;color:#7ee29a;border:1px solid #30d15866}.iceheartbadge.file{background:#ffffff0d;color:var(--muted);border:1px solid var(--line)}
+#ice3dtag{position:absolute;left:8px;top:8px;padding:3px 8px;border-radius:6px;font-size:11.5px;font-weight:600;background:#e6a23cd9;color:#1b1203;pointer-events:none}#ice3dtag[hidden]{display:none}
+.iceheartrow{grid-column:1 / 4;display:flex;align-items:center;gap:6px;font-size:12px}.iceheartrow b{color:var(--text);font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.iceheartrow button{padding:2px 8px;font-size:11.5px}
+.icealdet{grid-column:1 / 4}.icealdet summary{cursor:pointer;font-size:12px}
+.icealgrid{display:grid;grid-template-columns:auto 1fr 52px;gap:3px 8px;align-items:center;padding:4px 0}.icealgrid input{width:100%;accent-color:var(--accent)}.icealgrid output{font-variant-numeric:tabular-nums;color:var(--text);text-align:right;font-size:12px}
+.icealbtns{display:flex;gap:6px;padding-bottom:4px}.icealbtns button{padding:2px 9px;font-size:11.5px}.icestbox summary{cursor:pointer;font-size:12px}
+#icestructs{display:grid;grid-template-columns:1fr;gap:3px;padding:4px 0;max-height:200px;overflow-y:auto}
+.icest{display:grid;grid-template-columns:120px 1fr 44px;gap:6px;align-items:center}
+.icest.off{opacity:.45}
+.icestn{display:flex;align-items:center;gap:6px;padding:2px 6px;font-size:12px;text-align:left;background:transparent;border:1px solid var(--line)}
+.icestn i{width:10px;height:10px;border-radius:50%;flex:none}
+.icest.off .icestn span{text-decoration:line-through}
+.icest input{width:100%;accent-color:var(--accent)}.icest output{font-size:11px;text-align:right;color:var(--muted)}
+.icetexl{grid-column:1 / 4;display:flex;gap:4px;align-items:center}
+.icefoot{padding:4px 10px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:900px){.icerail{flex-direction:row;flex-wrap:wrap;justify-content:center}#icebody{grid-template-columns:1fr;grid-template-rows:auto minmax(300px,1fr) auto minmax(300px,1fr)}#iceviews{grid-column:auto;grid-template-columns:repeat(5,minmax(0,1fr))}#icelist{flex-direction:row;overflow-x:auto;max-height:150px}.iceclip{min-width:130px}}
 #ctpane{position:absolute;inset:0;z-index:6;background:var(--bg);display:grid;grid-template-columns:300px 78px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto}
 #ctpane[hidden]{display:none}
 .ctside{grid-row:1 / 4;grid-column:1;border-right:1px solid var(--line);background:var(--panel);overflow-y:auto;padding:12px 14px;font-size:13px;display:flex;flex-direction:column;gap:12px}
@@ -153,13 +232,13 @@ body.ctmode #tb .tbrow:nth-child(2){display:none}
 .laytog button{border:0;background:transparent;color:var(--muted);padding:5px 8px;border-radius:6px;display:grid;place-items:center}
 .laytog button.on{background:#2b3441;color:var(--text)}
 .ctrail{grid-row:2;grid-column:2;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;overflow-y:auto}
-.ctrail hr{width:44px;border:0;border-top:1px solid var(--line);margin:4px 0}
+.ctrail hr,.icerail hr{width:44px;border:0;border-top:1px solid var(--line);margin:4px 0}
 #ctmode{display:flex;flex-direction:column;gap:4px}
-.ctrail button{width:64px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border:1px solid transparent;background:transparent;color:#c9d0db;border-radius:8px;font-size:11px;line-height:1.15}
-.ctrail button:hover:not(:disabled){background:#ffffff0d}
-.ctrail button.on{border-color:var(--accent);background:#4fb3c826;color:#e6f7fa}
-.ctrail kbd{font:9px ui-monospace,monospace;color:#8b94a3}
-.ctrail button.ico{width:46px;height:38px;padding:0;display:grid;place-items:center;border-color:var(--line);background:#1d232c}
+.ctrail button,.icerail button{width:64px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border:1px solid transparent;background:transparent;color:#c9d0db;border-radius:8px;font-size:11px;line-height:1.15}
+.ctrail button:hover:not(:disabled),.icerail button:hover:not(:disabled){background:#ffffff0d}
+.ctrail button.on,.icerail button.on{border-color:var(--accent);background:#4fb3c826;color:#e6f7fa}
+.ctrail kbd,.icerail kbd{font:9px ui-monospace,monospace;color:#8b94a3}
+.ctrail button.ico,.icerail button.ico{width:46px;height:38px;padding:0;display:grid;place-items:center;border-color:var(--line);background:#1d232c}
 .brushbox{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--muted)}
 .brushbox.dim{opacity:.4}
 .brushbox button{width:44px;height:30px;padding:0;border:1px solid var(--line);background:#1d232c;font-size:17px;display:grid;place-items:center}
@@ -271,7 +350,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 <body>
 <aside>
   <div>
-    <div class="hrow"><h1><img class="applogo" alt="" src="data:image/png;base64,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"><span data-en="SeeMo">心模 SeeMo</span> <span class="ver">v1.5.4</span></h1><button type="button" id="langbtn" class="langbtn">EN</button></div>
+    <div class="hrow"><h1><img class="applogo" alt="" src="data:image/png;base64,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"><span data-en="SeeMo">心模 SeeMo</span> <span class="ver">v1.6.0</span></h1><button type="button" id="langbtn" class="langbtn">EN</button></div>
     <p class="muted" data-en="3D heart models from CT and ADAS / EnSite .dif files: view, segment, measure and export. Files stay in this browser and are never uploaded.">心臟 3D 模型：讀 CT 與 ADAS／EnSite 的 .dif，切割、測量、匯出。檔案只在這台電腦的瀏覽器處理，不會上傳。</p>
   </div>
   <div class="openbox">
@@ -312,12 +391,12 @@ button:disabled{opacity:.45;cursor:not-allowed}
     <pre id="diagtxt"></pre>
     <button id="diagcopy" type="button" data-en="Copy">複製</button>
   </details>
-  <footer>Designed by Ron Chen<br><span data-en="SeeMo v1.5.4 · 2026-11-20">心模 SeeMo v1.5.4 · 2026-11-20</span></footer>
+  <footer>Designed by Ron Chen<br><span data-en="SeeMo v1.6.0 · 2026-11-20">心模 SeeMo v1.6.0 · 2026-11-20</span></footer>
 </aside>
 <main>
   <div id="tb">
     <div class="tbrow">
-      <button type="button" id="asidetog" class="asidetog" title="收合／展開左欄（開檔、Volume 清單）" data-en-title="Collapse / expand the left column (open files, volumes)" aria-label="收合／展開左欄" data-en-aria="Toggle the left column"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path></svg></button><div class="modeseg" id="modeseg"><button type="button" id="m3d" class="on" title=".dif／.xml 模型檢視與匯出" data-en-title="View and export .dif / .xml models" data-en="3D model">3D 模型</button><button type="button" id="mct" title="DICOM CT 影像與重組" data-en-title="DICOM CT images &amp; reconstruction" data-en="CT recon">CT 重組</button></div>
+      <button type="button" id="asidetog" class="asidetog" title="收合／展開左欄（開檔、Volume 清單）" data-en-title="Collapse / expand the left column (open files, volumes)" aria-label="收合／展開左欄" data-en-aria="Toggle the left column"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path></svg></button><div class="modeseg" id="modeseg"><button type="button" id="m3d" class="on" title=".dif／.xml 模型檢視與匯出" data-en-title="View and export .dif / .xml models" data-en="3D model">3D 模型</button><button type="button" id="mct" title="DICOM CT 影像與重組" data-en-title="DICOM CT images &amp; reconstruction" data-en="CT recon">CT 重組</button><button type="button" id="mice" title="ICE 心腔內超音波影片" data-en-title="ICE (intracardiac echo) clips" data-en="ICE">ICE</button></div>
       <span class="sep"></span>
       <button type="button" id="one" class="ib on" title="單視窗" data-en-title="Single view" aria-label="單視窗" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/></svg></button><button type="button" id="two" class="ib" title="雙視窗（左右分割）" data-en-title="Dual view (side by side)" aria-label="雙視窗（左右分割）" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M12 5v14"/></svg></button><button type="button" id="reset" class="ib" title="重設：回到預設角度並置中" data-en-title="Reset: default angle, re-center" aria-label="重設：回到預設角度並置中" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="1.6"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg></button>
       <span class="sep"></span>
@@ -346,6 +425,54 @@ button:disabled{opacity:.45;cursor:not-allowed}
       </div>
       <div class="end snaptext" id="barmin"></div>
       <button id="barreset" type="button" data-en="Reset to file thresholds">還原檔案門檻</button>
+    </div>
+    <div id="icepane" hidden>
+      <p id="iceempty" class="muted" data-en="No ICE loaded. Use “Open folder” on the left (or drop the folder here) — ultrasound DICOM is recognised automatically. AVI / JPG copies are skipped.">尚未載入 ICE。按左側「開啟資料夾」（或把資料夾拖進來），超音波 DICOM 會自動辨識；同名的 AVI／JPG 會自動略過。</p>
+      <div id="icebody" hidden>
+        <div class="icecol"><h3><span data-en="Clips">片段</span><span id="icecount"></span><button type="button" id="icegridbtn" title="全部影像一覽（G）；點任一格放大" data-en-title="Review all clips (G); click one to open it" data-en="All">全部</button></h3><div id="icelist"></div>
+          <div class="icectl"><button type="button" id="iceexport" title="匯出所有片段的切面標記（CSV）" data-en-title="Export the view tags of all clips (CSV)" data-en="Export tags">匯出標記</button></div></div>
+        <div id="icerail" class="icerail"><button type="button" data-t="pan" title="拖曳平移影像（放大後用）；單擊＝播放／暫停" data-en-title="Drag to pan (when zoomed); click = play / pause"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"></path></svg><span data-en="Pan">平移</span><kbd>P</kbd></button><button type="button" data-t="measure" title="拖曳拉線，顯示 mm" data-en-title="Drag a line; shows mm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17 17 3l4 4L7 21z M7 13l2 2 M10 10l2 2 M13 7l2 2"></path></svg><span data-en="Measure">測量</span><kbd>M</kbd></button><button type="button" data-t="text" title="點一下輸入文字；之後可以拖曳搬移、雙擊修改" data-en-title="Click to type text; drag to move, double-click to edit"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6V4h14v2 M12 4v16 M9 20h6"></path></svg><span data-en="Text">文字</span><kbd>T</kbd></button><button type="button" data-t="arrow" title="拖曳畫箭頭" data-en-title="Drag to draw an arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5 M10 5h9v9"></path></svg><span data-en="Arrow">箭頭</span><kbd>A</kbd></button><button type="button" data-t="circle" title="從中心拖曳畫圓，顯示直徑" data-en-title="Drag from the centre; shows the diameter"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18"></path></svg><span data-en="Circle">圓圈</span><kbd>O</kbd></button><button type="button" data-t="erase" title="點或拖過標註刪除" data-en-title="Click or drag over an annotation to delete it"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 21h10M5 15l8-8 6 6-6 6H9z"></path></svg><span data-en="Erase">擦除</span><kbd>E</kbd></button><hr><button type="button" data-t="segadd" title="腔室筆刷：把目前選的腔室畫上去（右鍵或 Alt＋點區域＝改名）" data-en-title="Chamber brush: paint the selected chamber (right-click or Alt+click a region to rename it)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20c2 0 4-1 4-3s-1-3-3-3M8 17 19 6a2 2 0 0 0-3-3L5 14"></path></svg><span data-en="Chamber">腔室筆刷</span><kbd>B</kbd></button><button type="button" data-t="segdel" title="腔室擦除：把邊界擦掉" data-en-title="Chamber eraser: erase chamber area"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 21h10M5 15l8-8 6 6-6 6H9z"></path></svg><span data-en="Ch. erase">腔室擦除</span><kbd>X</kbd></button><hr><div id="icecolors" class="icecolors"></div><hr><button type="button" id="iceundo" disabled class="ico" title="復原 Ctrl+Z" data-en-title="Undo Ctrl+Z"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3"></path></svg></button><button type="button" id="iceredo" disabled class="ico" title="重做 Ctrl+Y" data-en-title="Redo Ctrl+Y"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5M20 9H10a6 6 0 0 0 0 12h3"></path></svg></button><button type="button" id="iceclear" disabled title="清除這段影片的所有標註" data-en-title="Clear all annotations on this clip"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"></path></svg><span data-en="Clear">清除</span></button></div>
+        <div class="icecol iceplayer">
+          <div class="icecvbox"><canvas id="icecv"></canvas><div id="icegrid" hidden></div><div class="ctzoom"><button type="button" id="icezout" title="縮小" data-en-title="Zoom out">−</button><button type="button" id="icezoomv" title="回到原始大小" data-en-title="Reset zoom">100%</button><button type="button" id="icezin" title="放大（Ctrl＋滾輪）" data-en-title="Zoom in (Ctrl + wheel)">＋</button></div><input type="text" id="icetxt" hidden maxlength="60"></div>
+          <div class="icectl">
+            <button type="button" id="iceprev" title="上一張（←）" data-en-title="Previous frame (←)">◀︎</button><button type="button" id="iceplay" title="播放／暫停（空白鍵）" data-en-title="Play / pause (Space)">▶</button><button type="button" id="icenext" title="下一張（→）" data-en-title="Next frame (→)">▶︎</button>
+            <input type="range" id="iceslider" min="0" max="0" value="0" aria-label="影格" data-en-aria="Frame"><span id="iceframe"></span>
+            <select id="icespeed" aria-label="速度" data-en-aria="Speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+            <label title="把範本心臟在這片扇形上的切面輪廓疊在影像上。範本不是這位病人的心臟、扇形位置也是推算的，只能當大概的參考；可以用右邊的旋轉／高度去對" data-en-title="Overlay the template heart's cross-section on this fan. The template is not this patient's heart and the fan pose is estimated, so treat it as a rough guide; use Rotate / Height on the right to align"><input type="checkbox" id="iceover"><span data-en="Template outline">範本輪廓（參考）</span></label>
+            <span class="iceaddwrap"><button type="button" id="iceaddct" title="匯入這位病人的 CT，開啟 3D 位置輔助與自動描腔室" data-en-title="Import this patient’s CT to enable 3D guidance and chamber tracing" data-en="Add patient CT (3D)">加入病人 CT（3D 輔助）</button><span id="iceaddmenu" hidden><button type="button" id="iceaddgo" data-en="Go to CT recon">到 CT 重組載入 CT</button><button type="button" id="iceadddif" data-en="Open patient model (.dif)">開啟病人模型（.dif）</button></span></span>
+            <button type="button" id="ice3dopen" class="on" title="顯示／隱藏右邊的 3D 模型" data-en-title="Show / hide the 3D model on the right" data-en="3D model">3D 模型</button>
+            <label title="影像的左右對應導管的哪一端不同時，勾選翻轉" data-en-title="Flip if the image's left/right is the other way round along the catheter"><input type="checkbox" id="iceflip"><span data-en="Flip L/R">左右翻轉</span></label>
+          </div>
+          <div class="icesegbar">
+            <button type="button" id="icesegauto" class="primary" title="在目前這張影格上自動描出血池（暗區），並依 3D 模型命名" data-en-title="Auto-trace the blood pools (dark areas) on this frame and name them from the 3D model" data-en="Auto-trace chambers">自動描腔室</button>
+            <span data-en="Sensitivity">靈敏度</span><input type="range" id="icesegk" min="25" max="70" value="45" title="往右：比較亮的區域也算血池（描得比較大）；往左：只抓很暗的" data-en-title="Right: brighter areas count as blood (larger outlines); left: only very dark areas"><label><input type="checkbox" id="icesegon" checked><span data-en="Show">顯示</span></label>
+            <div id="icesegchips"></div>
+            <span class="icesegbrl" data-en="Brush">筆刷</span><input type="range" id="icesegbr" min="1" max="20" value="4" title="腔室筆刷大小（[ ] 或 Alt＋滾輪）" data-en-title="Chamber brush size ([ ] or Alt + wheel)"><output id="icesegbrv">4 mm</output>
+            <button type="button" id="icesegclear" disabled title="清除這段影片的腔室邊界" data-en-title="Clear this clip's chamber outlines" data-en="Clear">清除</button>
+          </div>
+        </div>
+        <div class="icecol ice3dwrap">
+          <div class="ice3dbox"><canvas id="ice3d"></canvas><div id="ice3dtag" hidden data-en="Simulated 3D model — import the patient’s real CT">模擬 3D 模型 — 請匯入病人真實 CT</div>
+            <div id="ice3dempty"><span data-en="Load a 3D heart model (.dif with RA / LA / LV / RV / AO…, e.g. one made in “CT recon”). It is remembered in this browser.">載入一個 3D 心臟模型（含 RA／LA／LV／RV／AO… 的 .dif，例如用「CT 重組」做的）。會記在這個瀏覽器，下次自動載入。</span><button type="button" id="iceheartbtn" class="primary" data-en="Load heart model (.dif)">載入心臟模型（.dif）</button><input type="file" id="iceheart" accept=".dif,.xml" hidden></div>
+            <button type="button" id="ice3dclose" class="ice3dclose" title="關閉 3D 模型，影像放大（可再按「3D 模型」叫回來）" data-en-title="Hide the 3D model to enlarge the image (press “3D model” to bring it back)">✕</button><div id="ice3dviews"><button type="button" id="iceface" title="從正面看這片扇形（身體保持直立）" data-en-title="Face the fan (body upright)" data-en="Face fan">正對扇形</button><button type="button" id="icealign" title="轉成和 ICE 畫面同方向" data-en-title="Match the ICE image orientation" data-en="As ICE">同 ICE 方向</button><button type="button" data-v="AP">AP</button><button type="button" data-v="LAO">LAO</button><button type="button" data-v="RAO">RAO</button><button type="button" data-v="LL">LL</button><button type="button" data-v="SUP">SUP</button></div>
+          </div>
+          <div class="ice3dctl">
+            <span id="icepose"></span>
+            <div id="iceheartbadge" class="iceheartbadge" hidden></div>
+            <div class="iceheartrow"><span data-en="Heart:">心臟模型：</span><b id="iceheartsrc"></b><button type="button" id="icefromct" class="primary" disabled title="直接用「CT 重組」裡這位病人切好的心臟" data-en-title="Use this patient’s heart segmented in “CT recon”" data-en="From CT recon">從 CT 重組取得</button><button type="button" id="iceheartuse" title="換回記住的範本心臟" data-en-title="Switch back to the saved template heart" data-en="Template">範本</button><button type="button" id="iceheartchg" title="選一個 .dif（例如這位病人用「CT 重組」做的心臟）；會記成下次的預設" data-en-title="Pick a .dif (e.g. this patient's heart made in “CT recon”); it becomes the default next time" data-en="Change model">換模型</button></div>
+            <details class="icealdet" open><summary><span data-en="Manual alignment (double-click a slider to reset it)">手動對齊（雙擊滑桿歸零）</span></summary>
+              <div id="icealignbox" class="icealgrid"></div>
+              <div class="icealbtns"><button type="button" id="icealreset" disabled data-en="Reset">全部歸零</button><button type="button" id="icealall" disabled title="把目前的對齊套用到其他同樣切面的片段" data-en-title="Apply this alignment to the other clips with the same view" data-en="Apply to same view">套用到同切面</button></div>
+            </details>
+            <span data-en="Opacity">透明度</span><input type="range" id="icealpha" min="0" max="100" value="35" title="所有結構一起調整不透明度" data-en-title="Opacity of all structures"><output id="icealphav">35%</output>
+            <details class="icestbox"><summary data-en="Each structure (show / hide, opacity)">各結構（顯示／隱藏、透明度）</summary><div id="icestructs"></div></details>
+            <label class="icetexl"><input type="checkbox" id="icetex" checked><span data-en="Image on fan">影像貼上扇形</span></label>
+            <span id="icecut"></span>
+          </div>
+        </div>
+        <div id="iceviews"></div>
+      </div>
+      <div class="icefoot"><span id="icestatus"></span><span id="iceheartname" hidden></span></div>
     </div>
     <div id="ctpane" hidden>
       <div class="ctside">
@@ -755,7 +882,7 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
   const FOV = 35 * Math.PI / 180, TAN = Math.tan(FOV / 2);
   const BUILTIN = builtinLUT();
   const FONT = '600 15px "Segoe UI","Microsoft JhengHei","PingFang TC",sans-serif';
-  const APPVER = '1.5.4';
+  const APPVER = '1.6.0';
   const COLORS = ['#ff3b30', '#ffd60a', '#30d158', '#64d2ff', '#ffffff'];
   let volumes = [], doc = null, baseName = 'model', lastSize = null;
   let scales = {}, active = null, prog, loc = {}, dirty = true, torso = [];
@@ -3192,18 +3319,24 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
       ['OperatorName', ''], ['OperatorComments', 'SeeMo CT reconstruction'], ['SegmentationDate', sd], ['SegmentationTime', st]
     ].map(([k, v]) => I + '<' + k + '>' + xmlEsc(v) + '</' + k + '>').join('\r\n') + '\r\n    </DIFHeader>';
   }
-  async function finishCT(){
+  // 把目前切好的結構做成 3D 模型（3D 模型頁、ICE 頁共用）
+  async function buildCTModel(say){
     commitPrev(); recount();
     const target = +$('ctres').value, open = $('ctopen').checked, out = [];
     for (const s of STRUCTS) {
       if (!s.count || !s.visible) continue;
-      ctStatus(t('產生 3D 模型：', 'Building 3D model: ') + sName(s) + '…'); await tick();
+      say(t('產生 3D 模型：', 'Building 3D model: ') + sName(s) + '…'); await tick();
       const v = meshStruct(s, target, open); if (v) out.push(v);
     }
-    if (!out.length) { ctStatus(t('還沒有任何結構。', 'No structures defined yet.')); return; }
-    const newDoc = { header: ctHeader(), version: 'SJM_DIF_5.0', vendor: 'SeeMo ' + APPVER, luts: {},
-                     colorMapsRaw: null, labelsRaw: null, objectMapRaw: null };
-    installScene(out, newDoc, CT.name + '_CTmodel', []);
+    if (!out.length) { say(t('還沒有任何結構。', 'No structures defined yet.')); return null; }
+    const doc = { header: ctHeader(), version: 'SJM_DIF_5.0', vendor: 'SeeMo ' + APPVER, luts: {}, colorMapsRaw: null, labelsRaw: null, objectMapRaw: null };
+    return { vols: out, doc, name: CT.name + '_CTmodel' };
+  }
+  async function finishCT(){
+    const r = await buildCTModel(ctStatus); if (!r) return;
+    const out = r.vols;
+    installScene(out, r.doc, r.name, []);
+    ICE.vols = [];                                                      // ICE 頁下次切過去時改用這個病人 CT 模型
     setAppMode('3d');
     const tv = out.reduce((n, v) => n + v.pos.length / 3, 0);
     $('msg').textContent = t('已從 CT 產生 ' + out.length + ' 個結構（共 ' + tv.toLocaleString() + ' 點）。按「EnSite DIF 5.0」匯出。',
@@ -3510,22 +3643,24 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
   $('ctfile').addEventListener('change', e => { const f = [...e.target.files]; e.target.value = ''; routeFiles(f); });
 
   function setAppMode(m){
-    const ct = m === 'ct';
-    document.body.classList.toggle('ctmode', ct);
-    $('ctpane').hidden = !ct;
-    $('m3d').classList.toggle('on', !ct); $('mct').classList.toggle('on', ct);
-    // 左欄：3D 模式自動展開（要看結構清單）；CT 模式在已載入 CT 時自動收起，讓切面最大（還沒載入就留著「開啟」按鈕）
-    setAside(!ct || $('ctbody').hidden);
+    const ct = m === 'ct', ice = m === 'ice';
+    document.body.classList.toggle('ctmode', ct); document.body.classList.toggle('icemode', ice);
+    $('ctpane').hidden = !ct; $('icepane').hidden = !ice;
+    $('m3d').classList.toggle('on', !ct && !ice); $('mct').classList.toggle('on', ct); $('mice').classList.toggle('on', ice);
+    // 左欄：3D 模式自動展開（要看結構清單）；CT／ICE 模式在已載入資料時自動收起，讓畫面最大（還沒載入就留著「開啟」按鈕）
+    setAside(ct ? $('ctbody').hidden : ice ? $('icebody').hidden : true);
+    if (ice) { iceEnsureHeart().then(() => { ice3d.update(); }); }
   }
   // 左欄收合：CT 載入後自動收起來，讓操作畫面最大；左上角的按鈕可以再叫出來
   function setAside(show){
     document.body.classList.toggle('asidecol', !show);
     window.dispatchEvent(new Event('resize'));
-    if (!$('ctpane').hidden) { renderCT(); mini.redraw(); } else dirty = true;
+    if (!$('ctpane').hidden) { renderCT(); mini.redraw(); } else if (!$('icepane').hidden) { iceDraw(); ice3d.redraw(); } else dirty = true;
   }
   $('asidetog').addEventListener('click', () => setAside(document.body.classList.contains('asidecol')));
   $('m3d').addEventListener('click', () => setAppMode('3d'));
   $('mct').addEventListener('click', () => setAppMode('ct'));
+  $('mice').addEventListener('click', () => setAppMode('ice'));
   if (window.ResizeObserver) new ResizeObserver(() => { if (!$('ctpane').hidden) { renderCT(); mini.redraw(); } }).observe($('ctpane'));
 
   // ---------- 載入 ----------
@@ -3710,7 +3845,13 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
     if (!fs.length) return;
     const dif = fs.filter(isDif);
     if (dif.length && dif.length === fs.length) { loadFile(dif[0]); return; }
-    loadCTFiles(fs.filter(f => !isDif(f)));
+    const rest = fs.filter(f => !isDif(f));
+    // 超音波（ICE）：看前幾個像 DICOM 的檔案，Modality 是 US 就進 ICE 頁
+    (async () => {
+      const probe = rest.filter(f => !isJunk(f) && f.size > 2048).slice(0, 4);
+      for (const f of probe) { const m = await sniffModality(f); if (m === 'US') { iceLoad(rest); return; } if (m) break; }
+      loadCTFiles(rest);
+    })();
   }
   $('file').addEventListener('change', e => { const f = [...e.target.files]; e.target.value = ''; routeFiles(f); });
   ['dragenter', 'dragover'].forEach(n => window.addEventListener(n, e => { e.preventDefault(); document.body.classList.add('over'); }));
@@ -3732,6 +3873,1144 @@ if (typeof module !== 'undefined') module.exports = { parseDIF: parseDIF, toDIF:
       routeFiles(out);
     })();
   });
+  // ======================= ICE：心腔內超音波影片 → 時間軸、播放、量測、標切面、3D 心臟上顯示扇形 =======================
+  const ICE_VIEWS = [
+    { k: 'home',  zh: 'Home view',   en: 'Home view',    sub: ['RA／三尖瓣／RV', 'RA / TV / RV'] },
+    { k: 'av',    zh: '主動脈瓣',     en: 'Aortic valve', sub: ['AV 短軸', 'AV short axis'] },
+    { k: 'mv',    zh: '二尖瓣／LV',   en: 'MV / LV',      sub: ['LV 流入道', 'LV inflow'] },
+    { k: 'septal',zh: '中隔／LA',     en: 'Septal / LA',  sub: ['卵圓窩', 'fossa ovalis'] },
+    { k: 'laa',   zh: 'LAA',         en: 'LAA',          sub: ['左心耳', 'appendage'] },
+    { k: 'lpv',   zh: '左肺靜脈',     en: 'Left PVs',     sub: ['LSPV／LIPV', 'LSPV / LIPV'] },
+    { k: 'eso',   zh: '食道',         en: 'Esophagus',    sub: ['LA 後壁', 'LA posterior wall'] },
+    { k: 'rpv',   zh: '右肺靜脈',     en: 'Right PVs',    sub: ['RSPV／RIPV', 'RSPV / RIPV'] },
+    { k: 'ts',    zh: '穿刺',         en: 'Transseptal',  sub: ['中隔穿刺', 'septal puncture'] },
+    { k: 'other', zh: '其他',         en: 'Other',        sub: ['', ''] }
+  ];
+  const ICE = { clips: [], cur: -1, frame: 0, playing: false, speed: 1, buf: null, bufFor: -1, cache: new Map(), opa: {}, vis: {},
+                flip: false, overlay: true, tex: true, tags: {}, pose: null, cuts: [] };
+  try { ICE.tags = JSON.parse(localStorage.getItem('seemo-ice-tags') || '{}') || {}; } catch (e) { ICE.tags = {}; }
+  ICE.overlay = false;                                                 // 範本輪廓預設關閉：它是別人的心臟、位置是推算的，只當參考
+  try { const o = JSON.parse(localStorage.getItem('seemo-ice-opts2') || '{}'); ICE.flip = !!o.flip; if (o.overlay === true) ICE.overlay = true; } catch (e) {}
+  const iceSaveTags = () => { try { localStorage.setItem('seemo-ice-tags', JSON.stringify(ICE.tags)); } catch (e) {} };
+  const iceSaveOpts = () => { try { localStorage.setItem('seemo-ice-opts2', JSON.stringify({ flip: ICE.flip, overlay: ICE.overlay })); } catch (e) {} };
+  const viewOf = k => ICE_VIEWS.find(v => v.k === k);
+  const iceViewName = k => { const v = viewOf(k); return v ? t(v.zh, v.en) : ''; };
+
+  // ---------- 超音波 DICOM 解析（Explicit VR Little Endian；影像為 JPEG 等封裝格式，一張影格一段） ----------
+  const ICE_LONGVR = new Set(['OB', 'OW', 'OF', 'SQ', 'UT', 'UN', 'OD', 'OL', 'UC', 'UR', 'OV', 'SV', 'UV']);
+  function parseUS(buf){
+    const dv = new DataView(buf), n = buf.byteLength, u8 = new Uint8Array(buf);
+    const str = (o, l) => { let s = ''; for (let i = 0; i < l; i++) { const c = u8[o + i]; if (c) s += String.fromCharCode(c); } return s.trim(); };
+    const out = { regions: [], frags: [], bot: [] };
+    let p = n > 132 && dv.getUint32(128) === 0x4449434D ? 132 : 0;
+    // 一個元素（含 group 0002 檔頭）；回傳下一個位置
+    const el = (q, ctx) => {
+      if (q + 8 > n) return -1;
+      const g = dv.getUint16(q, true), e = dv.getUint16(q + 2, true);
+      if (g === 0xFFFE) { const len = dv.getUint32(q + 4, true); return { g, e, len, v: q + 8, end: len === 0xFFFFFFFF ? -1 : q + 8 + len }; }
+      const vr = String.fromCharCode(u8[q + 4], u8[q + 5]);
+      let len, v;
+      if (/^[A-Z]{2}$/.test(vr)) {
+        if (ICE_LONGVR.has(vr)) { len = dv.getUint32(q + 8, true); v = q + 12; } else { len = dv.getUint16(q + 6, true); v = q + 8; }
+      } else { len = dv.getUint32(q + 4, true); v = q + 8; }             // implicit（只在序列裡偶爾遇到）
+      return { g, e, vr, len, v, end: len === 0xFFFFFFFF ? -1 : v + len };
+    };
+    const num = (E) => {
+      if (E.vr === 'US') return dv.getUint16(E.v, true); if (E.vr === 'UL') return dv.getUint32(E.v, true);
+      if (E.vr === 'SL') return dv.getInt32(E.v, true); if (E.vr === 'SS') return dv.getInt16(E.v, true);
+      if (E.vr === 'FD') return dv.getFloat64(E.v, true); if (E.vr === 'FL') return dv.getFloat32(E.v, true);
+      return parseFloat(str(E.v, E.len));
+    };
+    // 序列：逐個 item 讀；只解析超音波區域（0018,6011）裡的欄位
+    const walkSeq = (q, end, onItem) => {
+      while (q < (end < 0 ? n : end) - 8) {
+        const it = el(q); if (!it || it.g !== 0xFFFE) break;
+        if (it.e === 0xE0DD) return q + 8;                                // 序列結束
+        if (it.e !== 0xE000) { q += 8; continue; }
+        const iend = it.end < 0 ? -1 : it.end, item = {};
+        let r = it.v;
+        while (r < (iend < 0 ? n : iend) - 8) {
+          const E = el(r); if (!E) break;
+          if (E.g === 0xFFFE && E.e === 0xE00D) { r += 8; break; }        // item 結束
+          if (E.vr === 'SQ' || (E.g !== 0xFFFE && E.len === 0xFFFFFFFF)) { r = walkSeq(E.v, E.end, () => {}); continue; }
+          item[((E.g << 16) | E.e) >>> 0] = E; r = E.end;
+        }
+        onItem(item);
+        q = iend < 0 ? r : iend;
+      }
+      return end < 0 ? q : end;
+    };
+    while (p < n - 8) {
+      const E = el(p); if (!E || E === -1) break;
+      const tag = ((E.g << 16) | E.e) >>> 0;
+      if (E.g === 0x0002 && E.e === 0x0010) out.ts = str(E.v, E.len);
+      if (tag === 0x7FE00010) {                                           // 影像資料
+        out.pix = E.v;
+        if (E.len !== 0xFFFFFFFF) { out.raw = [E.v, E.len]; break; }
+        let q = E.v, first = true;
+        while (q < n - 8) {
+          const it = el(q); if (it.g !== 0xFFFE || it.e === 0xE0DD) break;
+          if (first) { for (let i = 0; i < it.len; i += 4) out.bot.push(dv.getUint32(it.v + i, true)); first = false; out.frag0 = it.end; }
+          else out.frags.push([it.v, it.len]);
+          q = it.end;
+        }
+        break;
+      }
+      if (E.vr === 'SQ' || E.len === 0xFFFFFFFF) {
+        const regions = tag === 0x00186011;
+        p = walkSeq(E.v, E.end, item => {
+          if (!regions) return;
+          const g = k => item[k] ? num(item[k]) : undefined;
+          out.regions.push({ x0: g(0x00186018), y0: g(0x0018601A), x1: g(0x0018601C), y1: g(0x0018601E), fmt: g(0x00186012), type: g(0x00186014),
+            ux: g(0x00186024), dx: g(0x0018602C), dy: g(0x0018602E), rx: g(0x00186020), ry: g(0x00186022), vx: g(0x00186028), vy: g(0x0018602A) });
+        });
+        continue;
+      }
+      switch (tag) {
+        case 0x00080060: out.mod = str(E.v, E.len); break;
+        case 0x00080018: out.sop = str(E.v, E.len); break;
+        case 0x00080022: out.adate = str(E.v, E.len); break;
+        case 0x00080032: out.atime = str(E.v, E.len); break;
+        case 0x0008002A: out.adt = str(E.v, E.len); break;
+        case 0x00080023: out.cdate = str(E.v, E.len); break;
+        case 0x00080033: out.ctime = str(E.v, E.len); break;
+        case 0x0008103E: out.desc = str(E.v, E.len); break;
+        case 0x00081090: out.model = str(E.v, E.len); break;
+        case 0x00180040: out.cine = num(E); break;
+        case 0x00181063: out.ft = num(E); break;
+        case 0x00280008: out.nf = parseInt(str(E.v, E.len), 10) || 1; break;
+        case 0x00280010: out.rows = dv.getUint16(E.v, true); break;
+        case 0x00280011: out.cols = dv.getUint16(E.v, true); break;
+        case 0x00280004: out.photo = str(E.v, E.len); break;
+      }
+      p = E.end;
+    }
+    out.nf = out.nf || 1;
+    // 片段 → 影格：有 Basic Offset Table 就照表分；沒有就一段一張，或依 JPEG 起始碼（FFD8）分
+    const frames = [];
+    if (out.frags.length) {
+      if (out.bot.length === out.nf && out.nf > 1) {
+        const base = out.frag0;
+        out.bot.forEach((off, i) => {
+          const s = base + off, e = i + 1 < out.bot.length ? base + out.bot[i + 1] : n, parts = out.frags.filter(f => f[0] - 8 >= s && f[0] - 8 < e);
+          frames.push(parts);
+        });
+      } else if (out.frags.length === out.nf) out.frags.forEach(f => frames.push([f]));
+      else out.frags.forEach(f => { if (u8[f[0]] === 0xFF && u8[f[0] + 1] === 0xD8 || !frames.length) frames.push([f]); else frames[frames.length - 1].push(f); });
+    }
+    out.frames = frames;
+    const d = out.adt || ((out.adate || out.cdate || '') + (out.atime || out.ctime || ''));
+    out.when = d;
+    return out;
+  }
+  const isJunk = f => /\.(avi|mp4|mov|jpe?g|png|bmp|inf|exe|dll|ini|txt|htm|html|xml|pdf|ico)$/i.test(f.name);
+  // 開檔分流用：讀檔頭，看是不是超音波
+  async function sniffModality(f){
+    try {
+      const head = await f.slice(0, Math.min(f.size, 65536)).arrayBuffer(), r = parseUS(head);
+      return (r.mod || '').toUpperCase();
+    } catch (e) { return ''; }
+  }
+
+  // ---------- 載入整個資料夾 ----------
+  async function iceLoad(files){
+    setAppMode('ice');
+    const list = files.filter(f => !isJunk(f) && f.size > 2048);
+    $('iceempty').hidden = true; $('icebody').hidden = false;
+    ICE.clips = []; ICE.cur = -1; ICE.buf = null; ICE.bufFor = -1; ICE.cache.clear(); iceStop();
+    $('icelist').textContent = '';
+    let k = 0;
+    for (const f of list) {
+      k++; iceStatus(t('讀取 ICE 影片 ', 'Reading ICE clips ') + k + ' / ' + list.length + '…');
+      let info;
+      try { info = parseUS(await f.arrayBuffer()); } catch (e) { continue; }
+      if ((info.mod || '').toUpperCase() !== 'US' || !info.frames.length) continue;
+      const reg = info.regions.find(r => r.fmt === 1 && r.dx) || info.regions.find(r => r.dx) || null;
+      const clip = { file: f, name: f.name, sop: info.sop || f.name, when: info.when || '', nf: info.frames.length, ft: info.ft || (info.cine ? 1000 / info.cine : 33.3),
+        rows: info.rows, cols: info.cols, reg, model: info.model || '', frames: info.frames, thumb: null };
+      try { clip.thumb = await createImageBitmap(await iceBlob(f, info.frames[0]), { resizeWidth: 152, resizeHeight: Math.round(152 * (info.rows || 720) / (info.cols || 960)) }); } catch (e) {}
+      ICE.clips.push(clip);
+      if (k % 4 === 0) { iceRenderList(); await tick(); }
+    }
+    ICE.clips.sort((a, b) => (a.when > b.when ? 1 : a.when < b.when ? -1 : a.name.localeCompare(b.name)));
+    iceRenderList();
+    if (!ICE.clips.length) { $('iceempty').hidden = false; $('icebody').hidden = true; $('iceempty').textContent = t('這個資料夾裡沒有找到超音波（ICE）DICOM 影片。', 'No ultrasound (ICE) DICOM clips were found in this folder.'); iceStatus(''); return; }
+    iceStatus(t('已載入 ', 'Loaded ') + ICE.clips.length + t(' 段 ICE。點左邊的片段播放，「全部」可以一次看所有影像；要 3D 位置輔助，按「加入病人 CT（3D 輔助）」。', ' ICE clips. Click a clip to play; “All” shows every clip at once. For 3D guidance press “Add patient CT (3D)”.'));
+    setAside(false);
+    iceSelect(0);
+  }
+  const iceBlob = async (f, parts) => new Blob(await Promise.all(parts.map(([o, l]) => f.slice(o, o + l).arrayBuffer())), { type: 'image/jpeg' });
+  function iceStatus(s){ $('icestatus').textContent = s || ''; }
+  const fmtWhen = w => w && w.length >= 12 ? w.slice(8, 10) + ':' + w.slice(10, 12) + (w.length >= 14 ? ':' + w.slice(12, 14) : '') : '';
+
+  // 片段種類小圖示：影片（攝影機）／靜態（相片）
+  const ICO_VID = '<svg class="kind" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3z"/></svg>';
+  const ICO_PIC = '<svg class="kind" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg>';
+  const kindHTML = c => c.nf > 1 ? ICO_VID + '<span>' + (c.nf * c.ft / 1000).toFixed(1) + ' s</span>' : ICO_PIC + '<span>' + t('靜態', 'still') + '</span>';
+  // ---------- 全部影像一覽：每段一格，點一下放大成單一播放 ----------
+  ICE.grid = false;
+  function iceGrid(on){
+    ICE.grid = on; $('icegrid').hidden = !on; $('icegridbtn').classList.toggle('on', on);
+    if (on) { iceStop(); iceGridRender(); }
+    else requestAnimationFrame(iceDraw);
+  }
+  function iceGridRender(){
+    const box = $('icegrid'); box.textContent = '';
+    ICE.clips.forEach((c, i) => {
+      const tile = document.createElement('button'); tile.type = 'button'; tile.className = 'icetile' + (i === ICE.cur ? ' on' : '');
+      const cv = document.createElement('canvas'); cv.width = 320; cv.height = 240; tile.append(cv);
+      const g = cv.getContext('2d'); g.fillStyle = '#000'; g.fillRect(0, 0, 320, 240);
+      if (c.thumb) g.drawImage(c.thumb, 0, (240 - c.thumb.height * 320 / c.thumb.width) / 2, 320, c.thumb.height * 320 / c.thumb.width);
+      const tg = ICE.tags[c.sop], meta = document.createElement('div'); meta.className = 'icemeta';
+      meta.innerHTML = '<b></b><span></span><em></em>'; meta.children[0].textContent = (i + 1) + '　' + (fmtWhen(c.when) || '');
+      meta.children[1].innerHTML = kindHTML(c); meta.children[1].className = c.nf > 1 ? 'kv' : 'kp'; meta.children[2].textContent = tg && tg.view ? iceViewName(tg.view) : '';
+      tile.append(meta);
+      tile.addEventListener('click', () => { iceGrid(false); iceSelect(i); });
+      box.append(tile);
+      // 大一點的縮圖（第一張）
+      if (!c.thumb2) iceBlob(c.file, c.frames[Math.min(c.nf - 1, Math.floor(c.nf / 3))]).then(b => createImageBitmap(b, { resizeWidth: 320 })).then(bm => { c.thumb2 = bm; if (ICE.grid) { g.fillRect(0, 0, 320, 240); g.drawImage(bm, 0, (240 - bm.height) / 2); } }).catch(() => {});
+      else g.drawImage(c.thumb2, 0, (240 - c.thumb2.height) / 2);
+    });
+  }
+  $('icegridbtn').addEventListener('click', () => iceGrid(!ICE.grid));
+  function iceRenderList(){
+    const box = $('icelist'); box.textContent = '';
+    ICE.clips.forEach((c, i) => {
+      const row = document.createElement('button'); row.type = 'button'; row.className = 'iceclip' + (i === ICE.cur ? ' on' : '');
+      const cv = document.createElement('canvas'); cv.width = 152; cv.height = 114;
+      if (c.thumb) { const g = cv.getContext('2d'); g.fillStyle = '#000'; g.fillRect(0, 0, 152, 114); g.drawImage(c.thumb, 0, (114 - c.thumb.height) / 2); }
+      const tx = document.createElement('div'); tx.className = 'icemeta';
+      const tg = ICE.tags[c.sop];
+      tx.innerHTML = '<b></b><span></span><em></em>';
+      tx.children[0].textContent = fmtWhen(c.when) || ('#' + (i + 1));
+      tx.children[1].innerHTML = kindHTML(c); tx.children[1].className = c.nf > 1 ? 'kv' : 'kp';
+      tx.children[2].textContent = tg && tg.view ? iceViewName(tg.view) : '';
+      row.append(cv, tx);
+      row.addEventListener('click', () => iceSelect(i));
+      box.append(row);
+    });
+    $('icecount').textContent = ICE.clips.length ? ICE.clips.length + t(' 段', ' clips') : '';
+  }
+
+  // ---------- 播放 ----------
+  async function iceSelect(i){
+    if (i < 0 || i >= ICE.clips.length) return;
+    if (ICE.grid) iceGrid(false);
+    iceStop(); ICE.cur = i; ICE.frame = 0; ICE.cache.clear(); ICE.draft = null; ICE.hist = []; ICE.redo = []; ICE.z = 1; ICE.px = ICE.py = 0; iceSyncHist(); segChips();
+    document.querySelectorAll('#icelist .iceclip').forEach((b, k) => b.classList.toggle('on', k === i));
+    const on = document.querySelectorAll('#icelist .iceclip')[i]; if (on) on.scrollIntoView({ block: 'nearest' });
+    const c = ICE.clips[i];
+    $('iceslider').max = Math.max(0, c.nf - 1); $('iceslider').value = 0;
+    $('iceplay').disabled = c.nf < 2;
+    if (ICE.bufFor !== i) { ICE.buf = null; ICE.bufFor = -1; try { ICE.buf = await c.file.arrayBuffer(); ICE.bufFor = i; } catch (e) { ICE.buf = null; } }
+    iceSyncTagBtns();
+    ICE.pose = null; ICE.autoFace = true; ice3d.update();
+    await iceShow(0);
+    if (c.nf > 1) icePlay();
+  }
+  function frameBlob(c, k){
+    const parts = c.frames[k];
+    if (ICE.buf && ICE.bufFor === ICE.cur) return new Blob(parts.map(([o, l]) => new Uint8Array(ICE.buf, o, l)), { type: 'image/jpeg' });
+    return null;
+  }
+  async function getFrame(k){
+    const c = ICE.clips[ICE.cur]; if (!c || k < 0 || k >= c.nf) return null;
+    if (ICE.cache.has(k)) return ICE.cache.get(k);
+    const pr = (async () => { const b = frameBlob(c, k) || await iceBlob(c.file, c.frames[k]); return createImageBitmap(b); })();
+    ICE.cache.set(k, pr);
+    if (ICE.cache.size > 48) { const first = ICE.cache.keys().next().value; const old = ICE.cache.get(first); ICE.cache.delete(first); old.then(b => b && b.close && b.close()).catch(() => {}); }
+    return pr;
+  }
+  let iceImg = null;
+  async function iceShow(k){
+    const c = ICE.clips[ICE.cur]; if (!c) return;
+    k = Math.max(0, Math.min(c.nf - 1, k)); ICE.frame = k;
+    try { const b = await getFrame(k); if (b && ICE.frame === k && ICE.clips[ICE.cur] === c) { iceImg = b; iceDraw(); ice3d.frame(b); } } catch (e) {}
+    $('iceslider').value = k; $('iceframe').textContent = (k + 1) + ' / ' + c.nf;
+    for (let a = 1; a <= 4; a++) if (k + a < c.nf) getFrame(k + a);              // 先解碼後面幾張
+  }
+  let iceT0 = 0, iceF0 = 0, iceRaf = 0;
+  function icePlay(){
+    const c = ICE.clips[ICE.cur]; if (!c || c.nf < 2) return;
+    ICE.playing = true; $('iceplay').classList.add('on'); $('iceplay').textContent = '❚❚';
+    iceT0 = performance.now(); iceF0 = ICE.frame;
+    const step = async now => {
+      if (!ICE.playing || ICE.clips[ICE.cur] !== c) return;
+      const k = (iceF0 + Math.floor((now - iceT0) * ICE.speed / c.ft)) % c.nf;
+      if (k !== ICE.frame) await iceShow(k);
+      iceRaf = requestAnimationFrame(step);
+    };
+    iceRaf = requestAnimationFrame(step);
+  }
+  function iceStop(){ ICE.playing = false; cancelAnimationFrame(iceRaf); $('iceplay').classList.remove('on'); $('iceplay').textContent = '▶'; }
+  $('iceplay').addEventListener('click', () => { if (ICE.playing) iceStop(); else icePlay(); });
+  $('iceprev').addEventListener('click', () => { iceStop(); iceShow(ICE.frame - 1); });
+  $('icenext').addEventListener('click', () => { iceStop(); iceShow(ICE.frame + 1); });
+  $('iceslider').addEventListener('input', () => { iceStop(); iceShow(+$('iceslider').value); });
+  $('icespeed').addEventListener('change', () => { ICE.speed = +$('icespeed').value; if (ICE.playing) { iceStop(); icePlay(); } });
+
+  // ---------- 影像繪製（含標註與模型輪廓疊圖） ----------
+  const iceCv = $('icecv'), iceG = iceCv.getContext('2d');
+  let iceFit = null;                                                       // 影像 → 畫面的換算
+  ICE.z = 1; ICE.px = 0; ICE.py = 0; ICE.color = COLORS[1]; ICE.ann = {}; ICE.hist = []; ICE.redo = []; ICE.draft = null; ICE.tool = 'pan';
+  try { ICE.ann = JSON.parse(localStorage.getItem('seemo-ice-ann') || '{}') || {}; } catch (e) { ICE.ann = {}; }
+  const iceSaveAnn = () => { try { localStorage.setItem('seemo-ice-ann', JSON.stringify(ICE.ann)); } catch (e) {} };
+  const annList = () => { const c = ICE.clips[ICE.cur]; return c ? (ICE.ann[c.sop] = ICE.ann[c.sop] || []) : []; };
+  function annCommit(next){
+    const c = ICE.clips[ICE.cur]; if (!c) return;
+    ICE.hist.push(JSON.stringify(annList())); if (ICE.hist.length > 60) ICE.hist.shift(); ICE.redo = [];
+    ICE.ann[c.sop] = next; iceSaveAnn(); iceSyncHist(); iceDraw();
+  }
+  function iceUndo(){ const c = ICE.clips[ICE.cur]; if (!c || !ICE.hist.length) return; ICE.redo.push(JSON.stringify(annList())); ICE.ann[c.sop] = JSON.parse(ICE.hist.pop()); iceSaveAnn(); iceSyncHist(); iceDraw(); }
+  function iceRedo(){ const c = ICE.clips[ICE.cur]; if (!c || !ICE.redo.length) return; ICE.hist.push(JSON.stringify(annList())); ICE.ann[c.sop] = JSON.parse(ICE.redo.pop()); iceSaveAnn(); iceSyncHist(); iceDraw(); }
+  function iceSyncHist(){ const sg = ICE.tool && ICE.tool.startsWith('seg'); $('iceundo').disabled = sg ? false : !ICE.hist.length; $('iceredo').disabled = sg ? false : !ICE.redo.length; $('iceclear').disabled = !annList().length; }
+  function iceDraw(){
+    const c = ICE.clips[ICE.cur], dpr = window.devicePixelRatio || 1;
+    const w = iceCv.clientWidth, h = iceCv.clientHeight; if (!w || !h) return;
+    if (iceCv.width !== Math.round(w * dpr) || iceCv.height !== Math.round(h * dpr)) { iceCv.width = Math.round(w * dpr); iceCv.height = Math.round(h * dpr); }
+    const g = iceG; g.setTransform(dpr, 0, 0, dpr, 0, 0); g.fillStyle = '#000'; g.fillRect(0, 0, w, h);
+    $('icezoomv').textContent = Math.round(ICE.z * 100) + '%';
+    if (!c || !iceImg) return;
+    const s = Math.min(w / iceImg.width, h / iceImg.height) * ICE.z, ox = (w - iceImg.width * s) / 2 + ICE.px, oy = (h - iceImg.height * s) / 2 + ICE.py;
+    iceFit = { s, ox, oy };
+    g.imageSmoothingEnabled = ICE.z < 2.5;
+    g.drawImage(iceImg, ox, oy, iceImg.width * s, iceImg.height * s);
+    const P = (x, y) => [ox + x * s, oy + y * s];
+    segDraw(g, P, s);
+    // 3D 模型在這個扇形上的切面輪廓
+    if (ICE.overlay && ICE.cuts.length && c.reg) {
+      g.lineWidth = 1.6;
+      for (const cut of ICE.cuts) {
+        g.strokeStyle = 'rgba(' + cut.rgb.join(',') + ',0.9)'; g.beginPath();
+        for (const sg of cut.seg2) { const a = plane2px(c, sg[0], sg[1]), b = plane2px(c, sg[2], sg[3]); if (!a || !b) continue; const A = P(...a), B = P(...b); g.moveTo(A[0], A[1]); g.lineTo(B[0], B[1]); }
+        g.stroke();
+      }
+    }
+    // 標註：測量、標記點、箭頭、圓、文字
+    const ff = getComputedStyle(document.body).fontFamily;
+    const label = (tx, x, y, col) => { g.font = '600 13px ' + ff; const tw = g.measureText(tx).width; g.fillStyle = 'rgba(0,0,0,.7)'; g.fillRect(x - 4, y - 14, tw + 8, 19); g.fillStyle = col; g.fillText(tx, x, y); };
+    let dotN = 0;
+    for (const m of annList().concat(ICE.draft ? [ICE.draft] : [])) {
+      const col = m.color || '#ffd60a', A = P(m.a[0], m.a[1]), B = m.b ? P(m.b[0], m.b[1]) : A;
+      g.strokeStyle = col; g.fillStyle = col; g.lineWidth = 2;
+      if (m.type === 'meas') {
+        g.beginPath(); g.moveTo(A[0], A[1]); g.lineTo(B[0], B[1]); g.stroke();
+        [A, B].forEach(q => { g.beginPath(); g.arc(q[0], q[1], 3.5, 0, 7); g.fill(); });
+        const mm = iceMM(c, m.a, m.b); label(mm == null ? t('（無比例尺）', '(no scale)') : mm.toFixed(1) + ' mm', (A[0] + B[0]) / 2 + 8, (A[1] + B[1]) / 2 - 8, col);
+      } else if (m.type === 'arrow') {
+        const ang = Math.atan2(B[1] - A[1], B[0] - A[0]), L = 13;
+        g.beginPath(); g.moveTo(A[0], A[1]); g.lineTo(B[0], B[1]); g.stroke();
+        g.beginPath(); g.moveTo(B[0], B[1]); g.lineTo(B[0] - L * Math.cos(ang - 0.45), B[1] - L * Math.sin(ang - 0.45)); g.lineTo(B[0] - L * Math.cos(ang + 0.45), B[1] - L * Math.sin(ang + 0.45)); g.closePath(); g.fill();
+      } else if (m.type === 'circle') {
+        const r = Math.hypot(B[0] - A[0], B[1] - A[1]); g.beginPath(); g.arc(A[0], A[1], r, 0, 7); g.stroke();
+        const mm = iceMM(c, m.a, m.b); if (mm != null && r > 8) label('⌀ ' + (mm * 2).toFixed(1) + ' mm', A[0] + r * 0.72 + 4, A[1] - r * 0.72, col);
+      } else if (m.type === 'dot') {
+        dotN++; g.beginPath(); g.arc(A[0], A[1], 9, 0, 7); g.fill();
+        g.font = '700 11px ' + ff; g.fillStyle = '#000'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(String(dotN), A[0], A[1] + 0.5); g.textAlign = 'start'; g.textBaseline = 'alphabetic';
+        if (m.text) label(m.text, A[0] + 14, A[1] + 5, col);
+      } else if (m.type === 'text') {
+        g.font = '600 15px ' + ff; g.lineWidth = 3; g.strokeStyle = 'rgba(0,0,0,.85)'; g.strokeText(m.text || '', A[0], A[1]); g.fillText(m.text || '', A[0], A[1]);
+      }
+    }
+    segCursor();
+  }
+  function segCursor(){
+    if (!segHover || !iceFit || (ICE.tool !== 'segadd' && ICE.tool !== 'segdel')) return;
+    const c = ICE.clips[ICE.cur], mm = c && mmPerPx(c); if (!mm) return;
+    const g = iceG, r = ICE.segBrush / mm[0] * iceFit.s, x = iceFit.ox + segHover[0] * iceFit.s, y = iceFit.oy + segHover[1] * iceFit.s;
+    g.strokeStyle = ICE.tool === 'segadd' ? 'rgb(' + SEG_RGB[ICE.segKey].join(',') + ')' : '#fff'; g.setLineDash(ICE.tool === 'segdel' ? [4, 3] : []); g.lineWidth = 1.5;
+    g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke(); g.setLineDash([]);
+  }
+  let segHover = null;
+  const iceMM = (c, a, b) => c.reg && c.reg.dx ? Math.hypot((b[0] - a[0]) * c.reg.dx, (b[1] - a[1]) * c.reg.dy) * (c.reg.ux === 3 ? 10 : 1) : null;
+  // 扇形頂點（探頭位置）在影像上的像素座標：有參考點就用（物理值 0 的位置），沒有就用區域上緣中央
+  function apexPx(c){
+    const r = c.reg; if (!r) return null;
+    const cx = (r.x0 + r.x1) / 2;
+    let ay = r.y0;
+    if (r.ry != null && r.vy != null && r.dy) { const y0 = r.y0 + r.ry - r.vy / r.dy; if (y0 > r.y0 - 80 && y0 <= r.y0 + 40) ay = y0; }
+    return [cx, ay];
+  }
+  const mmPerPx = c => c.reg ? [c.reg.dx * (c.reg.ux === 3 ? 10 : 1), c.reg.dy * (c.reg.ux === 3 ? 10 : 1)] : null;
+  // 扇形平面座標（s：沿導管、r：深度，mm）→ 影像像素
+  function plane2px(c, s, r){
+    const a = apexPx(c), m = mmPerPx(c); if (!a || !m) return null;
+    return [a[0] + (ICE.flip ? -s : s) / m[0], a[1] + r / m[1]];
+  }
+  function px2plane(c, x, y){
+    const a = apexPx(c), m = mmPerPx(c); if (!a || !m) return null;
+    const s = (x - a[0]) * m[0]; return [ICE.flip ? -s : s, (y - a[1]) * m[1]];
+  }
+  const evImg = e => { if (!iceFit) return null; const b = iceCv.getBoundingClientRect(); return [(e.clientX - b.left - iceFit.ox) / iceFit.s, (e.clientY - b.top - iceFit.oy) / iceFit.s]; };
+  const segPx = (p, a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], l = dx * dx + dy * dy, q = l ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l)) : 0; return Math.hypot(a[0] + dx * q - p[0], a[1] + dy * q - p[1]); };
+  // 游標附近的標註（畫面上 10 px 內）
+  function annHit(p){
+    const L = annList(), tol = 10 / iceFit.s;
+    for (let k = L.length - 1; k >= 0; k--) {
+      const m = L[k];
+      if ((m.type === 'meas' || m.type === 'arrow') && segPx(p, m.a, m.b) < tol) return k;
+      if (m.type === 'circle' && Math.abs(Math.hypot(p[0] - m.a[0], p[1] - m.a[1]) - Math.hypot(m.b[0] - m.a[0], m.b[1] - m.a[1])) < tol) return k;
+      if (m.type === 'dot' && Math.hypot(p[0] - m.a[0], p[1] - m.a[1]) < tol + 4 / iceFit.s) return k;
+      if (m.type === 'text') { iceG.font = '600 15px sans-serif'; const tw = iceG.measureText(m.text || '').width / iceFit.s; if (p[0] > m.a[0] - tol && p[0] < m.a[0] + tw + tol && p[1] > m.a[1] - 16 / iceFit.s - tol && p[1] < m.a[1] + tol) return k; }
+    }
+    return -1;
+  }
+  // 文字輸入框（標記點的名稱、文字標註）
+  let iceTxt = null;
+  function iceAskText(p, init, done){
+    const box = $('icetxt'), b = iceCv.getBoundingClientRect(), host = iceCv.parentNode.getBoundingClientRect();
+    box.hidden = false; box.value = init || ''; box.style.left = (b.left - host.left + iceFit.ox + p[0] * iceFit.s + 10) + 'px'; box.style.top = (b.top - host.top + iceFit.oy + p[1] * iceFit.s - 14) + 'px';
+    iceTxt = done; setTimeout(() => box.focus(), 0);
+  }
+  function iceTxtClose(ok){ const box = $('icetxt'); if (box.hidden) return; box.hidden = true; const f = iceTxt; iceTxt = null; if (ok && f) f(box.value.trim()); }
+  $('icetxt').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') { e.preventDefault(); iceTxtClose(true); } else if (e.key === 'Escape') { e.preventDefault(); iceTxtClose(false); } });
+  $('icetxt').addEventListener('blur', () => iceTxtClose(true));
+  let iceDrag = null, iceSpace = false, iceDragMoved = false;
+  window.addEventListener('keydown', e => { if (e.code === 'Space' && !$('icepane').hidden && document.activeElement !== $('icetxt')) iceSpace = true; });
+  window.addEventListener('keyup', e => { if (e.code === 'Space') iceSpace = false; });
+  iceCv.addEventListener('pointerdown', e => {
+    const c = ICE.clips[ICE.cur]; if (!c || !iceFit) return;
+    const p = evImg(e); iceCv.setPointerCapture(e.pointerId);
+    if (e.button === 2 && (ICE.tool === 'segadd' || ICE.tool === 'segdel') && segRename(p)) return;
+    if (e.button === 0 && ICE.tool === 'pan' && !iceSpace) { const k = annHit(p); if (k >= 0) { iceStop(); const m = annList()[k]; ICE.hist.push(JSON.stringify(annList())); ICE.redo = []; iceDrag = { move: k, p0: p, a0: m.a.slice(), b0: m.b ? m.b.slice() : null }; iceCv.style.cursor = 'move'; return; } }
+    if (e.button === 1 || e.button === 2 || ICE.tool === 'pan' || iceSpace) { iceDrag = { pan: true, x: e.clientX, y: e.clientY, moved: false, click: e.button === 0 && ICE.tool === 'pan' && !iceSpace }; return; }
+    if ((ICE.tool === 'segadd' || ICE.tool === 'segdel') && e.button === 0 && e.altKey) { segRename(p); return; }
+    if (e.button !== 0) return;
+    if (ICE.tool === 'segadd' || ICE.tool === 'segdel') { iceStop(); segPush(); segPaint(p, ICE.tool === 'segadd'); iceDrag = { seg: true }; iceDraw(); return; }
+    // 點到已經畫好的標註（平移工具，或同一種標註工具）：拖曳搬移
+    { const k = annHit(p), L = annList(), m = k >= 0 ? L[k] : null, same = m && (ICE.tool === 'pan' || ICE.tool === (m.type === 'meas' ? 'measure' : m.type));
+      if (same && !iceSpace) { iceStop(); ICE.hist.push(JSON.stringify(L)); ICE.redo = []; iceDrag = { move: k, p0: p, a0: m.a.slice(), b0: m.b ? m.b.slice() : null }; iceCv.style.cursor = 'move'; return; } }
+    if (ICE.tool === 'erase') { const k = annHit(p); if (k >= 0) { const L = annList().slice(); L.splice(k, 1); annCommit(L); } iceDrag = { erase: true }; return; }
+    if (ICE.tool === 'dot') { iceStop(); const m = { type: 'dot', a: p, color: ICE.color }; annCommit(annList().concat([m])); iceAskText(p, '', tx => { if (tx) { m.text = tx; iceSaveAnn(); iceDraw(); } }); return; }
+    if (ICE.tool === 'text') { iceStop(); iceAskText(p, '', tx => { if (tx) annCommit(annList().concat([{ type: 'text', a: p, text: tx, color: ICE.color }])); }); return; }
+    if (['measure', 'arrow', 'circle'].includes(ICE.tool)) { iceStop(); ICE.draft = { type: ICE.tool === 'measure' ? 'meas' : ICE.tool, a: p, b: p, color: ICE.color }; iceDraw(); }
+  });
+  iceCv.addEventListener('pointermove', e => {
+    if (ICE.tool === 'segadd' || ICE.tool === 'segdel') { segHover = evImg(e); if (iceDrag && iceDrag.seg && e.buttons) segPaint(segHover, ICE.tool === 'segadd'); iceDraw(); if (iceDrag && iceDrag.seg) return; }
+    if (iceDrag && iceDrag.move != null) { const q = evImg(e), m = annList()[iceDrag.move]; if (!m || !q) return; const dx = q[0] - iceDrag.p0[0], dy = q[1] - iceDrag.p0[1];
+      m.a = [iceDrag.a0[0] + dx, iceDrag.a0[1] + dy]; if (iceDrag.b0) m.b = [iceDrag.b0[0] + dx, iceDrag.b0[1] + dy]; iceDragMoved = true; iceDraw(); return; }
+    if (!iceDrag && iceFit && ICE.clips[ICE.cur] && ['pan', 'measure', 'arrow', 'circle', 'dot', 'text'].includes(ICE.tool)) { const k = annHit(evImg(e)), m = k >= 0 ? annList()[k] : null;
+      iceCv.style.cursor = m && (ICE.tool === 'pan' || ICE.tool === (m.type === 'meas' ? 'measure' : m.type)) ? 'move' : (ICE_CUR[ICE.tool] || 'crosshair'); }
+    if (iceDrag && iceDrag.pan) {
+      const dx = e.clientX - iceDrag.x, dy = e.clientY - iceDrag.y;
+      if (!iceDrag.moved && Math.hypot(dx, dy) < 4) return;
+      iceDrag.moved = true; ICE.px += dx; ICE.py += dy; iceDrag.x = e.clientX; iceDrag.y = e.clientY; iceDraw(); return;
+    }
+    if (iceDrag && iceDrag.erase) { const k = annHit(evImg(e)); if (k >= 0) { const L = annList().slice(); L.splice(k, 1); annCommit(L); } return; }
+    if (ICE.draft) { ICE.draft.b = evImg(e); iceDraw(); }
+  });
+  iceCv.addEventListener('pointerleave', () => { if (segHover) { segHover = null; iceDraw(); } });
+  iceCv.addEventListener('pointerup', () => {
+    const d = iceDrag; iceDrag = null;
+    if (d && d.move != null) { if (!iceDragMoved) ICE.hist.pop(); iceDragMoved = false; iceSaveAnn(); iceSyncHist(); iceCv.style.cursor = ICE_CUR[ICE.tool] || 'crosshair'; return; }
+    if (d && d.seg) { segSave(); segChips(); return; }
+    if (d && d.pan) { if (d.click && !d.moved) { const c = ICE.clips[ICE.cur]; if (c && c.nf > 1) { if (ICE.playing) iceStop(); else icePlay(); } } return; }
+    const m = ICE.draft; ICE.draft = null; if (!m) return;
+    if (Math.hypot(m.b[0] - m.a[0], m.b[1] - m.a[1]) * iceFit.s > 4) annCommit(annList().concat([m])); else iceDraw();
+  });
+  iceCv.addEventListener('contextmenu', e => e.preventDefault());
+  iceCv.addEventListener('dblclick', e => {                                 // 雙擊標記點或文字：改字
+    if (!iceFit) return; const p = evImg(e), k = annHit(p); if (k < 0) return; const m = annList()[k];
+    if (m.type !== 'dot' && m.type !== 'text') return;
+    iceAskText(m.a, m.text, tx => { const L = annList().map(x => Object.assign({}, x)); if (m.type === 'text' && !tx) L.splice(k, 1); else L[k].text = tx; annCommit(L); });
+  });
+  // 放大／縮小：Ctrl（Mac 觸控板雙指捏合）＋滾輪，或右上角按鈕；游標下的點保持不動
+  function iceZoomAt(f, mx, my){
+    const w = iceCv.clientWidth, h = iceCv.clientHeight, z0 = ICE.z, z1 = Math.max(1, Math.min(10, z0 * f));
+    if (mx == null) { mx = w / 2; my = h / 2; }
+    if (z1 === 1) { ICE.z = 1; ICE.px = ICE.py = 0; iceDraw(); return; }
+    ICE.px = mx - w / 2 - (mx - w / 2 - ICE.px) * z1 / z0; ICE.py = my - h / 2 - (my - h / 2 - ICE.py) * z1 / z0; ICE.z = z1; iceDraw();
+  }
+  $('icezin').addEventListener('click', () => iceZoomAt(1.25));
+  $('icezout').addEventListener('click', () => iceZoomAt(1 / 1.25));
+  $('icezoomv').addEventListener('click', () => { ICE.z = 1; ICE.px = ICE.py = 0; iceDraw(); });
+  // 滾輪：逐格前後看（播放中會先暫停）。滑鼠一格＝一張；觸控板的小事件累積 50 px 才算一張；Shift＝一次 5 張；Ctrl＝縮放
+  let iceAcc = 0;
+  iceCv.addEventListener('wheel', e => {
+    e.preventDefault(); const c = ICE.clips[ICE.cur]; if (!c) return;
+    if (e.altKey && ICE.tool.startsWith('seg')) { ICE.segBrush = Math.max(1, Math.min(20, ICE.segBrush + (e.deltaY < 0 ? 1 : -1))); $('icesegbr').value = ICE.segBrush; $('icesegbrv').textContent = ICE.segBrush + ' mm'; iceDraw(); return; }
+    if (e.ctrlKey || e.metaKey) { const b = iceCv.getBoundingClientRect(); iceZoomAt(Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0025)), e.clientX - b.left, e.clientY - b.top); return; }
+    if (c.nf < 2) return;
+    const dy = e.deltaMode === 1 ? e.deltaY * 33 : e.deltaMode === 2 ? e.deltaY * 400 : (Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX);
+    let n;
+    if (e.deltaMode !== 0 || Math.abs(dy) >= 90) { n = Math.sign(dy); iceAcc = 0; }
+    else { iceAcc += dy; n = Math.trunc(iceAcc / 50); iceAcc -= n * 50; }
+    if (!n) return;
+    if (ICE.playing) iceStop();
+    iceShow(Math.max(0, Math.min(c.nf - 1, ICE.frame + n * (e.shiftKey ? 5 : 1))));
+  }, { passive: false });
+  // 工具列（照 CT 頁）：平移、測量、標記點、箭頭、圓、文字、擦除；顏色；復原／重做／清除
+  const ICE_CUR = { pan: 'grab', erase: 'cell', text: 'text', segadd: 'none', segdel: 'none' };
+  function iceSetTool(tl){
+    ICE.tool = tl;
+    document.querySelectorAll('#icerail button[data-t]').forEach(b => b.classList.toggle('on', b.dataset.t === tl));
+    iceCv.style.cursor = ICE_CUR[tl] || 'crosshair';
+    iceSyncHist(); iceDraw();
+  }
+  document.querySelectorAll('#icerail button[data-t]').forEach(b => b.addEventListener('click', () => iceSetTool(b.dataset.t)));
+  (() => {
+    const box = $('icecolors');
+    COLORS.forEach(cl => { const b = document.createElement('button'); b.type = 'button'; b.className = 'icecol-sw'; b.style.background = cl; b.title = cl; b.addEventListener('click', () => { ICE.color = cl; box.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); }); if (cl === ICE.color) b.classList.add('on'); box.append(b); });
+  })();
+  $('iceundo').addEventListener('click', () => { if (ICE.tool.startsWith('seg')) segUndo(); else iceUndo(); });
+  $('iceredo').addEventListener('click', () => { if (ICE.tool.startsWith('seg')) segRedo(); else iceRedo(); });
+  $('iceclear').addEventListener('click', () => { if (annList().length) annCommit([]); });
+  iceSetTool('pan');
+  $('iceflip').checked = ICE.flip; $('iceover').checked = ICE.overlay;
+  $('iceflip').addEventListener('change', () => { ICE.flip = $('iceflip').checked; iceSaveOpts(); ice3d.update(); iceDraw(); });
+  $('iceover').addEventListener('change', () => { ICE.overlay = $('iceover').checked; iceSaveOpts(); iceDraw(); });
+  if (window.ResizeObserver) new ResizeObserver(() => { if (!$('icepane').hidden) { iceDraw(); ice3d.redraw(); } }).observe($('icepane'));
+  // 右邊 3D 模型可以關掉，讓影像放大；設定記在瀏覽器
+  function ice3dShow(on){
+    $('icebody').classList.toggle('no3d', !on); $('ice3dopen').classList.toggle('on', on);
+    try { localStorage.setItem('seemo-ice-3d', on ? '1' : '0'); } catch (e) {}
+    requestAnimationFrame(() => { iceDraw(); if (on) ice3d.redraw(); });
+  }
+  $('ice3dclose').addEventListener('click', () => ice3dShow(false));
+  $('ice3dopen').addEventListener('click', () => ice3dShow($('icebody').classList.contains('no3d')));
+  try { if (localStorage.getItem('seemo-ice-3d') === '0') setTimeout(() => ice3dShow(false), 0); } catch (e) {}
+
+  // ---------- 標切面 ----------
+  (() => {
+    const box = $('iceviews');
+    ICE_VIEWS.forEach((v, i) => {
+      const b = document.createElement('button'); b.type = 'button'; b.dataset.k = v.k;
+      b.innerHTML = '<b></b><small></small><kbd></kbd>';
+      b.children[0].textContent = t(v.zh, v.en); b.children[1].textContent = t(v.sub[0], v.sub[1]); b.children[2].textContent = (i + 1) % 10;
+      b.addEventListener('click', () => iceTag(v.k));
+      box.append(b);
+    });
+  })();
+  function iceTag(k){
+    const c = ICE.clips[ICE.cur]; if (!c) return;
+    const cur = ICE.tags[c.sop];
+    if (cur && cur.view === k) delete ICE.tags[c.sop];                    // 再按一次＝取消
+    else ICE.tags[c.sop] = { view: k, rot: 0, h: 0, name: c.name, when: c.when };
+    ICE.autoFace = true;
+    iceSaveTags(); iceSyncTagBtns(); iceRenderList(); ICE.pose = null; ice3d.update();
+  }
+  // 手動對齊：繞導管旋轉、上下、導管前後／左右彎、尖端左右／前後平移。每段影片各自記住
+  const ICE_AL = [['rot', '旋轉', 'Rotate', -180, 180, '°'], ['h', '高度', 'Height', -40, 40, ' mm'], ['ap', '前後彎', 'Tilt A/P', -60, 60, '°'],
+                  ['lr', '左右彎', 'Tilt L/R', -60, 60, '°'], ['dx', '左右移', 'Shift L/R', -25, 25, ' mm'], ['dy', '前後移', 'Shift A/P', -25, 25, ' mm']];
+  (() => {
+    const box = $('icealignbox');
+    ICE_AL.forEach(([k, zh, en, lo, hi, u]) => {
+      const lab = document.createElement('span'); lab.textContent = t(zh, en);
+      const sl = document.createElement('input'); sl.type = 'range'; sl.min = lo; sl.max = hi; sl.step = 1; sl.value = 0; sl.id = 'iceal_' + k; sl.disabled = true;
+      const out = document.createElement('output'); out.id = 'iceal_' + k + 'v'; out.textContent = '0' + u;
+      sl.addEventListener('input', () => { const tg = tagOf(); if (!tg) return; tg[k] = +sl.value; out.textContent = (tg[k] > 0 && u === ' mm' ? '+' : '') + tg[k] + u; ICE.pose = null; ice3d.update(); });
+      sl.addEventListener('change', iceSaveTags);
+      sl.addEventListener('dblclick', () => { const tg = tagOf(); if (!tg) return; tg[k] = 0; iceSaveTags(); iceSyncTagBtns(); ICE.pose = null; ice3d.update(); });
+      box.append(lab, sl, out);
+    });
+  })();
+  function iceSyncTagBtns(){
+    const c = ICE.clips[ICE.cur], tg = c && ICE.tags[c.sop], off = !tg || tg.view === 'other';
+    document.querySelectorAll('#iceviews button').forEach(b => b.classList.toggle('on', !!tg && tg.view === b.dataset.k));
+    ICE_AL.forEach(([k, , , , , u]) => { const sl = $('iceal_' + k), v = tg ? tg[k] || 0 : 0; sl.disabled = off; sl.value = v; $('iceal_' + k + 'v').textContent = (v > 0 && u === ' mm' ? '+' : '') + v + u; });
+    $('icealreset').disabled = $('icealall').disabled = off;
+  }
+  const tagOf = () => { const c = ICE.clips[ICE.cur]; return c && ICE.tags[c.sop]; };
+  $('icealreset').addEventListener('click', () => { const tg = tagOf(); if (!tg) return; ICE_AL.forEach(([k]) => { tg[k] = 0; }); iceSaveTags(); iceSyncTagBtns(); ICE.pose = null; ICE.autoFace = true; ice3d.update(); });
+  // 同一個切面的其他片段，套用目前這段的對齊（同一台手術導管位置通常差不多）
+  $('icealall').addEventListener('click', () => {
+    const tg = tagOf(); if (!tg) return; let n = 0;
+    ICE.clips.forEach(c => { const o = ICE.tags[c.sop]; if (o && o !== tg && o.view === tg.view) { ICE_AL.forEach(([k]) => { o[k] = tg[k] || 0; }); n++; } });
+    iceSaveTags(); iceStatus(n ? t('已套用到另外 ', 'Applied to ') + n + t(' 段同樣是「', ' other clips tagged “') + iceViewName(tg.view) + t('」的片段。', '”.') : t('沒有其他同切面的片段。', 'No other clips with this view.'));
+  });
+  $('iceexport').addEventListener('click', () => {
+    const rows = [['file', 'time', 'frames', 'view', 'rotation_deg', 'height_mm', 'tilt_ap_deg', 'tilt_lr_deg', 'shift_lr_mm', 'shift_ap_mm', 'sop_uid']];
+    ICE.clips.forEach(c => { const tg = ICE.tags[c.sop]; rows.push([c.name, fmtWhen(c.when), c.nf, tg ? tg.view : ''].concat(ICE_AL.map(([k]) => tg ? tg[k] || 0 : '')).concat([c.sop])); });
+    save('﻿' + rows.map(r => r.map(x => /[",\n]/.test(String(x)) ? '"' + String(x).replace(/"/g, '""') + '"' : x).join(',')).join('\n'), 'ICE_views.csv', 'text/csv');
+  });
+
+  // ---------- 鍵盤 ----------
+  window.addEventListener('keydown', e => {
+    if ($('icepane').hidden || !ICE.clips.length || /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName) && document.activeElement.type !== 'range') return;
+    const k = e.key;
+    if (k === ' ') { e.preventDefault(); if (ICE.playing) iceStop(); else icePlay(); }
+    else if (k === 'ArrowRight') { e.preventDefault(); iceStop(); iceShow(ICE.frame + 1); }
+    else if (k === 'ArrowLeft') { e.preventDefault(); iceStop(); iceShow(ICE.frame - 1); }
+    else if (k === 'ArrowDown') { e.preventDefault(); iceSelect(ICE.cur + 1); }
+    else if (k === 'ArrowUp') { e.preventDefault(); iceSelect(ICE.cur - 1); }
+    else if (/^[0-9]$/.test(k) && !e.ctrlKey && !e.metaKey) { const i = (+k + 9) % 10; if (ICE_VIEWS[i]) iceTag(ICE_VIEWS[i].k); }
+    else if ((e.ctrlKey || e.metaKey) && (k.toLowerCase() === 'y' || (k.toLowerCase() === 'z' && e.shiftKey))) { e.preventDefault(); if (ICE.tool.startsWith('seg')) segRedo(); else iceRedo(); }
+    else if ((e.ctrlKey || e.metaKey) && k.toLowerCase() === 'z') { e.preventDefault(); if (ICE.tool.startsWith('seg')) segUndo(); else iceUndo(); }
+    else if (ICE.tool.startsWith('seg') && (k === '[' || k === ']')) { ICE.segBrush = Math.max(1, Math.min(20, ICE.segBrush + (k === ']' ? 1 : -1))); $('icesegbr').value = ICE.segBrush; $('icesegbrv').textContent = ICE.segBrush + ' mm'; iceDraw(); }
+    else if (!e.ctrlKey && !e.metaKey && !e.altKey && { p: 1, m: 1, t: 1, a: 1, o: 1, e: 1, b: 1, x: 1 }[k.toLowerCase()]) { iceSetTool({ p: 'pan', m: 'measure', t: 'text', a: 'arrow', o: 'circle', e: 'erase', b: 'segadd', x: 'segdel' }[k.toLowerCase()]); }
+    else if (k === 'Escape') { if (ICE.grid) iceGrid(false); ICE.draft = null; iceSetTool('pan'); iceDraw(); }
+    else if (k.toLowerCase() === 'g' && !e.ctrlKey && !e.metaKey) iceGrid(!ICE.grid);
+  });
+
+  // ---------- 3D 心臟與 ICE 扇形 ----------
+  // 用目前「3D 模型」分頁載入的心臟（CT 做出來的 .dif 或任何含 RA／LA… 的模型）。病人座標：+x 左、+y 後、+z 頭
+  const SKEYS = [['RA', /(^|[^A-Z])RA([^A-Z]|$)|右心房|right\s*atri/i], ['LA', /(^|[^A-Z])LA([^A-Z]|$)|左心房|left\s*atri/i], ['RV', /(^|[^A-Z])RV([^A-Z]|$)|右心室|right\s*vent/i],
+    ['LV', /(^|[^A-Z])LV([^A-Z]|$)|左心室|left\s*vent/i], ['AO', /(^|[^A-Z])AO([^A-Z]|$)|aort|主動脈/i], ['PA', /(^|[^A-Z])PA([^A-Z]|$)|pulmonary\s*art|肺動脈/i], ['ESO', /eso|食道/i]];
+  const SZH = { RA: '右心房 RA', LA: '左心房 LA', RV: '右心室 RV', LV: '左心室 LV', AO: '主動脈', PA: '肺動脈', ESO: '食道' };
+  function heartParts(){
+    const P = {};
+    ICE.vols.forEach((v, i) => { const nm = v.name || ''; for (const [k, re] of SKEYS) if (!P[k] && re.test(nm)) { P[k] = { v, i }; break; } });
+    for (const k in P) {
+      const p = P[k].v.pos; let c = [0, 0, 0]; const n = p.length / 3;
+      for (let j = 0; j < p.length; j += 3) { c[0] += p[j]; c[1] += p[j + 1]; c[2] += p[j + 2]; }
+      P[k].c = scl(c, 1 / n);
+    }
+    return P;
+  }
+  // 結構表面上，沿某方向最突出的那群點的中心
+  function extreme(part, dir, frac){
+    const p = part.v.pos, n = p.length / 3, d = norm(dir), s = new Float32Array(n);
+    for (let j = 0; j < n; j++) s[j] = p[j * 3] * d[0] + p[j * 3 + 1] * d[1] + p[j * 3 + 2] * d[2];
+    const th = Float32Array.from(s).sort()[Math.floor(n * (1 - (frac || 0.04)))];
+    let c = [0, 0, 0], m = 0; for (let j = 0; j < n; j++) if (s[j] >= th) { c[0] += p[j * 3]; c[1] += p[j * 3 + 1]; c[2] += p[j * 3 + 2]; m++; }
+    return scl(c, 1 / Math.max(1, m));
+  }
+  // 導管位置：RA 中段、靠三尖瓣高度；導管沿身體長軸（從 IVC 往上）。各切面的目標點決定扇形朝向（繞導管旋轉的角度）
+  function icePose(view, tg){
+    tg = tg || {}; const rot = tg.rot || 0, h = tg.h || 0;
+    const H = heartParts(); if (!H.RA) return null;
+    const ra = H.RA, up = [0, 0, 1];
+    // 三尖瓣高度：RA 上離 RV 最近的那些點的平均高度
+    let tz = ra.c[2];
+    if (H.RV) { const tv = extreme(ra, sub(H.RV.c, ra.c), 0.06); tz = (tv[2] + ra.c[2]) / 2; }
+    // RA 在這個高度的截面中心
+    const p = ra.v.pos; let cx = 0, cy = 0, m = 0;
+    for (let j = 0; j < p.length; j += 3) if (Math.abs(p[j + 2] - tz) < 6) { cx += p[j]; cy += p[j + 1]; m++; }
+    let T = m ? [cx / m, cy / m, tz] : ra.c.slice();
+    // 稍微靠 RA 後外側（ICE 通常貼著 RA 外側壁）
+    const tgt = {
+      home: H.RV ? H.RV.c : null,
+      av: H.AO && H.LV ? extreme(H.AO, sub(H.LV.c, H.AO.c), 0.08) : H.AO ? H.AO.c : null,
+      mv: H.LV ? H.LV.c : null,
+      septal: H.LA ? H.LA.c : null,
+      laa: H.LA ? extreme(H.LA, [0.7, -0.6, 0.35], 0.03) : null,
+      lpv: H.LA ? extreme(H.LA, [0.85, 0.45, 0.1], 0.03) : null,
+      eso: H.ESO ? H.ESO.c : H.LA ? extreme(H.LA, [0, 1, 0], 0.05) : null,
+      rpv: H.LA ? extreme(H.LA, [-0.85, 0.4, 0.1], 0.03) : null,
+      ts: H.LA ? add(H.LA.c, [0, 6, -8]) : null
+    }[view];
+    if (!tgt) return null;
+    T = add(T, [tg.dx || 0, -(tg.dy || 0), h]);                         // 左右移：+往病人左；前後移：+往前（-y）
+    const d = sub(tgt, T); let b = norm([d[0], d[1], 0]);
+    const a = rot * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
+    // 順時針（從導管尾端往前看）＝從上往下看順時針：beam 由前方轉向左、再往後
+    b = norm([b[0] * ca - b[1] * sa, b[0] * sa + b[1] * ca, 0]);
+    // 導管彎曲：導管軸往前（-y）／往病人左（+x）傾斜；beam 保持和導管垂直
+    const ta = (tg.ap || 0) * Math.PI / 180, tl = (tg.lr || 0) * Math.PI / 180;
+    let U = norm([Math.sin(tl), -Math.sin(ta), Math.cos(ta) * Math.cos(tl)]);
+    b = norm(sub(b, scl(U, dot(b, U))));
+    return { T, up: U, b, target: tgt, H };
+  }
+  // 扇形與每個結構表面的交線（扇形平面座標 s：沿導管往上、r：深度）
+  function iceCuts(pose, depth, half){
+    const out = [], n = norm(cross(pose.b, pose.up));
+    ICE.vols.forEach(v => {
+      const p = v.pos, tr = v.tri, seg2 = [], seg3 = [];
+      for (let k = 0; k < tr.length; k += 3) {
+        const I = [tr[k] * 3, tr[k + 1] * 3, tr[k + 2] * 3], D = I.map(q => (p[q] - pose.T[0]) * n[0] + (p[q + 1] - pose.T[1]) * n[1] + (p[q + 2] - pose.T[2]) * n[2]);
+        const pts = [];
+        for (let e = 0; e < 3; e++) {
+          const a = e, b = (e + 1) % 3; if ((D[a] > 0) === (D[b] > 0)) continue;
+          const f = D[a] / (D[a] - D[b]), A = I[a], B = I[b];
+          pts.push([p[A] + (p[B] - p[A]) * f, p[A + 1] + (p[B + 1] - p[A + 1]) * f, p[A + 2] + (p[B + 2] - p[A + 2]) * f]);
+        }
+        if (pts.length !== 2) continue;
+        const loc = pts.map(q => { const w = sub(q, pose.T); return [dot(w, pose.up), dot(w, pose.b)]; });
+        const inside = q => q[1] > 0 && Math.hypot(q[0], q[1]) < depth && Math.abs(Math.atan2(q[0], q[1])) < half;
+        if (!inside(loc[0]) && !inside(loc[1])) continue;
+        seg2.push([loc[0][0], loc[0][1], loc[1][0], loc[1][1]]); seg3.push(...pts[0], ...pts[1]);
+      }
+      if (seg2.length > 3) out.push({ name: v.name, rgb: v.rgb, seg2, seg3: new Float32Array(seg3) });
+    });
+    return out;
+  }
+  const ice3d = (() => {
+    const cv = $('ice3d'), g = cv.getContext('webgl', { antialias: true, alpha: false });
+    let prog, L = {}, all = null, az = -Math.PI / 6, el = 0, free = false, R = mul(rotY(-Math.PI / 6), AP), dist = 320, center = [0, 0, 0], home = [0, 0, 0], radius = 100, need = true, meshes = [], srcVols = null, fan = null, tex = null, texSize = null;
+    if (g) {
+      const sh = (ty, src) => { const s = g.createShader(ty); g.shaderSource(s, src); g.compileShader(s); return s; };
+      prog = g.createProgram();
+      g.attachShader(prog, sh(g.VERTEX_SHADER, 'attribute vec3 aP;attribute vec3 aN;attribute vec2 aT;attribute vec4 aC;uniform mat4 uM;uniform mat4 uR;varying vec3 vN;varying vec2 vT;varying vec4 vC;void main(){vN=mat3(uR)*aN;vT=aT;vC=aC;gl_Position=uM*vec4(aP,1.0);}'));
+      g.attachShader(prog, sh(g.FRAGMENT_SHADER, 'precision mediump float;uniform vec3 uC;uniform float uF;uniform float uA;uniform float uTex;uniform float uVC;uniform sampler2D uS;varying vec3 vN;varying vec2 vT;varying vec4 vC;' +
+        'void main(){if(uTex>0.5){vec3 c=texture2D(uS,vT).rgb;float l=max(c.r,max(c.g,c.b));if(l<0.06)discard;gl_FragColor=vec4(c,min(1.0,l*1.6)*uA);return;}' +
+        'vec3 c=uVC>0.5?vC.rgb:uC;float a=uVC>0.5?vC.a:uA;float d=abs(normalize(vN).z);gl_FragColor=vec4(mix(c*(0.35+0.65*d),c,uF),a);}'));
+      g.linkProgram(prog); g.useProgram(prog);
+      ['uM', 'uR', 'uC', 'uF', 'uA', 'uTex', 'uS', 'uVC'].forEach(nm => { L[nm] = g.getUniformLocation(prog, nm); });
+      L.aP = g.getAttribLocation(prog, 'aP'); L.aN = g.getAttribLocation(prog, 'aN'); L.aT = g.getAttribLocation(prog, 'aT'); L.aC = g.getAttribLocation(prog, 'aC');
+      L.u32 = g.getExtension('OES_element_index_uint');
+      g.enable(g.DEPTH_TEST);
+      tex = g.createTexture(); g.bindTexture(g.TEXTURE_2D, tex);
+      g.texParameteri(g.TEXTURE_2D, g.TEXTURE_MIN_FILTER, g.LINEAR); g.texParameteri(g.TEXTURE_2D, g.TEXTURE_WRAP_S, g.CLAMP_TO_EDGE); g.texParameteri(g.TEXTURE_2D, g.TEXTURE_WRAP_T, g.CLAMP_TO_EDGE);
+    }
+    const buf = (arr) => { const b = g.createBuffer(); g.bindBuffer(g.ARRAY_BUFFER, b); g.bufferData(g.ARRAY_BUFFER, arr, g.STATIC_DRAW); return b; };
+    function syncMeshes(){
+      if (srcVols === ICE.vols) return;
+      meshes.forEach(m => { g.deleteBuffer(m.bp); g.deleteBuffer(m.bn); }); meshes = [];
+      srcVols = ICE.vols;
+      if (all) { [all.bp, all.bn, all.bc, all.bi].forEach(b => g.deleteBuffer(b)); all = null; }
+      let lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9];
+      ICE.vols.forEach(v => {
+        const nrm = vertexNormals(v), P = new Float32Array(v.tri.length * 3), N = new Float32Array(v.tri.length * 3);
+        for (let k = 0; k < v.tri.length; k++) { const s = v.tri[k] * 3; for (let a = 0; a < 3; a++) { P[k * 3 + a] = v.pos[s + a]; N[k * 3 + a] = nrm[s + a]; } }
+        for (let j = 0; j < v.pos.length; j += 3) for (let a = 0; a < 3; a++) { lo[a] = Math.min(lo[a], v.pos[j + a]); hi[a] = Math.max(hi[a], v.pos[j + a]); }
+        let mc = [0, 0, 0]; for (let j = 0; j < v.pos.length; j += 3) { mc[0] += v.pos[j]; mc[1] += v.pos[j + 1]; mc[2] += v.pos[j + 2]; }
+        meshes.push({ v, bp: buf(P), bn: buf(N), n: v.tri.length, c: scl(mc, 3 / Math.max(3, v.pos.length)), P, N });
+      });
+      // 所有結構合成一份（半透明時依三角形遠近排序用）
+      if (L.u32 && meshes.length) {
+        const nv = meshes.reduce((a, m) => a + m.n, 0), AP_ = new Float32Array(nv * 3), AN = new Float32Array(nv * 3), cen = new Float32Array(nv), owner = new Uint8Array(nv / 3);
+        let o = 0;
+        meshes.forEach((m, mi) => {
+          AP_.set(m.P, o * 3); AN.set(m.N, o * 3);
+          for (let k = 0; k < m.n; k += 3) { const q = (o + k) * 3; owner[(o + k) / 3] = mi;
+            cen[o + k] = (AP_[q] + AP_[q + 3] + AP_[q + 6]) / 3; cen[o + k + 1] = (AP_[q + 1] + AP_[q + 4] + AP_[q + 7]) / 3; cen[o + k + 2] = (AP_[q + 2] + AP_[q + 5] + AP_[q + 8]) / 3; }
+          m.off = o; o += m.n; delete m.P; delete m.N;
+        });
+        all = { bp: buf(AP_), bn: buf(AN), bc: g.createBuffer(), bi: g.createBuffer(), nv, cen, owner, idx: new Uint32Array(nv), key: '' };
+      }
+      if (ICE.vols.length) { center = scl(add(lo, hi), 0.5); home = center.slice(); radius = Math.max(40, vlen(sub(hi, lo)) / 2); dist = radius / TAN * 1.15; }
+      iceStructUI();
+      $('ice3dempty').hidden = !!ICE.vols.length && !!heartParts().RA;
+      $('iceheartsrc').textContent = ICE.vols.length ? (ICE.heartName || '') : t('（未載入）', '(none)');
+    }
+    // 扇形：三角扇（半透明）＋貼 ICE 影像的矩形（像素座標 → 平面）＋導管
+    function buildFan(){
+      if (fan) { [fan.fp, fan.fn, fan.ep, fan.cp, fan.cnb].forEach(b => g.deleteBuffer(b)); if (fan.quad) [fan.quad.bp, fan.quad.bt, fan.quad.bn].forEach(b => g.deleteBuffer(b)); fan.cut3.forEach(k => g.deleteBuffer(k.bp)); }
+      fan = null; ICE.cuts = [];
+      const c = ICE.clips[ICE.cur], tg = c && ICE.tags[c.sop];
+      $('icecut').textContent = '';
+      if (!c || !tg || tg.view === 'other') { $('icepose').textContent = !c ? '' : !tg ? t('還沒標切面：用下方按鈕（或數字鍵 1–0）選一個', 'No view tagged yet: pick one below (or press 1–0)') : t('「其他」不顯示扇形', '“Other” has no fan'); return; }
+      if (!ICE.vols.length || !heartParts().RA) { $('icepose').textContent = t('還沒載入心臟模型：按右邊「載入心臟模型（.dif）」，選 ICE_heart_template.dif。', 'No heart model yet: press “Load heart model (.dif)” on the right and pick ICE_heart_template.dif.'); return; }
+      const pose = icePose(tg.view, tg); if (!pose) { $('icepose').textContent = t('3D 模型裡找不到這個切面需要的結構（需要 RA，以及 LA／LV／RV／AO 等）。', 'The 3D model lacks the structures this view needs (RA plus LA / LV / RV / AO).'); return; }
+      ICE.pose = pose;
+      const m = mmPerPx(c), a = apexPx(c);
+      const depth = c.reg ? (c.reg.y1 - a[1]) * m[1] : 110, half = c.reg ? Math.min(Math.PI / 2 * 0.95, Math.asin(Math.min(1, (c.reg.x1 - c.reg.x0) / 2 * m[0] / depth))) : Math.PI / 4;
+      const U = pose.up, B = pose.b, T = pose.T, pt = (s, r) => add(T, add(scl(U, s), scl(B, r)));
+      const F = [], NN = [], n = norm(cross(B, U));
+      const steps = 40;
+      for (let i = 0; i < steps; i++) {
+        const a0 = -half + 2 * half * i / steps, a1 = -half + 2 * half * (i + 1) / steps;
+        F.push(...T, ...pt(depth * Math.sin(a0), depth * Math.cos(a0)), ...pt(depth * Math.sin(a1), depth * Math.cos(a1)));
+        for (let q = 0; q < 3; q++) NN.push(...n);
+      }
+      const edge = [...T, ...pt(depth * Math.sin(-half), depth * Math.cos(-half)), ...T, ...pt(depth * Math.sin(half), depth * Math.cos(half))];
+      for (let i = 0; i < steps; i++) { const a0 = -half + 2 * half * i / steps, a1 = -half + 2 * half * (i + 1) / steps; edge.push(...pt(depth * Math.sin(a0), depth * Math.cos(a0)), ...pt(depth * Math.sin(a1), depth * Math.cos(a1))); }
+      // 影像貼圖：只貼扇形範圍（每個頂點的平面座標 → 影像像素 → 貼圖座標），畫面旁邊的文字不會跟著貼上去
+      let quad = null;
+      if (c.reg) {
+        const W = c.cols || 960, Hh = c.rows || 720, TT = [];
+        for (let i = 0; i < F.length; i += 3) {
+          const w = sub([F[i], F[i + 1], F[i + 2]], T), q = plane2px(c, dot(w, U), dot(w, B));
+          TT.push(q[0] / W, q[1] / Hh);
+        }
+        quad = { bp: buf(new Float32Array(F)), bt: buf(new Float32Array(TT)), bn: buf(new Float32Array(NN)), n: F.length / 3 };
+      }
+      // 導管：從尖端往下（IVC 方向）的細圓柱
+      const cyl = [], cn2 = [], r0 = 1.6, L0 = 90, seg = 12, ax = U, e1 = norm(cross(ax, [1, 0, 0])), e2 = cross(ax, e1);
+      for (let i = 0; i < seg; i++) {
+        const t0 = 2 * Math.PI * i / seg, t1 = 2 * Math.PI * (i + 1) / seg;
+        const o0 = add(scl(e1, Math.cos(t0) * r0), scl(e2, Math.sin(t0) * r0)), o1 = add(scl(e1, Math.cos(t1) * r0), scl(e2, Math.sin(t1) * r0));
+        const A0 = add(T, o0), A1 = add(T, o1), B0 = add(sub(T, scl(ax, L0)), o0), B1 = add(sub(T, scl(ax, L0)), o1);
+        cyl.push(...A0, ...B0, ...B1, ...A0, ...B1, ...A1); const n0 = norm(o0), n1 = norm(o1); cn2.push(...n0, ...n0, ...n1, ...n0, ...n1, ...n1);
+      }
+      ICE.cuts = iceCuts(pose, depth, half);
+      const cut3 = ICE.cuts.map(k => ({ rgb: k.rgb, bp: buf(k.seg3), n: k.seg3.length / 3 }));
+      fan = { fp: buf(new Float32Array(F)), fn: buf(new Float32Array(NN)), fc: F.length / 3, ep: buf(new Float32Array(edge)), en: edge.length / 3, quad, cp: buf(new Float32Array(cyl)), cnb: buf(new Float32Array(cn2)), cc: cyl.length / 3, cut3, tip: T };
+      const names = ICE.cuts.map(k => { const key = (SKEYS.find(([kk, re]) => re.test(k.name)) || [])[0]; return key ? t(SZH[key], key) : k.name; });
+      if (ICE.autoFace) { faceFan(false); ICE.autoFace = false; }
+      $('icecut').textContent = names.length ? t('這片扇形切過：', 'This fan cuts through: ') + names.join('、') : '';
+      $('icepose').textContent = iceViewName(tg.view) + (ICE_AL.some(([k]) => tg[k]) ? t('　（已手動對齊）', '  (manually aligned)') : '');
+    }
+    // 轉盤式旋轉：左右拖＝繞身體長軸轉、上下拖＝俯仰，身體永遠直立；旋轉中心是心臟中心
+    const setRot = () => { free = false; el = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, el)); R = mul(rotX(el), mul(rotY(az), AP)); need = true; };
+    // 相機正對扇形。aligned＝和 ICE 畫面同方向（畫面右＝導管往上、畫面下＝深度）；否則身體保持直立，從扇形正面看
+    function faceFan(aligned){
+      const P = ICE.pose; if (!P) return;
+      let right, up, back;
+      if (aligned) { right = P.up; up = scl(P.b, -1); back = norm(cross(right, up)); if (ICE.flip) { right = scl(right, -1); back = scl(back, -1); } }
+      else {
+        back = norm(cross(P.b, P.up)); if (back[1] > 0) back = scl(back, -1);          // 從身體前側那一面看
+        up = [0, 0, 1]; right = norm(cross(up, back)); up = cross(back, right);
+      }
+      if (aligned) { R = [right[0], up[0], back[0], 0, right[1], up[1], back[1], 0, right[2], up[2], back[2], 0, 0, 0, 0, 1]; free = true; }
+      else { az = Math.atan2(-back[0], -back[1]); el = 0; setRot(); }
+      center = home.slice(); dist = radius / TAN * 1.1; need = true;
+    }
+    $('icealign').addEventListener('click', () => faceFan(true));
+    $('iceface').addEventListener('click', () => faceFan(false));
+    function attr(b, loc, n){ if (loc < 0) return; g.bindBuffer(g.ARRAY_BUFFER, b); g.enableVertexAttribArray(loc); g.vertexAttribPointer(loc, n, g.FLOAT, false, 0, 0); }
+    function draw(){
+      need = false; if (!g || $('icepane').hidden) return;
+      const dpr = window.devicePixelRatio || 1, w = Math.max(1, Math.round(cv.clientWidth * dpr)), h = Math.max(1, Math.round(cv.clientHeight * dpr));
+      if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+      g.viewport(0, 0, w, h); g.clearColor(0.07, 0.086, 0.11, 1); g.clear(g.COLOR_BUFFER_BIT | g.DEPTH_BUFFER_BIT);
+      syncMeshes(); if (!meshes.length) return;
+      const V = mul(trans(0, 0, -dist), mul(R, trans(-center[0], -center[1], -center[2])));
+      const M = mul(persp(w / h, Math.max(dist - radius * 3, 1), dist + radius * 3), V);
+      g.uniformMatrix4fv(L.uM, false, new Float32Array(M)); g.uniformMatrix4fv(L.uR, false, new Float32Array(R));
+      g.uniform1f(L.uTex, 0); g.uniform1f(L.uF, 0); g.uniform1f(L.uVC, 0); if (L.aT >= 0) { g.disableVertexAttribArray(L.aT); g.vertexAttrib2f(L.aT, 0, 0); } if (L.aC >= 0) { g.disableVertexAttribArray(L.aC); g.vertexAttrib4f(L.aC, 1, 1, 1, 1); }
+      const alpha = +$('icealpha').value / 100;
+      const opa = m => { const o = ICE.opa[m.v.name]; return o == null ? alpha : o; };
+      // 導管（不透明）
+      g.disable(g.BLEND); g.depthMask(true); g.uniform1f(L.uA, 1);
+      if (fan) { g.uniform3f(L.uC, 0.95, 0.95, 0.95); attr(fan.cp, L.aP, 3); attr(fan.cnb, L.aN, 3); g.drawArrays(g.TRIANGLES, 0, fan.cc); }
+      // 心臟（半透明，看得到扇形）
+      g.blendFunc(g.SRC_ALPHA, g.ONE_MINUS_SRC_ALPHA);
+      // 不透明的先畫（寫深度），半透明的後畫
+      const solid = meshes.filter(m => ICE.vis[m.v.name] !== false && opa(m) >= 0.99), glass = meshes.filter(m => ICE.vis[m.v.name] !== false && opa(m) < 0.99 && opa(m) > 0.01);
+      g.depthMask(true); g.disable(g.BLEND); g.uniform1f(L.uA, 1);
+      for (const m of solid) { g.uniform3f(L.uC, m.v.rgb[0] / 255, m.v.rgb[1] / 255, m.v.rgb[2] / 255); attr(m.bp, L.aP, 3); attr(m.bn, L.aN, 3); g.drawArrays(g.TRIANGLES, 0, m.n); }
+      g.enable(g.BLEND);
+      if (fan) {
+        // ICE 影像貼在扇形上
+        if (ICE.tex && fan.quad && texSize) {
+          g.uniform1f(L.uTex, 1); g.uniform1f(L.uA, 0.95); g.activeTexture(g.TEXTURE0); g.bindTexture(g.TEXTURE_2D, tex); g.uniform1i(L.uS, 0);
+          g.depthMask(true); attr(fan.quad.bp, L.aP, 3); attr(fan.quad.bn, L.aN, 3); attr(fan.quad.bt, L.aT, 2); g.drawArrays(g.TRIANGLES, 0, fan.quad.n);
+          g.uniform1f(L.uTex, 0); if (L.aT >= 0) g.disableVertexAttribArray(L.aT); g.depthMask(false);
+        }
+        g.depthMask(false); g.uniform3f(L.uC, 0.31, 0.85, 1); g.uniform1f(L.uA, ICE.tex && texSize ? 0.08 : 0.28); g.uniform1f(L.uF, 1);
+        attr(fan.fp, L.aP, 3); attr(fan.fn, L.aN, 3); g.drawArrays(g.TRIANGLES, 0, fan.fc);
+        g.uniform1f(L.uA, 0.9); if (L.aN >= 0) { g.disableVertexAttribArray(L.aN); g.vertexAttrib3f(L.aN, 0, 0, 1); } attr(fan.ep, L.aP, 3); g.drawArrays(g.LINES, 0, fan.en); g.uniform1f(L.uF, 0);
+      }
+      // 半透明結構：每個三角形依遠近排序，由遠到近一次畫完。轉到任何角度前後關係都正確，不會整塊跳到前面
+      g.depthMask(false);
+      if (glass.length && all) {
+        const want = new Uint8Array(meshes.length); glass.forEach(m => { want[meshes.indexOf(m)] = 1; });
+        const key = meshes.map(m => (ICE.vis[m.v.name] === false ? 'x' : opa(m).toFixed(2))).join(',');
+        if (key !== all.key) {                                           // 顏色＋透明度（每個頂點）
+          const C = new Float32Array(all.nv * 4);
+          meshes.forEach(m => { const r = m.v.rgb[0] / 255, gg = m.v.rgb[1] / 255, bb = m.v.rgb[2] / 255, al = opa(m); for (let k = m.off; k < m.off + m.n; k++) { C[k * 4] = r; C[k * 4 + 1] = gg; C[k * 4 + 2] = bb; C[k * 4 + 3] = al; } });
+          g.bindBuffer(g.ARRAY_BUFFER, all.bc); g.bufferData(g.ARRAY_BUFFER, C, g.STATIC_DRAW); all.key = key;
+        }
+        // 用 4096 格的計數排序（夠細、又快）
+        const nt = all.nv / 3, cz = new Float32Array(nt), cen = all.cen; let zmin = 1e9, zmax = -1e9, cnt = 0;
+        for (let i = 0; i < nt; i++) { if (!want[all.owner[i]]) { cz[i] = NaN; continue; } const q = i * 3, z = V[2] * cen[q] + V[6] * cen[q + 1] + V[10] * cen[q + 2]; cz[i] = z; if (z < zmin) zmin = z; if (z > zmax) zmax = z; cnt++; }
+        const NB = 4096, hist = new Uint32Array(NB + 1), sc = (NB - 1) / Math.max(1e-6, zmax - zmin), bk = new Uint16Array(nt);
+        for (let i = 0; i < nt; i++) if (cz[i] === cz[i]) { const k = ((cz[i] - zmin) * sc) | 0; bk[i] = k; hist[k + 1]++; }
+        for (let k = 0; k < NB; k++) hist[k + 1] += hist[k];
+        const idx = all.idx;
+        for (let i = 0; i < nt; i++) if (cz[i] === cz[i]) { const p = hist[bk[i]]++ * 3, v = i * 3; idx[p] = v; idx[p + 1] = v + 1; idx[p + 2] = v + 2; }
+        g.uniform1f(L.uVC, 1); attr(all.bp, L.aP, 3); attr(all.bn, L.aN, 3); attr(all.bc, L.aC, 4);
+        g.bindBuffer(g.ELEMENT_ARRAY_BUFFER, all.bi); g.bufferData(g.ELEMENT_ARRAY_BUFFER, idx.subarray(0, cnt * 3), g.DYNAMIC_DRAW);
+        g.drawElements(g.TRIANGLES, cnt * 3, g.UNSIGNED_INT, 0);
+        g.uniform1f(L.uVC, 0); if (L.aC >= 0) g.disableVertexAttribArray(L.aC);
+      } else for (const m of glass) { g.uniform1f(L.uA, opa(m)); g.uniform3f(L.uC, m.v.rgb[0] / 255, m.v.rgb[1] / 255, m.v.rgb[2] / 255); attr(m.bp, L.aP, 3); attr(m.bn, L.aN, 3); g.drawArrays(g.TRIANGLES, 0, m.n); }
+      // 切面交線畫在最上面
+      if (fan) { g.uniform1f(L.uF, 1); g.uniform1f(L.uA, 1); g.disable(g.DEPTH_TEST); if (L.aN >= 0) { g.disableVertexAttribArray(L.aN); g.vertexAttrib3f(L.aN, 0, 0, 1); } for (const k of fan.cut3) { g.uniform3f(L.uC, ...k.rgb.map(x => Math.min(1, x / 255 * 1.25 + 0.1))); attr(k.bp, L.aP, 3); g.drawArrays(g.LINES, 0, k.n); } g.enable(g.DEPTH_TEST); g.uniform1f(L.uF, 0); }
+      g.depthMask(true); g.disable(g.BLEND);
+    }
+    // 各結構：點名稱顯示／隱藏，拖滑桿調個別透明度（沒調過的跟著上面的「整體透明度」）
+    function iceStructUI(){
+      const box = $('icestructs'); box.textContent = '';
+      ICE.vols.forEach(v => {
+        const row = document.createElement('div'); row.className = 'icest' + (ICE.vis[v.name] === false ? ' off' : '');
+        const nm = document.createElement('button'); nm.type = 'button'; nm.className = 'icestn';
+        const key = (SKEYS.find(([kk, re]) => re.test(v.name)) || [])[0];
+        nm.innerHTML = '<i></i><span></span>'; nm.children[0].style.background = 'rgb(' + v.rgb.join(',') + ')'; nm.children[1].textContent = key ? t(SZH[key], key) : v.name;
+        nm.title = t('點一下顯示／隱藏', 'Click to show / hide');
+        nm.addEventListener('click', () => { ICE.vis[v.name] = ICE.vis[v.name] === false; row.classList.toggle('off', ICE.vis[v.name] === false); need = true; });
+        const sl = document.createElement('input'); sl.type = 'range'; sl.min = 0; sl.max = 100; sl.value = Math.round((ICE.opa[v.name] == null ? +$('icealpha').value / 100 : ICE.opa[v.name]) * 100);
+        sl.title = t('這個結構的不透明度', 'Opacity of this structure');
+        const out = document.createElement('output'); out.textContent = sl.value + '%';
+        sl.addEventListener('input', () => { ICE.opa[v.name] = +sl.value / 100; out.textContent = sl.value + '%'; need = true; });
+        row.append(nm, sl, out); box.append(row);
+      });
+    }
+    $('icealpha').addEventListener('input', () => {                    // 整體：所有結構一起改
+      ICE.opa = {}; const v = $('icealpha').value;
+      document.querySelectorAll('#icestructs .icest').forEach(r => { r.querySelector('input').value = v; r.querySelector('output').textContent = v + '%'; });
+      $('icealphav').textContent = v + '%'; need = true;
+    });
+    const loop = () => { if (need) draw(); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+    let drag = null;
+    cv.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, b: e.button, shift: e.shiftKey }; cv.setPointerCapture(e.pointerId); });
+    cv.addEventListener('pointermove', e => {
+      if (!drag) return;
+      if (!e.buttons) { drag = null; return; }                          // 放開滑鼠的事件沒收到（例如在視窗外放開）：不要繼續跟著轉
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
+      if (drag.b === 2 || drag.shift) { const k = dist * TAN * 2 / cv.clientHeight; const Rt = [R[0], R[4], R[8], R[1], R[5], R[9]]; center = sub(center, add(scl([Rt[0], Rt[1], Rt[2]], dx * k), scl([Rt[3], Rt[4], Rt[5]], -dy * k))); }
+      else if (free) R = mul(mul(rotX(dy * 0.008), rotY(dx * 0.008)), R);   // 「同 ICE 方向」之後：自由旋轉
+      else { az += dx * 0.008; el += dy * 0.008; setRot(); }
+      need = true;
+    });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(n => cv.addEventListener(n, () => { drag = null; }));
+    cv.addEventListener('contextmenu', e => e.preventDefault());
+    cv.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(Math.max(dist * Math.exp(e.deltaY * 0.0012), radius * 0.3), radius * 20); need = true; }, { passive: false });
+    cv.addEventListener('dblclick', () => { az = -Math.PI / 6; el = 0; center = home.slice(); dist = radius / TAN * 1.15; setRot(); });
+    const PRE = { AP: [0, 0], LAO: [-Math.PI / 4, 0], RAO: [Math.PI / 6, 0], LL: [-Math.PI / 2, 0], SUP: [0, Math.PI / 2] };
+    document.querySelectorAll('#ice3dviews button[data-v]').forEach(b => b.addEventListener('click', () => { [az, el] = PRE[b.dataset.v]; center = home.slice(); setRot(); }));
+    $('icetex').addEventListener('change', () => { ICE.tex = $('icetex').checked; need = true; });
+    return {
+      update(){ if (!g) return; syncMeshes(); buildFan(); need = true; iceDraw(); },
+      redraw(){ need = true; },
+      frame(img){
+        if (!g || !img) return;
+        g.bindTexture(g.TEXTURE_2D, tex);
+        try { g.texImage2D(g.TEXTURE_2D, 0, g.RGB, g.RGB, g.UNSIGNED_BYTE, img); texSize = [img.width, img.height]; } catch (e) { texSize = null; }
+        if (fan) need = true;
+      }
+    };
+  })();
+  // 心臟模型：從 ICE 頁直接載入 .dif，並記在瀏覽器裡（IndexedDB），下次自動載入
+  const idb = () => new Promise((res, rej) => { const r = indexedDB.open('seemo', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+  async function idbSet(k, v){ const d = await idb(); return new Promise((res, rej) => { const tx = d.transaction('kv', 'readwrite'); tx.objectStore('kv').put(v, k); tx.oncomplete = res; tx.onerror = () => rej(tx.error); }); }
+  async function idbGet(k){ const d = await idb(); return new Promise((res, rej) => { const tx = d.transaction('kv', 'readonly'), r = tx.objectStore('kv').get(k); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
+  // 心臟模型的來源：template＝範本（模擬，不是這位病人）／ct＝從「CT 重組」帶過來的病人 CT／file＝自己選的 .dif
+  ICE.heartKind = ''; ICE.vols = []; ICE.heartName = '';
+  // ICE 用的心臟只在 ICE 頁使用，不放進「3D 模型」頁（那裡只放使用者自己開的模型）
+  function iceSetHeart(vols, name, kind){
+    vols.forEach(v => { const p = v.pos, b = [1e9, 1e9, 1e9, -1e9, -1e9, -1e9]; for (let i = 0; i < p.length; i += 3) for (let a = 0; a < 3; a++) { b[a] = Math.min(b[a], p[i + a]); b[a + 3] = Math.max(b[a + 3], p[i + a]); } v.bbox = b; });
+    ICE.vols = vols; ICE.heartName = name; ICE.heartKind = kind; ICE.pose = null; ICE.autoFace = true; iceMode(); ice3d.update(); iceHeartBadge();
+  }
+  function iceHeartBadge(){
+    const el = $('iceheartbadge'), k = ICE.vols.length ? ICE.heartKind : '';
+    el.hidden = !k; el.className = 'iceheartbadge ' + k; $('ice3dtag').hidden = k !== 'template';
+    el.textContent = k === 'template' ? t('模擬 3D 模型（範本心臟，不是這位病人）— 請匯入病人真實 CT', 'Simulated 3D model (template heart, not this patient) — please import the patient’s real CT')
+      : k === 'ct' ? t('病人 CT 模型（從「CT 重組」）', 'Patient CT model (from “CT recon”)')
+      : k === 'file' ? t('匯入的模型：', 'Imported model: ') + (ICE.heartName || '') : '';
+    $('icefromct').disabled = !(CT.vol && STRUCTS.some(x => x.count));
+  }
+  async function iceLoadHeart(f, kind, remember){
+    const text = await f.text(), r = parseDIF(text);
+    if (!r.volumes.length) { iceStatus(t('這個檔案裡沒有模型。', 'No model in this file.')); return false; }
+    if (remember) { try { await idbSet('iceHeart', { name: f.name, text }); } catch (e) {} }
+    iceSetHeart(r.volumes, (f.name || 'heart').replace(/\.[^.]+$/, ''), kind);
+    $('iceheartname').textContent = f.name || '';
+    return true;
+  }
+  let iceFileKind = 'template';
+  $('iceheartbtn').addEventListener('click', () => { iceFileKind = 'template'; $('iceheart').click(); });       // 第一次：設定範本心臟
+  $('iceheartchg').addEventListener('click', () => { iceFileKind = 'file'; $('iceheart').click(); });          // 換成別的 .dif（例如病人 CT 匯出的）
+  $('iceheartuse').addEventListener('click', async () => {             // 換回記住的範本心臟
+    try { const r = await idbGet('iceHeart'); if (r && r.text) { await iceLoadHeart(new File([r.text], r.name || 'heart.dif'), 'template', false); return; } } catch (e) {}
+    iceFileKind = 'template'; $('iceheart').click();
+  });
+  $('iceheart').addEventListener('change', async e => { const f = e.target.files[0]; e.target.value = ''; if (f) await iceLoadHeart(f, iceFileKind, iceFileKind === 'template'); });
+  // 從「CT 重組」直接拿病人的心臟（不用先匯出 .dif）
+  $('icefromct').addEventListener('click', async () => {
+    if (!CT.vol || !STRUCTS.some(x => x.count)) { iceStatus(t('「CT 重組」裡還沒有切好的結構：先到 CT 重組載入病人的 CT、自動辨識並開始切。', 'No structures in “CT recon” yet: load the patient’s CT there, auto-detect and segment first.')); return; }
+    $('icefromct').disabled = true; iceStatus(t('從 CT 重組產生 3D 模型…', 'Building the 3D model from CT recon…'));
+    try { const out = await buildCTModel(m => iceStatus(m)); if (out) { iceSetHeart(out.vols, out.name, 'ct'); iceStatus(t('已改用這位病人的 CT 心臟。', 'Now using this patient’s CT heart.')); } }
+    finally { iceHeartBadge(); }
+  });
+  async function iceEnsureHeart(){
+    if (ICE.vols.length) { iceHeartBadge(); iceMode(); return; }
+    // 「3D 模型」頁如果是從 CT 重組送過去的病人模型，直接拿來用（只讀，不改那邊）
+    if (volumes.length && /_CTmodel$/.test(baseName || '')) { iceSetHeart(volumes.slice(), baseName, 'ct'); return; }
+    iceHeartBadge(); iceMode();
+  }
+  // 沒有病人 CT 的時候，ICE 頁就是單純的 ICE 影像閱讀器：不顯示 3D、範本輪廓、自動描腔室
+  function iceMode(){
+    const has3d = ICE.vols.length > 0 && (ICE.heartKind === 'ct' || ICE.heartKind === 'file');
+    $('icebody').classList.toggle('icereader', !has3d);
+    if (!has3d && ICE.tool && ICE.tool.startsWith('seg')) iceSetTool('pan');
+    requestAnimationFrame(() => { iceDraw(); if (has3d) ice3d.redraw(); });
+    return has3d;
+  }
+  $('iceaddct').addEventListener('click', async () => {
+    if (CT.vol && STRUCTS.some(x => x.count)) { $('icefromct').click(); return; }
+    $('iceaddmenu').hidden = !$('iceaddmenu').hidden;
+  });
+  $('iceaddgo').addEventListener('click', () => { $('iceaddmenu').hidden = true; setAppMode('ct'); ctStatus(t('載入這位病人的 CT → 自動辨識 → 開始切，再回到 ICE 頁按「加入病人 CT」。', 'Load this patient’s CT → Auto-detect → Start, then go back to ICE and press “Add patient CT”.')); });
+  $('iceadddif').addEventListener('click', () => { $('iceaddmenu').hidden = true; iceFileKind = 'file'; $('iceheart').click(); });
+
+
+
+  // ======================= ICE 腔室邊界：自動描（血池＝暗區）→ 依 3D 模型命名 → 筆刷修正 =======================
+  // 每段影片一份：在選定影格上，以 1/2 解析度存標籤圖（0＝無；1..n＝腔室，名稱在 names）
+  const SEG_KEYS = ['RA', 'LA', 'RV', 'LV', 'AO', 'PA', 'OTHER'];
+  const SEG_RGB = { RA: [108, 192, 74], LA: [230, 180, 34], RV: [61, 123, 240], LV: [224, 69, 58], AO: [176, 102, 255], PA: [24, 198, 214], OTHER: [200, 200, 200] };
+  const SEG_ZH = { RA: 'RA', LA: 'LA', RV: 'RV', LV: 'LV', AO: 'AO', PA: 'PA', OTHER: t('其他', 'Other') };
+  ICE.seg = {}; ICE.segK = 0.45; ICE.segOn = true; ICE.segKey = 'LA'; ICE.segBrush = 4; ICE.segHist = []; ICE.segRedo = [];
+  const segOf = () => { const c = ICE.clips[ICE.cur]; return c ? ICE.seg[c.sop] : null; };
+  // 存在瀏覽器：標籤圖用 run-length 壓縮
+  const rle = a => { const o = []; let v = a[0], n = 0; for (let i = 0; i < a.length; i++) { if (a[i] === v && n < 65535) n++; else { o.push(v, n); v = a[i]; n = 1; } } o.push(v, n); return o; };
+  const unrle = (o, len) => { const a = new Uint8Array(len); let p = 0; for (let i = 0; i < o.length; i += 2) { a.fill(o[i], p, p + o[i + 1]); p += o[i + 1]; } return a; };
+  function segSave(){
+    try { const out = {}; for (const k in ICE.seg) { const S = ICE.seg[k]; out[k] = { f: S.frame, w: S.w, h: S.h, sc: S.sc, keys: S.keys, r: rle(S.lab) }; } localStorage.setItem('seemo-ice-seg', JSON.stringify(out)); } catch (e) {}
+  }
+  try { const o = JSON.parse(localStorage.getItem('seemo-ice-seg') || '{}'); for (const k in o) { const S = o[k]; ICE.seg[k] = { frame: S.f, w: S.w, h: S.h, sc: S.sc, keys: S.keys, lab: unrle(S.r, S.w * S.h) }; } } catch (e) {}
+
+  // 扇形範圍（影像像素）：頂點、深度、半角
+  function fanGeom(c){
+    const a = apexPx(c), r = c.reg; if (!a || !r) return null;
+    const depthPx = r.y1 - a[1], half = Math.asin(Math.min(1, (r.x1 - r.x0) / 2 / depthPx));
+    return { ax: a[0], ay: a[1], R: depthPx, half };
+  }
+  const inFan = (G, x, y) => { const dx = x - G.ax, dy = y - G.ay; if (dy <= 2) return false; const rr = Math.hypot(dx, dy); return rr < G.R * 0.985 && rr > 6 && Math.abs(Math.atan2(dx, dy)) < G.half * 0.97; };
+
+  // ---------- 自動描：平滑 → 門檻（扇形內部亮度中位數的一半）→ 開／閉運算 → 去小塊、補洞 ----------
+  async function segAuto(){
+    const c = ICE.clips[ICE.cur]; if (!c || !iceImg) return;
+    if (!c.reg) { iceStatus(t('這段影片沒有比例尺資訊，無法自動描。', 'This clip has no scale information; cannot auto-trace.')); return; }
+    iceStop(); iceStatus(t('自動描邊界中…', 'Tracing boundaries…')); await tick();
+    const sc = 2, W = Math.floor(iceImg.width / sc), H = Math.floor(iceImg.height / sc);
+    const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const g = cv.getContext('2d');
+    g.drawImage(iceImg, 0, 0, W, H);
+    const px = g.getImageData(0, 0, W, H).data, G0 = fanGeom(c), G = { ax: G0.ax / sc, ay: G0.ay / sc, R: G0.R / sc, half: G0.half };
+    const N = W * H, I = new Float32Array(N), M = new Uint8Array(N);
+    for (let i = 0; i < N; i++) { I[i] = (px[i * 4] + px[i * 4 + 1] + px[i * 4 + 2]) / 3; M[i] = inFan(G, i % W, (i / W) | 0) ? 1 : 0; }
+    // 平滑（三次方框模糊≈高斯，約 2 mm）
+    const mmpp = mmPerPx(c)[0] * sc, rad = Math.max(1, Math.round(1.2 / mmpp));
+    const blur = (A) => { const B = new Float32Array(N), C = new Float32Array(N);
+      for (let y = 0; y < H; y++) { let s = 0, n = 0; for (let x = -rad; x < W + rad; x++) { if (x + rad < W) { s += A[y * W + x + rad]; n++; } if (x - rad - 1 >= 0) { s -= A[y * W + x - rad - 1]; n--; } if (x >= 0 && x < W) B[y * W + x] = s / n; } }
+      for (let x = 0; x < W; x++) { let s = 0, n = 0; for (let y = -rad; y < H + rad; y++) { if (y + rad < H) { s += B[(y + rad) * W + x]; n++; } if (y - rad - 1 >= 0) { s -= B[(y - rad - 1) * W + x]; n--; } if (y >= 0 && y < H) C[y * W + x] = s / n; } }
+      return C; };
+    let S = blur(blur(blur(I)));
+    // 門檻：扇形內部（避開扇形邊緣與遠場那一圈，那裡訊號本來就暗）亮度中位數的一半；血池比這更暗
+    const Mi = new Uint8Array(N);
+    for (let i = 0; i < N; i++) if (M[i]) { const dx = i % W - G.ax, dy = ((i / W) | 0) - G.ay; Mi[i] = Math.hypot(dx, dy) < G.R * 0.9 && Math.abs(Math.atan2(dx, dy)) < G.half * 0.88 ? 1 : 0; }
+    const vals = []; for (let i = 0; i < N; i++) if (Mi[i]) vals.push(S[i]); vals.sort((p, q) => p - q);
+    // 雙門檻：很暗的核心（＜中位數×k）當種子，往外長進「偏暗」的範圍（＜中位數×(k+0.22)）；只長得到和核心相連的部分
+    const med = vals.length ? vals[vals.length >> 1] : 80, k = ICE.segK, thLo = med * k, thHi = med * (k + 0.22);
+    const B = new Uint8Array(N), stk = [];
+    for (let i = 0; i < N; i++) if (Mi[i] && S[i] < thLo) { B[i] = 1; stk.push(i); }
+    while (stk.length) { const q = stk.pop(), x = q % W, y = (q / W) | 0;
+      for (const [ok, w] of [[x > 0, q - 1], [x < W - 1, q + 1], [y > 0, q - W], [y < H - 1, q + W]]) if (ok && !B[w] && Mi[w] && S[w] < thHi) { B[w] = 1; stk.push(w); } }
+    // 形態學：先開（去細縫連接、雜點）再閉（補小缺口）
+    const r1 = Math.max(1, Math.round(0.8 / mmpp));
+    const dil = (A, r) => { const O = new Uint8Array(N); for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { if (!A[y * W + x]) continue; for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) { if (dx * dx + dy * dy > r * r) continue; const X = x + dx, Y = y + dy; if (X >= 0 && Y >= 0 && X < W && Y < H) O[Y * W + X] = 1; } } return O; };
+    const ero = (A, r) => { const inv = new Uint8Array(N); for (let i = 0; i < N; i++) inv[i] = A[i] ? 0 : 1; const d = dil(inv, r); for (let i = 0; i < N; i++) d[i] = d[i] ? 0 : 1; return d; };
+    let O = dil(ero(B, r1), r1); O = ero(dil(O, r1), r1);
+    for (let i = 0; i < N; i++) O[i] &= M[i];
+    // 連通區塊：太小的（< 0.6 cm²）丟掉，洞補起來
+    const lab = new Int32Array(N), comps = [], minA = 60 / (mmpp * mmpp);
+    let n = 0; const st = [];
+    for (let i = 0; i < N; i++) if (O[i] && !lab[i]) {
+      n++; let cnt = 0; st.push(i); lab[i] = n;
+      while (st.length) { const q = st.pop(); cnt++; const x = q % W, y = (q / W) | 0;
+        for (const [ok, w] of [[x > 0, q - 1], [x < W - 1, q + 1], [y > 0, q - W], [y < H - 1, q + W]]) if (ok && O[w] && !lab[w]) { lab[w] = n; st.push(w); } }
+      comps.push({ id: n, cnt });
+    }
+    // 遠場（最深的 25%）訊號本來就弱、會整圈變暗：大部分落在那一圈的區塊不算血池
+    const far = new Int32Array(n + 1);
+    for (let i = 0; i < N; i++) if (lab[i] && Math.hypot(i % W - G.ax, ((i / W) | 0) - G.ay) > G.R * 0.75) far[lab[i]]++;
+    const keep = new Uint8Array(n + 1); let nk = 0; comps.sort((a, b) => b.cnt - a.cnt).forEach(k => { if (k.cnt >= minA && far[k.id] < 0.5 * k.cnt && nk < 250) keep[k.id] = ++nk; });
+    const out = new Uint8Array(N); for (let i = 0; i < N; i++) if (lab[i] && keep[lab[i]]) out[i] = keep[lab[i]];
+    // 補洞（每個區塊內被包住的亮點）
+    const bg = new Uint8Array(N), q2 = []; for (let x = 0; x < W; x++) { q2.push(x, (H - 1) * W + x); } for (let y = 0; y < H; y++) { q2.push(y * W, y * W + W - 1); }
+    for (const i of q2) if (!out[i]) bg[i] = 1;
+    while (q2.length) { const q = q2.pop(); if (out[q]) continue; const x = q % W, y = (q / W) | 0; for (const [ok, w] of [[x > 0, q - 1], [x < W - 1, q + 1], [y > 0, q - W], [y < H - 1, q + W]]) if (ok && !bg[w] && !out[w]) { bg[w] = 1; q2.push(w); } }
+    for (let pass = 0, ch = 1; ch && pass < 200; pass++) { ch = 0; for (let i = W; i < N - W; i++) if (!out[i] && !bg[i]) { const v = out[i - 1] || out[i - W] || out[i + 1] || out[i + W]; if (v) { out[i] = v; ch = 1; } } }
+    // 依 3D 模型命名：每塊取一些點 → 3D → 看落在哪個結構裡（多數決）
+    const ids = [...new Set(out)].filter(Boolean), keys = {};
+    for (const id of ids) keys[id] = segNameOf(c, out, W, H, sc, id);
+    // 同名的區塊合併成同一個標籤
+    const keyList = [], map = {};
+    for (const id of ids) { const k = keys[id] || 'OTHER'; if (!(k in map)) { keyList.push(k); map[k] = keyList.length; } }
+    const final = new Uint8Array(N); for (let i = 0; i < N; i++) if (out[i]) final[i] = map[keys[out[i]] || 'OTHER'];
+    segPush();
+    ICE.seg[c.sop] = { frame: ICE.frame, w: W, h: H, sc, keys: keyList, lab: final };
+    segSave(); ICE.segOn = true; $('icesegon').checked = true; segChips(); iceDraw();
+    const named = keyList.filter(k => k !== 'OTHER');
+    iceStatus(t('已描出 ', 'Traced ') + keyList.length + t(' 個區域', ' regions') + (named.length ? t('（依 3D 模型命名：', ' (named from the 3D model: ') + named.join('、') + t('）', ')') : '') +
+      t('。名字或邊界不對：選下面的腔室，用「腔室筆刷」加、「腔室擦除」擦。', '. If a name or edge is wrong, pick a chamber below and use “Chamber brush” / “Chamber erase”.'));
+  }
+  // 點是否在封閉網格裡（沿 +z 射線算穿過幾次）
+  function insideMesh(v, P){
+    const p = v.pos, tr = v.tri; let hits = 0;
+    const bb = v.bbox; if (bb && (P[0] < bb[0] || P[0] > bb[3] || P[1] < bb[1] || P[1] > bb[4] || P[2] > bb[5])) return false;
+    for (let k = 0; k < tr.length; k += 3) {
+      const a = tr[k] * 3, b = tr[k + 1] * 3, cc = tr[k + 2] * 3;
+      const ax = p[a] - P[0], ay = p[a + 1] - P[1], bx = p[b] - P[0], by = p[b + 1] - P[1], cx = p[cc] - P[0], cy = p[cc + 1] - P[1];
+      const d1 = ax * by - ay * bx, d2 = bx * cy - by * cx, d3 = cx * ay - cy * ax;
+      if (!((d1 > 0 && d2 > 0 && d3 > 0) || (d1 < 0 && d2 < 0 && d3 < 0))) continue;
+      const s = d1 + d2 + d3, z = (d2 * p[a + 2] + d3 * p[b + 2] + d1 * p[cc + 2]) / s;
+      if (z > P[2]) hits++;
+    }
+    return hits % 2 === 1;
+  }
+  function segNameOf(c, lab, W, H, sc, id){
+    const pose = ICE.pose; if (!pose) return 'OTHER';
+    const H3 = heartParts(), pts = [];
+    for (let i = 0; i < lab.length; i++) if (lab[i] === id) pts.push(i);
+    const step = Math.max(1, Math.floor(pts.length / 40)), votes = {};
+    for (let j = 0; j < pts.length; j += step) {
+      const i = pts[j], q = px2plane(c, (i % W + 0.5) * sc, ((i / W | 0) + 0.5) * sc); if (!q) continue;
+      const P = add(pose.T, add(scl(pose.up, q[0]), scl(pose.b, q[1])));
+      for (const k of ['RA', 'LA', 'RV', 'LV', 'AO', 'PA']) if (H3[k] && insideMesh(H3[k].v, P)) { votes[k] = (votes[k] || 0) + 1; break; }
+    }
+    let bk = 'OTHER', bv = 0; for (const k in votes) if (votes[k] > bv) { bv = votes[k]; bk = k; }
+    return bv >= Math.max(2, 0.25 * Math.ceil(pts.length / step)) ? bk : 'OTHER';
+  }
+
+  // ---------- 顯示：半透明填色＋邊界線＋名稱 ----------
+  const segCv = document.createElement('canvas');
+  function segDraw(g, P, s){
+    const S = segOf(); if (!S || !ICE.segOn || $('icebody').classList.contains('icereader')) return;
+    if (segCv.width !== S.w || segCv.height !== S.h) { segCv.width = S.w; segCv.height = S.h; }
+    const sg = segCv.getContext('2d'), im = sg.createImageData(S.w, S.h), d = im.data, L = S.lab, W = S.w;
+    const cx = {}, cy = {}, cn = {};
+    for (let i = 0; i < L.length; i++) {
+      const v = L[i]; if (!v) continue;
+      const k = S.keys[v - 1] || 'OTHER', rgb = SEG_RGB[k] || SEG_RGB.OTHER, x = i % W, y = (i / W) | 0;
+      const edge = x === 0 || y === 0 || x === W - 1 || y === S.h - 1 || L[i - 1] !== v || L[i + 1] !== v || L[i - W] !== v || L[i + W] !== v;
+      d[i * 4] = rgb[0]; d[i * 4 + 1] = rgb[1]; d[i * 4 + 2] = rgb[2]; d[i * 4 + 3] = edge ? 255 : 46;
+      cx[v] = (cx[v] || 0) + x; cy[v] = (cy[v] || 0) + y; cn[v] = (cn[v] || 0) + 1;
+    }
+    sg.putImageData(im, 0, 0);
+    const A = P(0, 0); g.imageSmoothingEnabled = false; g.drawImage(segCv, A[0], A[1], S.w * S.sc * s, S.h * S.sc * s); g.imageSmoothingEnabled = true;
+    g.font = '700 13px ' + getComputedStyle(document.body).fontFamily; g.textAlign = 'center';
+    for (const v in cn) {
+      const k = S.keys[v - 1] || 'OTHER', Q = P(cx[v] / cn[v] * S.sc, cy[v] / cn[v] * S.sc), tx = SEG_ZH[k];
+      g.lineWidth = 3; g.strokeStyle = 'rgba(0,0,0,.85)'; g.strokeText(tx, Q[0], Q[1]); g.fillStyle = 'rgb(' + (SEG_RGB[k] || SEG_RGB.OTHER).join(',') + ')'; g.fillText(tx, Q[0], Q[1]);
+    }
+    g.textAlign = 'start';
+    if (ICE.frame !== S.frame) { g.font = '600 12px sans-serif'; g.fillStyle = '#f3c37a'; g.fillText(t('邊界是在第 ', 'Traced on frame ') + (S.frame + 1) + t(' 張描的', ''), 10, iceCv.clientHeight - 12); }
+  }
+  // ---------- 修正：腔室筆刷／腔室擦除 ----------
+  function segPush(){ const c = ICE.clips[ICE.cur]; if (!c) return; const S = ICE.seg[c.sop]; ICE.segHist.push(S ? { sop: c.sop, s: { ...S, lab: S.lab.slice(), keys: S.keys.slice() } } : { sop: c.sop, s: null }); if (ICE.segHist.length > 30) ICE.segHist.shift(); ICE.segRedo = []; }
+  function segPaint(p, add){
+    const c = ICE.clips[ICE.cur]; if (!c || !iceImg) return;
+    let S = ICE.seg[c.sop];
+    if (!S) { const sc = 2; S = ICE.seg[c.sop] = { frame: ICE.frame, w: Math.floor(iceImg.width / sc), h: Math.floor(iceImg.height / sc), sc, keys: [], lab: null }; S.lab = new Uint8Array(S.w * S.h); }
+    let v = 0;
+    if (add) { v = S.keys.indexOf(ICE.segKey) + 1; if (!v) { S.keys.push(ICE.segKey); v = S.keys.length; } }
+    const G = fanGeom(c), mm = mmPerPx(c), r = ICE.segBrush / (mm ? mm[0] : 0.2) / S.sc, X = p[0] / S.sc, Y = p[1] / S.sc;
+    for (let y = Math.max(0, Math.floor(Y - r)); y <= Math.min(S.h - 1, Math.ceil(Y + r)); y++)
+      for (let x = Math.max(0, Math.floor(X - r)); x <= Math.min(S.w - 1, Math.ceil(X + r)); x++) {
+        if ((x - X) ** 2 + (y - Y) ** 2 > r * r) continue;
+        if (add && G && !inFan(G, (x + 0.5) * S.sc, (y + 0.5) * S.sc)) continue;
+        const i = y * S.w + x; if (add) S.lab[i] = v; else if (!ICE.segEraseOnly || S.lab[i] === S.keys.indexOf(ICE.segKey) + 1) S.lab[i] = 0;
+      }
+    S.frame = S.frame == null ? ICE.frame : S.frame;
+  }
+  function segUndo(){ const h = ICE.segHist.pop(); if (!h) return; const S = ICE.seg[h.sop]; ICE.segRedo.push({ sop: h.sop, s: S ? { ...S, lab: S.lab.slice(), keys: S.keys.slice() } : null }); if (h.s) ICE.seg[h.sop] = h.s; else delete ICE.seg[h.sop]; segSave(); segChips(); iceDraw(); }
+  function segRedo(){ const h = ICE.segRedo.pop(); if (!h) return; const S = ICE.seg[h.sop]; ICE.segHist.push({ sop: h.sop, s: S ? { ...S, lab: S.lab.slice(), keys: S.keys.slice() } : null }); if (h.s) ICE.seg[h.sop] = h.s; else delete ICE.seg[h.sop]; segSave(); segChips(); iceDraw(); }
+  // 腔室選擇（筆刷要畫成哪一個）；在某個區域上按右鍵或 Alt+點＝把那一塊改名成目前選的腔室
+  function segChips(){
+    const box = $('icesegchips'); box.textContent = '';
+    const S = segOf(), area = {};
+    if (S) for (let i = 0; i < S.lab.length; i++) if (S.lab[i]) { const k = S.keys[S.lab[i] - 1]; area[k] = (area[k] || 0) + 1; }
+    const mm2 = S && ICE.clips[ICE.cur] && mmPerPx(ICE.clips[ICE.cur]) ? (mmPerPx(ICE.clips[ICE.cur])[0] * S.sc) ** 2 / 100 : 0;
+    SEG_KEYS.forEach(k => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'segchip' + (k === ICE.segKey ? ' on' : '');
+      b.innerHTML = '<i></i><span></span><small></small>'; b.children[0].style.background = 'rgb(' + SEG_RGB[k].join(',') + ')'; b.children[1].textContent = SEG_ZH[k];
+      b.children[2].textContent = area[k] ? (area[k] * mm2).toFixed(1) + ' cm²' : '';
+      b.title = t('筆刷畫成這個腔室；在影像上的區域按右鍵＝改名成這個', 'Brush paints this chamber; right-click a region on the image to rename it to this');
+      b.addEventListener('click', () => { ICE.segKey = k; segChips(); });
+      box.append(b);
+    });
+    $('icesegclear').disabled = !S;
+  }
+  function segRename(p){
+    const S = segOf(); if (!S) return false;
+    const i = Math.floor(p[1] / S.sc) * S.w + Math.floor(p[0] / S.sc), v = S.lab[i]; if (!v) return false;
+    segPush();
+    let nv = S.keys.indexOf(ICE.segKey) + 1; if (!nv) { S.keys.push(ICE.segKey); nv = S.keys.length; }
+    // 只改連在一起的那一塊
+    const W = S.w, st = [i], seen = new Uint8Array(S.lab.length); seen[i] = 1;
+    while (st.length) { const q = st.pop(); S.lab[q] = nv; const x = q % W, y = (q / W) | 0;
+      for (const [ok, w] of [[x > 0, q - 1], [x < W - 1, q + 1], [y > 0, q - W], [y < S.h - 1, q + W]]) if (ok && !seen[w] && S.lab[w] === v) { seen[w] = 1; st.push(w); } }
+    segSave(); segChips(); iceDraw(); return true;
+  }
+  $('icesegauto').addEventListener('click', segAuto);
+  $('icesegon').addEventListener('change', () => { ICE.segOn = $('icesegon').checked; iceDraw(); });
+  $('icesegclear').addEventListener('click', () => { const c = ICE.clips[ICE.cur]; if (!c || !ICE.seg[c.sop]) return; segPush(); delete ICE.seg[c.sop]; segSave(); segChips(); iceDraw(); });
+  $('icesegk').addEventListener('change', () => { ICE.segK = +$('icesegk').value / 100; if (segOf()) segAuto(); });
+  $('icesegbr').addEventListener('input', () => { ICE.segBrush = +$('icesegbr').value; $('icesegbrv').textContent = ICE.segBrush + ' mm'; });
+
 })();
 
 </script>
