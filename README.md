@@ -2,7 +2,7 @@
 
 # 心模 SeeMo
 
-**v1.6.1** · Designed by Ron Chen
+**v1.7.0** · Designed by Ron Chen
 
 SeeMo (心模, “heart model”; sounds like *see more*) — formerly *DIF Viewer & Converter / DIF 檢視轉檔器*.
 
@@ -30,6 +30,7 @@ Files are processed only in your own browser and are never uploaded.
 | Export: EnSite DIF 5.0, PLY (with colors), STL, VTK | 匯出：EnSite DIF 5.0、PLY（含顏色）、STL、VTK |
 | Optional removal of patient name, ID and birth date on DIF export | 匯出 DIF 時可清空病人姓名、ID、生日 |
 | Click a volume's color square to change its color (kept on export) | 點 Volume 的色塊可改顏色，匯出也用新顏色 |
+| **v1.7.0** CT reconstruction now opens **MRI** (left-heart contrast MRA) and JPEG 2000–compressed DICOM; MRI intensities are rescaled to CT-like values and auto-detect segments LA (with pulmonary veins), LV and aorta | **v1.7.0** CT 重組可以讀 **MRI**（左心顯影 MRA）與 JPEG 2000 壓縮的 DICOM；MRI 亮度換成類似 CT 的數值，自動辨識切出 LA（含肺靜脈）、LV、主動脈 |
 | **v1.6.1** CT auto-detect no longer joins structures across thin tissue ridges (e.g. the ridge between the LAA and the left superior PV): thin dark tissue next to fat/lung on the original CT blocks region growing, gap filling and hole filling; trabeculae inside chambers are still filled | **v1.6.1** CT 自動辨識不再越過薄的組織 ridge 把兩邊連起來（例如 LAA 與左上肺靜脈之間的 ridge）：原始 CT 上靠近脂肪／肺的薄暗組織，生長、補縫隙、補洞都不會越過；腔室內的肉柱仍照常補滿 |
 | **v1.6.0** New **ICE** tab: open an ICE folder (ultrasound DICOM, recognised automatically; AVI/JPG copies skipped) — clip timeline sorted by time with video / still icons, “All” grid review, play / step / speed, wheel to step frames, zoom & pan, measure (mm from the DICOM scale), text, arrow, circle (all movable), undo, view tags (Home, AV, MV/LV, Septal, LAA, PVs, Oesophagus, Transseptal) and CSV export. With the patient's own CT added from “CT recon”, it also shows where the ICE fan sits in the 3D heart, 6-way manual alignment, and auto-traced chamber outlines with brush correction | **v1.6.0** 新增 **ICE** 分頁：開啟 ICE 資料夾（自動辨識超音波 DICOM，略過重複的 AVI／JPG）— 依時間排列的片段（影片／靜態圖示）、「全部」一覽、播放／逐格／速度、滾輪逐格、放大平移、測量（依 DICOM 比例尺顯示 mm）、文字／箭頭／圓圈（可拖曳搬移）、復原、切面標籤（Home、AV、MV/LV、中隔、LAA、肺靜脈、食道、穿刺）與 CSV 匯出。從「CT 重組」加入病人自己的 CT 後，還能在 3D 心臟上顯示扇形位置、6 向手動對齊，以及自動描腔室＋筆刷修正 |
 | **v1.5.4** Auto-detect works on coronary CTs that don't include the aortic arch and on left-heart-only phases; the descending aorta is followed across slices where it touches the LA | **v1.5.4** 自動辨識支援沒掃到主動脈弓的冠狀動脈 CT、只有左心顯影的時相；降主動脈貼著 LA 的那幾層也能接起來 |
